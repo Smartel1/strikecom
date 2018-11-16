@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Conflict;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,7 +24,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::bind('conflict', function($id){
+            return Conflict::findOrFail($id);
+        });
 
         parent::boot();
     }

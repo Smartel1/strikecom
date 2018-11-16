@@ -24,5 +24,10 @@ class Conflict extends Model
         'region_id',
     ];
 
+    protected $casts = [
+        'latitude' => 'double',
+        'longitude' => 'double',
+    ];
+
     protected $dates = ['date_from', 'date_to'];
 }

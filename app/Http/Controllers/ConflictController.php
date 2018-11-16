@@ -17,26 +17,26 @@ class ConflictController extends Controller
         return Conflict::create($request->validated())->toArray();
     }
 
-    public function show($id)
+    public function show(Conflict $conflict)
     {
-        $conflict = Conflict::findOrFail($id);
+        $conflict->views += 1;
+
+        $conflict->save();
 
         return $conflict;
     }
 
-    public function update(ConflictRequest $request, $id)
+    public function update(ConflictRequest $request, Conflict $conflict)
     {
-        $conflict = Conflict::findOrFail($id);
-
         $conflict->update($request->validated());
 
         return $conflict->toArray();
     }
 
-    public function destroy($id)
+    public function destroy(Conflict $conflict)
     {
-        $conflict = Conflict::findOrFail($id);
+        $conflict ->delete();
 
-        return $conflict->delete();
+        return $conflict->id;
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -52,6 +54,10 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ValidationException) {
             return response($e->errors(), 422);
+        }
+
+        if ($e instanceof ModelNotFoundException) {
+            return response('модель не найдена', 404);
         }
 
         return parent::render($request, $e);
