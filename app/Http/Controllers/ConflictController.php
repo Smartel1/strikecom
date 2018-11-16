@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Conflict;
 use App\Http\Requests\ConflictRequest;
-use Illuminate\Http\Request;
 
 class ConflictController extends Controller
 {
@@ -27,7 +26,9 @@ class ConflictController extends Controller
 
     public function update(ConflictRequest $request, $id)
     {
-        $conflict = Conflict::findOrFail($id)->update($request->validated());
+        $conflict = Conflict::findOrFail($id);
+
+        $conflict->update($request->validated());
 
         return $conflict->toArray();
     }
