@@ -35,9 +35,9 @@ class ConflictRequest extends FormRequest
             'conflict_status_id'     => 'required|exists:conflict_statuses,id',
             'conflict_type_id'       => 'required|exists:conflict_types,id',
             'conflict_reason_id'     => 'required|exists:conflict_reasons,id',
-            'conflict_result_id'     => 'required|exists:conflict_results,id',
-            'industry_id'            => 'required|exists:industries,id',
-            'region_id'              => 'required|exists:regions,id',
+            'conflict_result_id'     => 'nullable|exists:conflict_results,id',
+            'industry_id'            => 'nullable|exists:industries,id',
+            'region_id'              => 'nullable|exists:regions,id',
         ];
     }
 }
