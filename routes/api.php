@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::resource('conflict', 'ConflictController');
+Route::apiResource('conflict', 'ConflictController');

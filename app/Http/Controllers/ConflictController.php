@@ -18,6 +18,13 @@ class ConflictController extends Controller
         return Conflict::create($request->validated())->toArray();
     }
 
+    public function show($id)
+    {
+        $conflict = Conflict::findOrFail($id);
+
+        return $conflict;
+    }
+
     public function update(ConflictRequest $request, $id)
     {
         $conflict = Conflict::findOrFail($id)->update($request->validated());
