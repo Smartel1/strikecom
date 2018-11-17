@@ -22,6 +22,7 @@ class Conflict extends Model
         'conflict_result_id',
         'industry_id',
         'region_id',
+        'user_id',
     ];
 
     protected $casts = [
@@ -30,4 +31,9 @@ class Conflict extends Model
     ];
 
     protected $dates = ['date_from', 'date_to'];
+
+    public function user ()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

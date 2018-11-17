@@ -1,7 +1,17 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('references', 'RefController@index');
+Route::group(['middleware'=>'tokenAuth'],function (){
 
-Route::apiResource('conflict', 'ConflictController');
+    Route::get('references', 'RefController@index');
+
+    Route::apiResource('conflict', 'ConflictController');
+
+    Route::get('test', function(){
+        return Auth::user();
+    });
+});
+
+

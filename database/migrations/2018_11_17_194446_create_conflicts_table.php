@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+class CreateConflictsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -36,6 +36,8 @@ class CreateEventsTable extends Migration
             $table->foreign('industry_id')->references('id')->on('industries')->onDelete('set null');
             $table->integer('region_id')->nullable();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('set null');
+            $table->integer('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
