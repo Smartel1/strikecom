@@ -3,10 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Firebase\Auth\Token\Exception\InvalidToken;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -52,6 +52,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof InvalidToken) {
+            return response($e->getMessage(), 401);
+        }
         if ($e instanceof ValidationException) {
             return response($e->errors(), 422);
         }
