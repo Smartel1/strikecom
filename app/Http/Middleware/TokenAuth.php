@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\User;
 use Closure;
-use Firebase\Auth\Token\Exception\InvalidToken;
 use Illuminate\Support\Facades\Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -12,7 +11,7 @@ use Kreait\Firebase\ServiceAccount;
 class TokenAuth
 {
     /**
-     * Если нет токенаа, то просто продолжаем.
+     * Если нет токена, то просто продолжаем.
      * Парсим токен, сверяем. Берем юзера из токена и записываем в базу если его там нет.
      * Аутентифицируем
      *
@@ -28,7 +27,7 @@ class TokenAuth
             "type" => "service_account",
             "project_id"=> "strikecom-7ad08",
             "private_key_id"=> "b9898c8f2a0800be1cf5c8b1c671e1eb771271ae",
-            "private_key" => env('FB_SECRET'),
+            "private_key" => base64_decode(env('FB_SECRET')),
             "client_email"=> "firebase-adminsdk-gk3et@strikecom-7ad08.iam.gserviceaccount.com",
             "client_id"=> "113160820514212811997",
             "auth_uri"=> "https://accounts.google.com/o/oauth2/auth",
