@@ -28,6 +28,10 @@ class RouteServiceProvider extends ServiceProvider
             return Conflict::findOrFail($id);
         });
 
+        Route::bind('comment', function($id, $route){
+            return $route->parameters()['conflict']->comments()->findOrFail($id);
+        });
+
         parent::boot();
     }
 

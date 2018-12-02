@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateConflictPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('conflict_photos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('uid')->unique();
-            $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->boolean('admin')->default(false);
-            $table->string('image_url', 500)->nullable();
+            $table->string('url', 500);
+            $table->integer('conflict_id');
+            $table->foreign('conflict_id')->references('id')->on('conflicts')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('conflict_photos');
     }
 }

@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ConflictController extends Controller
 {
+    protected $relations = ['user', 'tags', 'conflictPhotos'];
+
     public function index()
     {
-        return Conflict::with('user')->get();
+        return Conflict::with($this->relations)->get();
     }
 
     public function store(ConflictRequest $request)
@@ -19,11 +21,15 @@ class ConflictController extends Controller
 
         $data = $request->validated();
 
-        $data['user_id'] = object_get(Auth::user(), 'id');
+        $conflict = Auth::user()->conflicts()->create(
+            array_except($data, ['tags', 'image_urls'])
+        );
 
-        $conflict = Conflict::create($data);
+        $conflict->syncTagsFromArray(array_get($data, 'tags', []));
 
-        return $conflict->fresh('user')->toArray();
+        $conflict->syncImageUrlsFromArray(array_get($data, 'image_urls', []));
+
+        return $conflict->fresh($this->relations)->toArray();
     }
 
     public function show(Conflict $conflict)
@@ -32,16 +38,24 @@ class ConflictController extends Controller
 
         $conflict->save();
 
-        return $conflict->fresh('user');
+        return $conflict->fresh($this->relations);
     }
 
     public function update(ConflictRequest $request, Conflict $conflict)
     {
         $this->authorize('update', $conflict);
 
-        $conflict->update($request->validated());
+        $data = $request->validated();
 
-        return $conflict->fresh('user')->toArray();
+        $conflict->update(
+            array_except($data, ['tags', 'image_urls'])
+        );
+
+        $conflict->syncTagsFromArray(array_get($data, 'tags', []));
+
+        $conflict->syncImageUrlsFromArray(array_get($data, 'image_urls', []));
+
+        return $conflict->fresh($this->relations)->toArray();
     }
 
     public function destroy(Conflict $conflict)

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Conflict;
+use App\Comment;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ConflictPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
@@ -21,14 +21,14 @@ class ConflictPolicy
         return true;
     }
 
-    public function update (User $user, Conflict $conflict)
+    public function update (User $user, Comment $comment)
     {
-        return $conflict->user_id === $user->id;
+        return $comment->user_id === $user->id;
     }
 
-    public function delete (User $user, Conflict $conflict)
+    public function delete (User $user, Comment $comment)
     {
-        return $conflict->user_id === $user->id;
+        return $comment->user_id === $user->id;
     }
 
 }

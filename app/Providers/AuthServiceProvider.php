@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Comment;
 use App\Conflict;
+use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -15,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Conflict::class => ConflictPolicy::class,
+        Comment::class  => CommentPolicy::class,
     ];
 
     /**

@@ -24,7 +24,7 @@ class ConflictRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|min:3',
+            'title'         => 'required|min:3',
             'description'   => 'required|min:3',
             'content'       => 'required|min:3',
             'latitude'      => 'required|numeric',
@@ -38,6 +38,10 @@ class ConflictRequest extends FormRequest
             'conflict_result_id'     => 'nullable|exists:conflict_results,id',
             'industry_id'            => 'nullable|exists:industries,id',
             'region_id'              => 'nullable|exists:regions,id',
+            'tags'                   => 'nullable|array',
+            'tags.*'                 => 'string|min:2|max:20',
+            'image_urls'             => 'nullable|array',
+            'image_urls.*'           => 'string|max:500',
         ];
     }
 }

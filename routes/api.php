@@ -9,6 +9,8 @@ Route::group(['middleware'=>'tokenAuth'],function (){
 
     Route::apiResource('conflict', 'ConflictController');
 
+    Route::apiResource('conflict/{conflict}/comment', 'CommentController');
+
     Route::get('test', function(){
         return Auth::user();
     });

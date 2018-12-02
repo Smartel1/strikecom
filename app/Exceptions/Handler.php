@@ -4,9 +4,12 @@ namespace App\Exceptions;
 
 use Exception;
 use Firebase\Auth\Token\Exception\InvalidToken;
+use Firebase\Auth\Token\Exception\UnknownKey;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -52,6 +55,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof AuthorizationException) {
+            return response($e->getMessage(), 403);
+        }
+        if ($e instanceof UnknownKey) {
+            return response($e->getMessage(), 401);
+        }
         if ($e instanceof InvalidToken) {
             return response($e->getMessage(), 401);
         }
