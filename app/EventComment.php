@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class EventComment extends Model
 {
     protected $fillable = [
         'user_id',
-        'conflict_id',
+        'event_id',
         'content',
     ];
 
@@ -17,13 +17,13 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function conflict ()
+    public function event ()
     {
-        return $this->belongsTo(Conflict::class);
+        return $this->belongsTo(Event::class);
     }
 
     public function commentPhotos ()
     {
-        return $this->hasMany(CommentPhoto::class);
+        return $this->hasMany(EventCommentPhoto::class);
     }
 }

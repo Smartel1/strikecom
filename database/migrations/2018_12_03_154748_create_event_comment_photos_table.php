@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConflictPhotosTable extends Migration
+class CreateEventCommentPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateConflictPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('conflict_photos', function (Blueprint $table) {
+        Schema::create('event_comment_photos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('url', 500);
-            $table->integer('conflict_id');
-            $table->foreign('conflict_id')->references('id')->on('conflicts')->onDelete('cascade');
+            $table->integer('event_comment_id');
+            $table->foreign('event_comment_id')->references('id')->on('event_comments')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateConflictPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conflict_photos');
+        Schema::dropIfExists('event_comment_photos');
     }
 }

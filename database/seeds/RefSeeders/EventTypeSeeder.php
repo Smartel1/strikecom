@@ -6,7 +6,7 @@ namespace RefSeeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ConflictTypeSeeder extends Seeder
+class EventTypeSeeder extends Seeder
 {
     private $data = [
         ['code'=> 'call', 'name'=> 'Обращение'],
@@ -25,6 +25,6 @@ class ConflictTypeSeeder extends Seeder
 
     public function run()
     {
-        DB::table('conflict_types')->insert($this->data);
+        DB::table('event_types')->insert($this->data);
     }
 }

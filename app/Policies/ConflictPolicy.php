@@ -17,18 +17,17 @@ class ConflictPolicy
 
     public function create (User $user)
     {
-        //Любой аутентифицированный пользователь
-        return true;
+        return false;
     }
 
     public function update (User $user, Conflict $conflict)
     {
-        return $conflict->user_id === $user->id;
+        return false;
     }
 
     public function delete (User $user, Conflict $conflict)
     {
-        return $conflict->user_id === $user->id;
+        return false;
     }
 
 }

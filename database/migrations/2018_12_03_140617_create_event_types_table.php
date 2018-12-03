@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConflictStatusesTable extends Migration
+class CreateEventTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateConflictStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('conflict_statuses', function (Blueprint $table) {
+        Schema::create('event_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->string('name');
         });
 
-        (new \RefSeeders\ConflictStatusSeeder())->run();
+        (new \RefSeeders\EventTypeSeeder())->run();
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateConflictStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conflict_statuses');
+        Schema::dropIfExists('event_types');
     }
 }

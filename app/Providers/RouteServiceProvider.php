@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Conflict;
+use App\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -28,8 +29,12 @@ class RouteServiceProvider extends ServiceProvider
             return Conflict::findOrFail($id);
         });
 
+        Route::bind('event', function($id){
+            return Event::findOrFail($id);
+        });
+
         Route::bind('comment', function($id, $route){
-            return $route->parameters()['conflict']->comments()->findOrFail($id);
+            return $route->parameters()['event']->comments()->findOrFail($id);
         });
 
         parent::boot();

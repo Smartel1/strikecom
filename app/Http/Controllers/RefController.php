@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ConflictReason;
 use App\ConflictResult;
-use App\ConflictStatus;
-use App\ConflictType;
+use App\EventStatus;
+use App\EventType;
 use App\Industry;
 use App\Region;
 
@@ -13,14 +13,14 @@ class RefController extends Controller
 {
     public function index()
     {
-        $conflictTypes = ConflictType::get();
+        $eventTypes = EventType::get();
         $conflictReasons = ConflictReason::get();
         $conflictResults = ConflictResult::get();
-        $conflictStatuses = ConflictStatus::get();
+        $conflictStatuses = EventStatus::get();
         $industries = Industry::get();
         $regions = Region::get();
 
-        return compact('conflictTypes',
+        return compact('eventTypes',
             'conflictReasons',
             'conflictResults',
             'conflictStatuses',

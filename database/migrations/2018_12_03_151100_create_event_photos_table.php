@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConflictTypesTable extends Migration
+class CreateEventPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateConflictTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('conflict_types', function (Blueprint $table) {
+        Schema::create('event_photos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
-            $table->string('name');
+            $table->string('url', 500);
+            $table->integer('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->timestamps();
         });
-
-        (new \RefSeeders\ConflictTypeSeeder())->run();
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateConflictTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conflict_types');
+        Schema::dropIfExists('event_photos');
     }
 }

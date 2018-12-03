@@ -4,15 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ConflictPhoto extends Model
+class EventCommentPhoto extends Model
 {
     protected $fillable = [
-        'comment_id',
+        'event_comment_id',
         'url',
     ];
 
     public function comment ()
     {
-        return $this->belongsTo(Comment::class);
+        return $this->belongsTo(EventComment::class);
     }
 }

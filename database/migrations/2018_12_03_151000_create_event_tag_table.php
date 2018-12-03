@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConflictTagTable extends Migration
+class CreateEventTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateConflictTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('conflict_tag', function (Blueprint $table) {
-            $table->integer('conflict_id');
-            $table->foreign('conflict_id')->references('id')->on('conflicts')->onDelete('cascade');
+        Schema::create('event_tag', function (Blueprint $table) {
+            $table->integer('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->integer('tag_id');
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
@@ -28,6 +28,6 @@ class CreateConflictTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conflict_tag');
+        Schema::dropIfExists('event_tag');
     }
 }

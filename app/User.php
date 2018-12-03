@@ -17,6 +17,11 @@ class User extends Authenticatable
 
     public function comments ()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(EventComment::class);
+    }
+
+    public function events ()
+    {
+        return $this->hasMany(Event::class);
     }
 }

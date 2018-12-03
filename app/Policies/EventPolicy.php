@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\EventComment;
+use App\Event;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class EventPolicy
 {
     use HandlesAuthorization;
 
@@ -21,14 +21,14 @@ class CommentPolicy
         return true;
     }
 
-    public function update (User $user, EventComment $comment)
+    public function update (User $user, Event $event)
     {
-        return $comment->user_id === $user->id;
+        return $event->user_id === $user->id;
     }
 
-    public function delete (User $user, EventComment $comment)
+    public function delete (User $user, Event $event)
     {
-        return $comment->user_id === $user->id;
+        return $event->user_id === $user->id;
     }
 
 }

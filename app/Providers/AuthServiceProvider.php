@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Comment;
+use App\Event;
+use App\EventComment;
 use App\Conflict;
 use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
+use App\Policies\EventPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -17,7 +19,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Conflict::class => ConflictPolicy::class,
-        Comment::class  => CommentPolicy::class,
+        Event::class    => EventPolicy::class,
+        EventComment::class  => CommentPolicy::class,
     ];
 
     /**
