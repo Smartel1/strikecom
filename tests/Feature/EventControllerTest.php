@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
-use RonasIT\Support\AutoDoc\Tests\AutoDocTestCase;
 use Tests\CreatesApplication;
+use Tests\TestCase;
 
-class EventControllerTest extends AutoDocTestCase
+class EventControllerTest extends TestCase
 {
     use DatabaseTransactions;
     use CreatesApplication;

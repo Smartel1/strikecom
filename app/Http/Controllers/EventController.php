@@ -53,6 +53,8 @@ class EventController extends Controller
 
     public function show(EventShowRequest $request, Event $event)
     {
+        $event->increment('views');
+
         return $event->fresh($this->relations);
     }
 

@@ -16,14 +16,14 @@ class RefController extends Controller
         $eventTypes = EventType::get();
         $conflictReasons = ConflictReason::get();
         $conflictResults = ConflictResult::get();
-        $conflictStatuses = EventStatus::get();
+        $eventStatuses = EventStatus::get();
         $industries = Industry::get();
         $regions = Region::get();
 
         return compact('eventTypes',
             'conflictReasons',
             'conflictResults',
-            'conflictStatuses',
+            'eventStatuses',
             'industries',
             'regions');
     }
