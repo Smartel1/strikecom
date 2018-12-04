@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\EventComment;
-use App\Http\Requests\EventCommentRequest;
+use App\Http\Requests\EventComment\EventCommentRequest;
 use Illuminate\Support\Facades\Auth;
 
 class EventCommentController extends Controller

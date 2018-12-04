@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\EventIndexRequest;
-use App\Http\Requests\EventRequest;
+use App\Http\Requests\Event\EventDestroyRequest;
+use App\Http\Requests\Event\EventIndexRequest;
+use App\Http\Requests\Event\EventStoreRequest;
+use App\Http\Requests\Event\EventShowRequest;
+use App\Http\Requests\Event\EventUpdateRequest;
 use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,7 +36,7 @@ class EventController extends Controller
             ->with($this->relations)->get();
     }
 
-    public function store(EventRequest $request)
+    public function store(EventStoreRequest $request)
     {
         $this->authorize('create', Event::class);
 
@@ -48,12 +51,12 @@ class EventController extends Controller
         return $event->fresh($this->relations);
     }
 
-    public function show(Event $event)
+    public function show(EventShowRequest $request, Event $event)
     {
         return $event->fresh($this->relations);
     }
 
-    public function update(EventRequest $request, Event $event)
+    public function update(EventUpdateRequest $request, Event $event)
     {
         $this->authorize('update', $event);
 
@@ -70,7 +73,7 @@ class EventController extends Controller
         return $event->fresh($this->relations);
     }
 
-    public function destroy(Event $event)
+    public function destroy(EventDestroyRequest $request, Event $event)
     {
         $this->authorize('delete', $event);
 

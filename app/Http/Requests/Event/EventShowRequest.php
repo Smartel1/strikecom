@@ -1,10 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventIndexRequest extends FormRequest
+/**
+ * Class EventIndexRequest
+ * @description Запрос на получение события
+ * @summary Найти событие
+ * @package App\Http\Requests
+ */
+class EventShowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +29,6 @@ class EventIndexRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'filters' => 'nullable|array',
-        ];
+        return [];
     }
 }

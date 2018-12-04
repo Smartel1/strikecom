@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Conflict;
-use App\Http\Requests\ConflictRequest;
+use App\Http\Requests\Conflict\ConflictRequest;
 
 class ConflictController extends Controller
 {
