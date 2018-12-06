@@ -15,6 +15,7 @@ class CreateConflictsTable extends Migration
     {
         Schema::create('conflicts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->double('latitude');
             $table->double('longitude');
             $table->string('company_name', 500);

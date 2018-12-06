@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'route' => '/api/doc',
+    'route' => 'api/doc',
     'info' => [
         'description' => 'swagger-description', // Name of view
         'version' => '1.0.0',
@@ -18,7 +18,7 @@ return [
     'swagger' => [
         'version' => '2.0'
     ],
-    'basePath' => '/',
+    'basePath' => '',
     'schemes' => [],
     'definitions' => [],
     'security' => '', //possible values : jwt, laravel or null if your project dont need auth

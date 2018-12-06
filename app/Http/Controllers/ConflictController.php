@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Conflict;
-use App\Http\Requests\Conflict\ConflictRequest;
+use App\Http\Requests\Conflict\ConflictIndexRequest;
+use App\Http\Requests\Conflict\ConflictStoreRequest;
+use App\Http\Requests\Conflict\ConflictUpdateRequest;
 
 class ConflictController extends Controller
 {
-    public function index()
+    public function index(ConflictIndexRequest $request)
     {
-        return Conflict::get();
+        $fields = $request->get('brief') ?  ['id','title'] : '*';
+
+        return Conflict::select($fields)->get();
     }
 
-    public function store(ConflictRequest $request)
+    public function store(ConflictStoreRequest $request)
     {
         $this->authorize('create', Conflict::class);
 
@@ -26,7 +30,7 @@ class ConflictController extends Controller
         return $conflict;
     }
 
-    public function update(ConflictRequest $request, Conflict $conflict)
+    public function update(ConflictUpdateRequest $request, Conflict $conflict)
     {
         $this->authorize('update', $conflict);
 

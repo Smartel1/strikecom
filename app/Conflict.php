@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Conflict extends Model
 {
     protected $fillable = [
+        'title',
         'latitude',
         'longitude',
         'company_name',

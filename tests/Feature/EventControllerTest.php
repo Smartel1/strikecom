@@ -12,7 +12,7 @@ class EventControllerTest extends TestCase
     use DatabaseTransactions;
     use CreatesApplication;
 
-    public function testEventsStore()
+    public function testEvents()
     {
         Artisan::call('migrate:fresh');
 
