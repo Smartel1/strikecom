@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Conflict;
+use App\Http\Requests\Conflict\ConflictDestroyRequest;
 use App\Http\Requests\Conflict\ConflictIndexRequest;
+use App\Http\Requests\Conflict\ConflictShowRequest;
 use App\Http\Requests\Conflict\ConflictStoreRequest;
 use App\Http\Requests\Conflict\ConflictUpdateRequest;
 
@@ -25,7 +27,7 @@ class ConflictController extends Controller
         return $conflict;
     }
 
-    public function show(Conflict $conflict)
+    public function show(ConflictShowRequest $request, Conflict $conflict)
     {
         return $conflict;
     }
@@ -39,7 +41,7 @@ class ConflictController extends Controller
         return $conflict;
     }
 
-    public function destroy(Conflict $conflict)
+    public function destroy(ConflictDestroyRequest $request, Conflict $conflict)
     {
         $this->authorize('delete', $conflict);
 

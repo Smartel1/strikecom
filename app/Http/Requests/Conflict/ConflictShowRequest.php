@@ -5,13 +5,12 @@ namespace App\Http\Requests\Conflict;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ConflictIndexRequest
- * @description Запрос на получение списка конфликтов
- * @summary Получение списка событий
- * @brief [0/1] Если 1, то вернутся только поля id, name
+ * Class ConflictShowRequest
+ * @description Запрос на получение события
+ * @summary Найти событие
  * @package App\Http\Requests\Conflict
  */
-class ConflictIndexRequest extends FormRequest
+class ConflictShowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,8 +29,6 @@ class ConflictIndexRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'brief'  => 'nullable|boolean'
-        ];
+        return [];
     }
 }

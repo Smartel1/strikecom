@@ -6,12 +6,13 @@ use App\ConflictReason;
 use App\ConflictResult;
 use App\EventStatus;
 use App\EventType;
+use App\Http\Requests\Reference\ReferenceIndexRequest;
 use App\Industry;
 use App\Region;
 
 class RefController extends Controller
 {
-    public function index()
+    public function index(ReferenceIndexRequest $request)
     {
         $eventTypes = EventType::get();
         $conflictReasons = ConflictReason::get();
