@@ -29,9 +29,15 @@ class EventController extends Controller
     public function index(EventIndexRequest $request)
     {
         $conflict_id = array_get($request->validated(),'filters.conflict_id');
+        $tag_id = array_get($request->validated(),'filters.tag_id');
 
         return Event::when($conflict_id, function($query) use ($conflict_id){
                 $query->where('conflict_id', $conflict_id);
+            })
+            ->when($tag_id, function($query) use ($tag_id){
+                $query->whereHas('tags', function($query) use ($tag_id){
+                    $query->where('id', $tag_id);
+                });
             })
             ->with($this->relations)
             ->orderBy('created_at', 'desc')
@@ -57,7 +63,7 @@ class EventController extends Controller
     {
         $event->increment('views');
 
-        return $event->fresh(array_merge($this->relations, ['comments']));
+        return $event->fresh(array_merge($this->relations, ['comments.commentPhotos']));
     }
 
     public function update(EventUpdateRequest $request, Event $event)
