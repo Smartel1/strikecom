@@ -20,7 +20,8 @@ class CreateEventCommentsTable extends Migration
             $table->integer('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->text('content');
-            $table->timestamps();
+            $table->bigInteger('created_at')->nullable();
+            $table->bigInteger('updated_at')->nullable();
         });
     }
 

@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->nullable();
             $table->boolean('admin')->default(false);
             $table->string('image_url', 500)->nullable();
-            $table->timestamps();
+            $table->bigInteger('created_at')->nullable();
+            $table->bigInteger('updated_at')->nullable();
         });
     }
 

@@ -57,7 +57,7 @@ class EventController extends Controller
     {
         $event->increment('views');
 
-        return $event->fresh($this->relations);
+        return $event->fresh(array_merge($this->relations, ['comments']));
     }
 
     public function update(EventUpdateRequest $request, Event $event)

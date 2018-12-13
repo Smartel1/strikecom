@@ -26,6 +26,10 @@ class Conflict extends Model
     protected $casts = [
         'latitude' => 'double',
         'longitude' => 'double',
+        'date_from' =>'integer',
+        'date_to' =>'integer',
+        'created_at' =>'integer',
+        'updated_at' =>'integer',
     ];
 
     public function events ()

@@ -12,6 +12,13 @@ class EventComment extends Model
         'content',
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $casts = [
+        'created_at' =>'integer',
+        'updated_at' =>'integer',
+    ];
+
     public function user ()
     {
         return $this->belongsTo(User::class);

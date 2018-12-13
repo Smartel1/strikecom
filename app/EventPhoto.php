@@ -11,6 +11,13 @@ class EventPhoto extends Model
         'url',
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $casts = [
+        'created_at' =>'integer',
+        'updated_at' =>'integer',
+    ];
+
     public function event ()
     {
         return $this->belongsTo(Event::class);

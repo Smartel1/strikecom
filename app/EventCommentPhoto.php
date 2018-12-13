@@ -11,6 +11,13 @@ class EventCommentPhoto extends Model
         'url',
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $casts = [
+        'created_at' =>'integer',
+        'updated_at' =>'integer',
+    ];
+
     public function comment ()
     {
         return $this->belongsTo(EventComment::class);

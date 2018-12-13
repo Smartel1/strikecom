@@ -10,6 +10,13 @@ class User extends Authenticatable
         'name', 'email', 'uid', 'image_url', 'admin'
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $casts = [
+        'created_at' =>'integer',
+        'updated_at' =>'integer',
+    ];
+
     public function conflicts ()
     {
         return $this->hasMany(Conflict::class);

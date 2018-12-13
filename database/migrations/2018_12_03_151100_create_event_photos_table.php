@@ -18,7 +18,8 @@ class CreateEventPhotosTable extends Migration
             $table->string('url', 500);
             $table->integer('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->timestamps();
+            $table->bigInteger('created_at')->nullable();
+            $table->bigInteger('updated_at')->nullable();
         });
     }
 
