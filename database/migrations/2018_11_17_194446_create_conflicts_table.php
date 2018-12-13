@@ -19,8 +19,8 @@ class CreateConflictsTable extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->string('company_name', 500);
-            $table->date('date_from')->nullable();
-            $table->date('date_to')->nullable();
+            $table->bigInteger('date_from')->nullable();
+            $table->bigInteger('date_to')->nullable();
             $table->integer('conflict_reason_id')->nullable();
             $table->foreign('conflict_reason_id')->references('id')->on('conflict_reasons')->onDelete('set null');
             $table->integer('conflict_result_id')->nullable();
@@ -29,7 +29,8 @@ class CreateConflictsTable extends Migration
             $table->foreign('industry_id')->references('id')->on('industries')->onDelete('set null');
             $table->integer('region_id')->nullable();
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('set null');
-            $table->timestamps();
+            $table->bigInteger('created_at')->nullable();
+            $table->bigInteger('updated_at')->nullable();
         });
     }
 

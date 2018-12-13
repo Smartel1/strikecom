@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('content');
-            $table->date('date');
+            $table->bigInteger('date');
             $table->integer('views')->default(0);
             $table->string('source_link', 500)->nullable();
             $table->integer('conflict_id')->nullable();
@@ -28,7 +28,8 @@ class CreateEventsTable extends Migration
             $table->foreign('event_type_id')->references('id')->on('event_types')->onDelete('set null');
             $table->integer('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->timestamps();
+            $table->bigInteger('created_at')->nullable();
+            $table->bigInteger('updated_at')->nullable();
         });
     }
 

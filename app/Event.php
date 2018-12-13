@@ -18,12 +18,14 @@ class Event extends Model
         'user_id',
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $dates = ['date'];
+
     protected $casts = [
         'latitude' => 'double',
         'longitude' => 'double',
     ];
-
-    protected $dates = ['date'];
 
     public function conflict()
     {

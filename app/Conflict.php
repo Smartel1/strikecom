@@ -19,12 +19,14 @@ class Conflict extends Model
         'region_id',
     ];
 
+    protected $dateFormat = 'U';
+
+    protected $dates = ['date_from','date_to'];
+
     protected $casts = [
         'latitude' => 'double',
         'longitude' => 'double',
     ];
-
-    protected $dates = ['date_from', 'date_to'];
 
     public function events ()
     {

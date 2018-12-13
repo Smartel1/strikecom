@@ -33,7 +33,9 @@ class EventController extends Controller
         return Event::when($conflict_id, function($query) use ($conflict_id){
                 $query->where('conflict_id', $conflict_id);
             })
-            ->with($this->relations)->get();
+            ->with($this->relations)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     public function store(EventStoreRequest $request)

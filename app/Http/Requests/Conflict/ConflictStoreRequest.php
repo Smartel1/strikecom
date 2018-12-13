@@ -12,8 +12,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @latitude Долгота
  * @longitude Широта
  * @company_name Наименование предприятия
- * @date_from Дата начала конфликта
- * @date_to Дата окончания конфликта
+ * @date_from Дата начала конфликта unix-timestamp
+ * @date_to Дата окончания конфликта unix-timestamp
  * @conflict_reason_id Идентификатор причины конфликта
  * @conflict_result_id Идентификатор результата конфликта
  * @industry_id Идентификатор отрасли
@@ -44,8 +44,8 @@ class ConflictStoreRequest extends FormRequest
             'latitude'      => 'required|numeric',
             'longitude'     => 'required|numeric',
             'company_name'  => 'required|string|min:3|max:500',
-            'date_from'     => 'nullable|date',
-            'date_to'       => 'nullable|date',
+            'date_from'     => 'nullable|integer',
+            'date_to'       => 'nullable|integer',
             'conflict_reason_id'     => 'required|exists:conflict_reasons,id',
             'conflict_result_id'     => 'nullable|exists:conflict_results,id',
             'industry_id'            => 'nullable|exists:industries,id',

@@ -23,7 +23,7 @@ class EventControllerTest extends TestCase
             'id'                => 1,
             'title'             => 'Трудовой конфликт',
             'content'           => 'Такие вот дела',
-            'date'              => '2018-01-15',
+            'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
             'event_status_id'   => '1',
             'event_type_id'     => '3',
@@ -44,7 +44,7 @@ class EventControllerTest extends TestCase
             'id'            => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
-            'date'          => '2018-01-15',
+            'date'          => 1544680093,
         ]);
 
         $this->get('/api/event/1')
@@ -71,7 +71,7 @@ class EventControllerTest extends TestCase
             'conflict_id'       => null,
             'title'             => 'Беда в городе',
             'content'           => 'Рабы кричат и гневятся',
-            'date'              => '2018-10-01',
+            'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
             'event_status_id'   => '1',
             'event_type_id'     => '3',
@@ -111,14 +111,14 @@ class EventControllerTest extends TestCase
             'id'            => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
-            'date'          => '2018-01-15',
+            'date'          => 1544680093,
         ]);
 
         $this->put('/api/event/1', [
             'conflict_id'       => null,
             'title'             => 'Беда в мегаполисе',
             'content'           => 'Рабы беснуются и гневятся',
-            'date'              => '2018-10-02',
+            'date'              => 1544690093,
             'source_link'       => 'https://domain.ru/img.png',
             'event_status_id'   => '2',
             'event_type_id'     => '5',
@@ -139,7 +139,7 @@ class EventControllerTest extends TestCase
             'id'            => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
-            'date'          => '2018-01-15',
+            'date'          => 1544680093,
         ]);
 
         $this->put('/api/event/1', [
@@ -188,7 +188,7 @@ class EventControllerTest extends TestCase
             'id'            => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
-            'date'          => '2018-01-15',
+            'date'          => 1544680093,
         ]);
 
         $this->delete('/api/event/1')

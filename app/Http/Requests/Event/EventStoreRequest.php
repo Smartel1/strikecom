@@ -11,7 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @conflict_id ссылка на конфликт. Если задана, то событие привязывается к конфликту
  * @title заголовок
  * @content тело события
- * @date дата
+ * @date дата unix-timestamp
  * @source_link ссылка на источник
  * @event_status_id ссылка на статус события
  * @event_type_id ссылка на тип события
@@ -42,7 +42,7 @@ class EventStoreRequest extends FormRequest
             'conflict_id'       => 'nullable|exists:conflicts,id',
             'title'             => 'required|min:3|max:255',
             'content'           => 'required|min:3',
-            'date'              => 'required|date',
+            'date'              => 'required|integer',
             'source_link'       => 'nullable|string|max:500',
             'event_status_id'   => 'required|exists:event_statuses,id',
             'event_type_id'     => 'required|exists:event_types,id',
