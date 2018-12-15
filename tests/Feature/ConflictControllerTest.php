@@ -12,6 +12,16 @@ class ConflictControllerTest extends TestCase
     use DatabaseTransactions;
     use CreatesApplication;
 
+
+    /**
+     * запрос на список конфликтов с флагом brief
+     */
+    public function testIndexBrief ()
+    {
+        $this->get('/api/conflict?brief=1')
+            ->assertStatus(200);
+    }
+
     /**
      * запрос на список конфликтов
      */
@@ -34,15 +44,6 @@ class ConflictControllerTest extends TestCase
         ]);
 
         $this->get('/api/conflict')
-            ->assertStatus(200);
-    }
-
-    /**
-     * запрос на список конфликтов с флагом brief
-     */
-    public function testIndexBrief ()
-    {
-        $this->get('/api/conflict?brief=1')
             ->assertStatus(200);
     }
 

@@ -7,8 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class ConflictIndexRequest
  * @description Запрос на получение списка конфликтов
- * @summary Получение списка событий
- * @brief [0/1] Если 1, то вернутся только поля id, name
+ * @summary Получение списка конфликтов
+ * @brief Если true, то вернутся только поля id, name
  * @package App\Http\Requests\Conflict
  */
 class ConflictIndexRequest extends FormRequest
