@@ -7,7 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class EventRequest
  * @summary Обновление события
- * @conflict_id ссылка на конфликт. Если задана, то событие привязывается к конфликту
  * @title заголовок
  * @content тело события
  * @date дата unix-timestamp

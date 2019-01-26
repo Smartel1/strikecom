@@ -8,7 +8,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventStoreRequest
  * @description Запрос на создание события
  * @summary Создание события
- * @conflict_id ссылка на конфликт. Если задана, то событие привязывается к конфликту
  * @title заголовок
  * @content тело события
  * @date дата unix-timestamp
