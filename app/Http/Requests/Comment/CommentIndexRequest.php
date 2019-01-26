@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Event;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class EventDestroyRequest
- * @description Запрос на удаление события
- * @summary Удаление события
+ * Class CommentIndexRequest
+ * @description Получить список комментариев
+ * @summary Получить список комментариев
+ * @package App\Http\Requests\Comment
  */
-class EventDestroyRequest extends FormRequest
+class CommentIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +29,7 @@ class EventDestroyRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+        ];
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventPhotosTable extends Migration
+class CreateEventPhotoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateEventPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_photos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('url', 500);
+        Schema::create('event_photo', function (Blueprint $table) {
+            $table->integer('photo_id');
+            $table->foreign('photo_id')->references('id')->on('photos')->onDelete('cascade');
             $table->integer('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-            $table->bigInteger('created_at')->nullable();
-            $table->bigInteger('updated_at')->nullable();
         });
     }
 
@@ -30,6 +28,6 @@ class CreateEventPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_photos');
+        Schema::dropIfExists('event_photo');
     }
 }

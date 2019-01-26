@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Event\Comment;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class CommentUpdateRequest
- * @description Запрос на изменение комментария
- * @summary Обновление комментария
+ * Class CommentStoreRequest
+ * @description Запрос на создание комментария
+ * @summary Создать комментарий
  * @content содержание
  * @image_urls массив ссылок на картинки
- * @package App\Http\Requests\Event\Comment
+ * @package App\Http\Requests\Comment
  */
-class CommentUpdateRequest extends FormRequest
+class CommentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +32,7 @@ class CommentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'       => 'nullable|min:3',
+            'content'       => 'required|min:3',
             'image_urls'    => 'nullable|array',
             'image_urls.*'  => 'string|max:500',
         ];

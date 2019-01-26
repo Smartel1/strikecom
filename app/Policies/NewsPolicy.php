@@ -2,11 +2,12 @@
 
 namespace App\Policies;
 
-use App\Comment;
+use App\Event;
+use App\News;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class NewsPolicy
 {
     use HandlesAuthorization;
 
@@ -21,14 +22,14 @@ class CommentPolicy
         return true;
     }
 
-    public function update (User $user, Comment $comment)
+    public function update (User $user, News $news)
     {
-        return $comment->user_id === $user->id;
+        return $news->user_id === $user->id;
     }
 
-    public function delete (User $user, Comment $comment)
+    public function delete (User $user, News $news)
     {
-        return $comment->user_id === $user->id;
+        return $news->user_id === $user->id;
     }
 
 }

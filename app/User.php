@@ -24,11 +24,16 @@ class User extends Authenticatable
 
     public function comments ()
     {
-        return $this->hasMany(EventComment::class);
+        return $this->hasMany(Comment::class);
     }
 
     public function events ()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function news ()
+    {
+        return $this->hasMany(News::class);
     }
 }

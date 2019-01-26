@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Event;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class EventStoreRequest
- * @description Запрос на создание события
- * @summary Создание события
- * @conflict_id ссылка на конфликт. Если задана, то событие привязывается к конфликту
+ * Class NewsStoreRequest
+ * @description Запрос на создание новости
+ * @summary Создание новости
  * @title заголовок
  * @content тело события
  * @date дата unix-timestamp
@@ -17,9 +16,9 @@ use Illuminate\Foundation\Http\FormRequest;
  * @event_type_id ссылка на тип события
  * @tags массив тэгов
  * @image_urls массив ссылок на изображения
- * @package App\Http\Requests\Event
+ * @package App\Http\Requests\News
  */
-class EventStoreRequest extends FormRequest
+class NewsStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,7 +38,6 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'conflict_id'       => 'nullable|exists:conflicts,id',
             'title'             => 'required|min:3|max:255',
             'content'           => 'required|min:3',
             'date'              => 'required|integer',

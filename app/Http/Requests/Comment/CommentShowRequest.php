@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Event\Comment;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class CommentShowRequest
- * @description Получить комментарий к событию
+ * @description Получить комментарий
  * @summary Найти комментарий
- * @package App\Http\Requests\Event\Comment
+ * @package App\Http\Requests\Comment
  */
 class CommentShowRequest extends FormRequest
 {

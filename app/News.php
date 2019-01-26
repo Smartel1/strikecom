@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class News extends Model
 {
     protected $fillable = [
         'title',
@@ -12,7 +12,6 @@ class Event extends Model
         'date',
         'views',
         'source_link',
-        'conflict_id',
         'event_type_id',
         'event_status_id',
         'user_id',
@@ -29,11 +28,6 @@ class Event extends Model
         'created_at' =>'integer',
         'updated_at' =>'integer'
     ];
-
-    public function conflict()
-    {
-        return $this->belongsTo(Conflict::class);
-    }
 
     public function status()
     {

@@ -13,6 +13,10 @@ Route::group(['middleware'=>'tokenAuth'],function (){
 
     Route::apiResource('event.comment', 'EventCommentController');
 
+    Route::apiResource('news', 'NewsController');
+
+    Route::apiResource('news.comment', 'NewsCommentController');
+
     Route::get('test', function(){
         return Auth::user();
     });

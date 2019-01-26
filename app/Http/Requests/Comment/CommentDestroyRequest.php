@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Event\Comment;
+namespace App\Http\Requests\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class CommentDestroyRequest
  * @description Запрос на удаление комментария
  * @summary Удалить комментарий
- * @package App\Http\Requests\Event\Comment
+ * @package App\Http\Requests\Comment
  */
 class CommentDestroyRequest extends FormRequest
 {

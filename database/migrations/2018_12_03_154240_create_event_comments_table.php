@@ -13,12 +13,10 @@ class CreateEventCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_comments', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->integer('event_id');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->text('content');
             $table->bigInteger('created_at')->nullable();
             $table->bigInteger('updated_at')->nullable();
@@ -32,6 +30,6 @@ class CreateEventCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_comments');
+        Schema::dropIfExists('comments');
     }
 }

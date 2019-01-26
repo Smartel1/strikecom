@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Conflict;
 use App\Event;
+use App\News;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -30,12 +31,24 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::bind('event', function($id){
+
+            Route::bind('comment', function($id, $route){
+                return $route->parameters()['event']->comments()->findOrFail($id);
+            });
+
             return Event::findOrFail($id);
         });
 
-        Route::bind('comment', function($id, $route){
-            return $route->parameters()['event']->comments()->findOrFail($id);
+        Route::bind('news', function($id){
+
+            Route::bind('comment', function($id, $route){
+                return $route->parameters()['news']->comments()->findOrFail($id);
+            });
+
+            return News::findOrFail($id);
         });
+
+
 
         parent::boot();
     }
