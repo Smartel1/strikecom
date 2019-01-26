@@ -4,7 +4,7 @@ return [
     'route' => 'api/doc',
     'info' => [
         'description' => 'swagger-description', // Name of view
-        'version' => '1.1.0',
+        'version' => '1.1.1',
         'title' => 'Strikeapi',
         'termsOfService' => '',
         'contact' => [

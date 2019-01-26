@@ -11,8 +11,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @content тело новости
  * @date дата unix-timestamp
  * @source_link ссылка на источник
- * @event_status_id ссылка на статус новости
- * @event_type_id ссылка на тип новости
  * @tags массив тэгов
  * @image_urls массив ссылок на изображения
  * @package App\Http\Requests\News
@@ -41,8 +39,6 @@ class NewsUpdateRequest extends FormRequest
             'content'           => 'nullable|min:3',
             'date'              => 'nullable|integer',
             'source_link'       => 'nullable|string|max:500',
-            'event_status_id'   => 'nullable|exists:event_statuses,id',
-            'event_type_id'     => 'nullable|exists:event_types,id',
             'tags'              => 'nullable|array',
             'tags.*'            => 'string|min:2|max:20',
             'image_urls'        => 'nullable|array',

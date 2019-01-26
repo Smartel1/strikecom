@@ -10,7 +10,6 @@ use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventShowRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
 use App\Services\TagService;
-use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -46,11 +45,7 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        $event = $conflict->events()->create(
-            array_merge(
-                $request->validated(),
-                ['user_id' => Auth::getUser()->id]
-            ));
+        $event = $conflict->events()->create($request->validated());
 
         foreach ($request->get('image_urls', []) as $image) {
             $event->photos()->create(['url' => $image]);

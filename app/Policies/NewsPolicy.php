@@ -24,12 +24,12 @@ class NewsPolicy
 
     public function update (User $user, News $news)
     {
-        return $news->user_id === $user->id;
+        return false;
     }
 
     public function delete (User $user, News $news)
     {
-        return $news->user_id === $user->id;
+        return false;
     }
 
 }

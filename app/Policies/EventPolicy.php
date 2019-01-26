@@ -23,12 +23,12 @@ class EventPolicy
 
     public function update (User $user, Event $event)
     {
-        return $event->user_id === $user->id;
+        return false;
     }
 
     public function delete (User $user, Event $event)
     {
-        return $event->user_id === $user->id;
+        return false;
     }
 
 }

@@ -25,8 +25,6 @@ class NewsControllerTest extends TestCase
             'content'           => 'Такие вот дела',
             'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
-            'event_status_id'   => '1',
-            'event_type_id'     => '3',
         ]);
 
         $this->get('/api/news')
@@ -72,8 +70,6 @@ class NewsControllerTest extends TestCase
             'content'           => 'Рабы кричат и гневятся',
             'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
-            'event_status_id'   => '1',
-            'event_type_id'     => '3',
             'tags'              => ['нищета', 'голод'],
             'image_urls'        => ['images/ff.gif'],
         ])
@@ -90,8 +86,6 @@ class NewsControllerTest extends TestCase
             'content'           => [],
             'date'              => 15,
             'source_link'       => [],
-            'event_status_id'   => -1,
-            'event_type_id'     => -1,
             'tags'              => '55',
             'image_urls'        => 'images/ff.gif',
         ])
@@ -117,8 +111,6 @@ class NewsControllerTest extends TestCase
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => 1544690093,
             'source_link'       => 'https://domain.ru/img.png',
-            'event_status_id'   => '2',
-            'event_type_id'     => '5',
             'tags'              => ['голод'],
             'image_urls'        => ['images/ff.gif'],
         ])
@@ -144,8 +136,6 @@ class NewsControllerTest extends TestCase
             'content'           => [],
             'date'              => 15,
             'source_link'       => [],
-            'event_status_id'   => -1,
-            'event_type_id'     => -1,
             'tags'              => '55',
             'image_urls'        => 'images/ff.gif',
         ])
@@ -164,8 +154,6 @@ class NewsControllerTest extends TestCase
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => '2018-10-02',
             'source_link'       => 'https://domain.ru/img.png',
-            'event_status_id'   => '2',
-            'event_type_id'     => '5',
             'tags'              => ['голод'],
             'image_urls'        => ['images/ff.gif'],
         ])
