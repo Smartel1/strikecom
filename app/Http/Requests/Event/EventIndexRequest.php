@@ -10,7 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @summary Получить список событий
  * @filters Необязательный массив фильтров. Может содержать ключ conflict_id, чтобы вывести только привязанные
  * к конкретному конфликту новости и tag_id для вывода новостей с тегом
- * @filters.conflict_id индентификатор конфликта, к которому привязаны события
  * @filters.tag_id индентификатор тэга, который содержится в событиях
  * @package App\Http\Requests
  */
@@ -35,7 +34,6 @@ class EventIndexRequest extends FormRequest
     {
         return [
             'filters' => 'nullable|array',
-            'filters.conflict_id'   => 'nullable|integer',
             'filters.tag_id'        => 'nullable|integer',
         ];
     }

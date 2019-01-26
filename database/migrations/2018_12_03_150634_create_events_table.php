@@ -20,7 +20,7 @@ class CreateEventsTable extends Migration
             $table->bigInteger('date');
             $table->integer('views')->default(0);
             $table->string('source_link', 500)->nullable();
-            $table->integer('conflict_id')->nullable();
+            $table->integer('conflict_id');
             $table->foreign('conflict_id')->references('id')->on('conflicts')->onDelete('cascade');
             $table->integer('event_status_id')->nullable();
             $table->foreign('event_status_id')->references('id')->on('event_statuses')->onDelete('set null');

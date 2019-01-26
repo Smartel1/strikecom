@@ -13,13 +13,21 @@ class EventCommentControllerTest extends TestCase
     use DatabaseTransactions;
     use CreatesApplication;
 
-
-    public function seed()
+    private function prepareDB()
     {
-        DB::table('events')->where('id',1)->delete();
+        DB::table('conflicts')->delete();
+
+        DB::table('conflicts')->insert([
+            'id'                => 1,
+            'title'             => 'Острый конфликт',
+            'latitude'          => 1351315135.45,
+            'longitude'         => 1256413515.45,
+            'company_name'      => 'ЗАО ПАО',
+        ]);
 
         DB::table('events')->insert([
             'id'            => 1,
+            'conflict_id'   => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
             'date'          => 1544680093,
@@ -41,7 +49,7 @@ class EventCommentControllerTest extends TestCase
      */
     public function testIndex ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         Event::find(1)->comments()->create([
             'content'         => 'Вот это дела'
@@ -51,7 +59,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get('/api/event/1/comment')
+        $this->get('/api/conflict/1/event/1/comment')
             ->assertStatus(200);
     }
 
@@ -60,13 +68,13 @@ class EventCommentControllerTest extends TestCase
      */
     public function testView ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = Event::find(1)->comments()->create([
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get("/api/event/1/comment/$comment->id")
+        $this->get("/api/conflict/1/event/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -75,9 +83,9 @@ class EventCommentControllerTest extends TestCase
      */
     public function testViewWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
-        $this->get('/api/event/1/comment/2')
+        $this->get('/api/conflict/1/event/1/comment/2')
             ->assertStatus(404);
     }
 
@@ -86,9 +94,9 @@ class EventCommentControllerTest extends TestCase
      */
     public function testStore ()
     {
-        $this->seed();
+        $this->prepareDB();
 
-        $this->post('/api/event/1/comment', [
+        $this->post('/api/conflict/1/event/1/comment', [
                 'content'       => 'Надо что-то менять!',
                 'image_urls'    => ['https://heroku.com/image.png']
             ])
@@ -100,9 +108,9 @@ class EventCommentControllerTest extends TestCase
      */
     public function testStoreInvalid ()
     {
-        $this->seed();
+        $this->prepareDB();
 
-        $this->post('/api/event/1/comment', [
+        $this->post('/api/conflict/1/event/1/comment', [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -114,13 +122,13 @@ class EventCommentControllerTest extends TestCase
      */
     public function testUpdate ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = Event::find(1)->comments()->create([
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/event/1/comment/$comment->id", [
+        $this->put("/api/conflict/1/event/1/comment/$comment->id", [
             'content'       => 'Надо что-то менять!',
             'image_urls'    => ['https://heroku.com/image.png']
         ])
@@ -132,13 +140,13 @@ class EventCommentControllerTest extends TestCase
      */
     public function testUpdateInvalid ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = Event::find(1)->comments()->create([
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/event/1/comment/$comment->id", [
+        $this->put("/api/conflict/1/event/1/comment/$comment->id", [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -150,9 +158,9 @@ class EventCommentControllerTest extends TestCase
      */
     public function testUpdateWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
-        $this->put('/api/event/1/comment/1', [
+        $this->put('/api/conflict/1/event/1/comment/1', [
             'content'       => 'comment',
         ])
             ->assertStatus(404);
@@ -163,13 +171,13 @@ class EventCommentControllerTest extends TestCase
      */
     public function testDelete ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = Event::find(1)->comments()->create([
             'content'         => 'Ну и дела'
         ]);
 
-        $this->delete("/api/event/1/comment/$comment->id")
+        $this->delete("/api/conflict/1/event/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -178,9 +186,9 @@ class EventCommentControllerTest extends TestCase
      */
     public function testDeleteWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
-        $this->delete('/api/event/1/comment/1')
+        $this->delete('/api/conflict/1/event/1/comment/1')
             ->assertStatus(404);
     }
 }

@@ -12,15 +12,35 @@ class EventControllerTest extends TestCase
     use DatabaseTransactions;
     use CreatesApplication;
 
+    private function clearConflictsAndAddOne()
+    {
+        DB::table('conflicts')->delete();
+
+        DB::table('conflicts')->insert([
+            'id'                => 1,
+            'title'             => 'Острый конфликт',
+            'latitude'          => 1351315135.45,
+            'longitude'         => 1256413515.45,
+            'company_name'      => 'ЗАО ПАО',
+            'conflict_reason_id'=> 1,
+            'conflict_result_id'=> 3,
+            'industry_id'       => 3,
+            'region_id'         => 5,
+            'date_from'         => 1544680093,
+            'date_to'           => 1544690093,
+        ]);
+    }
+
     /**
      * запрос на список событий
      */
     public function testIndex ()
     {
-        DB::table('events')->delete();
+        $this->clearConflictsAndAddOne();
 
         DB::table('events')->insert([
             'id'                => 1,
+            'conflict_id'       => 1,
             'title'             => 'Трудовой конфликт',
             'content'           => 'Такие вот дела',
             'date'              => 1544680093,
@@ -29,7 +49,7 @@ class EventControllerTest extends TestCase
             'event_type_id'     => '3',
         ]);
 
-        $this->get('/api/event')
+        $this->get('/api/conflict/1/event')
             ->assertStatus(200);
     }
 
@@ -38,16 +58,17 @@ class EventControllerTest extends TestCase
      */
     public function testView ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
         DB::table('events')->insert([
             'id'            => 1,
+            'conflict_id'   => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->get('/api/event/1')
+        $this->get('/api/conflict/1/event/1')
             ->assertStatus(200);
     }
 
@@ -56,9 +77,9 @@ class EventControllerTest extends TestCase
      */
     public function testViewWrong ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
-        $this->get('/api/event/1')
+        $this->get('/api/conflict/1/event/1')
             ->assertStatus(404);
     }
 
@@ -67,8 +88,9 @@ class EventControllerTest extends TestCase
      */
     public function testStore ()
     {
-        $this->post('/api/event', [
-            'conflict_id'       => null,
+        $this->clearConflictsAndAddOne();
+
+        $this->post('/api/conflict/1/event', [
             'title'             => 'Беда в городе',
             'content'           => 'Рабы кричат и гневятся',
             'date'              => 1544680093,
@@ -86,8 +108,9 @@ class EventControllerTest extends TestCase
      */
     public function testStoreInvalid ()
     {
-        $this->post('/api/event', [
-            'conflict_id'       => -1,
+        $this->clearConflictsAndAddOne();
+
+        $this->post('/api/conflict/1/event', [
             'title'             => [],
             'content'           => [],
             'date'              => 15,
@@ -105,17 +128,17 @@ class EventControllerTest extends TestCase
      */
     public function testUpdate ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
         DB::table('events')->insert([
             'id'            => 1,
+            'conflict_id'   => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->put('/api/event/1', [
-            'conflict_id'       => null,
+        $this->put('/api/conflict/1/event/1', [
             'title'             => 'Беда в мегаполисе',
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => 1544690093,
@@ -133,17 +156,17 @@ class EventControllerTest extends TestCase
      */
     public function testUpdateInvalid ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
         DB::table('events')->insert([
             'id'            => 1,
+            'conflict_id'   => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->put('/api/event/1', [
-            'conflict_id'       => -1,
+        $this->put('/api/conflict/1/event/1', [
             'title'             => [],
             'content'           => [],
             'date'              => 15,
@@ -161,10 +184,9 @@ class EventControllerTest extends TestCase
      */
     public function testUpdateWrong ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
-        $this->put('/api/event/1', [
-            'conflict_id'       => null,
+        $this->put('/api/conflict/1/event/1', [
             'title'             => 'Беда в мегаполисе',
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => '2018-10-02',
@@ -182,16 +204,17 @@ class EventControllerTest extends TestCase
      */
     public function testDelete ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
         DB::table('events')->insert([
             'id'            => 1,
+            'conflict_id'   => 1,
             'title'         => 'Трудовой конфликт',
             'content'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->delete('/api/event/1')
+        $this->delete('/api/conflict/1/event/1')
             ->assertStatus(200);
     }
 
@@ -200,9 +223,9 @@ class EventControllerTest extends TestCase
      */
     public function testDeleteWrong ()
     {
-        DB::table('events')->where('id',1)->delete();
+        $this->clearConflictsAndAddOne();
 
-        $this->delete('/api/event/1')
+        $this->delete('/api/conflict/1/event/1')
             ->assertStatus(404);
     }
 }

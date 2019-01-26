@@ -38,7 +38,6 @@ class EventUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'conflict_id'       => 'nullable|exists:conflicts,id',
             'title'             => 'nullable|min:3|max:255',
             'content'           => 'nullable|min:3',
             'date'              => 'nullable|integer',

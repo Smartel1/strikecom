@@ -14,7 +14,7 @@ class NewsCommentControllerTest extends TestCase
     use CreatesApplication;
 
 
-    public function seed()
+    public function prepareDB()
     {
         DB::table('news')->where('id',1)->delete();
 
@@ -41,7 +41,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testIndex ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         News::find(1)->comments()->create([
             'content'         => 'Вот это дела'
@@ -60,7 +60,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testView ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = News::find(1)->comments()->create([
             'content'         => 'Ну и дела'
@@ -75,7 +75,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testViewWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $this->get('/api/news/1/comment/2')
             ->assertStatus(404);
@@ -86,7 +86,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testStore ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $this->post('/api/news/1/comment', [
                 'content'       => 'Надо реагировать!',
@@ -100,7 +100,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testStoreInvalid ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $this->post('/api/news/1/comment', [
             'content'       => 1,
@@ -114,7 +114,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testUpdate ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = News::find(1)->comments()->create([
             'content'         => 'Ну и дела'
@@ -132,7 +132,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testUpdateInvalid ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = News::find(1)->comments()->create([
             'content'         => 'Ну и дела'
@@ -150,7 +150,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testUpdateWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $this->put('/api/news/1/comment/1', [
             'content'       => 'comment',
@@ -163,7 +163,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testDelete ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $comment = News::find(1)->comments()->create([
             'content'         => 'Ну и дела'
@@ -178,7 +178,7 @@ class NewsCommentControllerTest extends TestCase
      */
     public function testDeleteWrong ()
     {
-        $this->seed();
+        $this->prepareDB();
 
         $this->delete('/api/news/1/comment/1')
             ->assertStatus(404);

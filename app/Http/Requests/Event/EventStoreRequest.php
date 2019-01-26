@@ -39,7 +39,6 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'conflict_id'       => 'nullable|exists:conflicts,id',
             'title'             => 'required|min:3|max:255',
             'content'           => 'required|min:3',
             'date'              => 'required|integer',
