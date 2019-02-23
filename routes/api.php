@@ -17,8 +17,8 @@ Route::group(['middleware'=>'tokenAuth'],function (){
 
     Route::apiResource('news.comment', 'NewsCommentController');
 
-    Route::get('test', function(){
-        return Auth::user();
+    Route::get('user', function(){
+        return Auth::user()->load('favouriteEvents', 'favouriteNews');
     });
 });
 

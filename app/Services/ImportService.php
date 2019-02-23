@@ -233,11 +233,14 @@ class ImportService
      * @param $industries
      * @param $reasons
      * @param $results
+     * @return \Illuminate\Support\Collection
      */
     public function fetchEvents($json, $users, $conflicts, $eventStatuses,
                                 $eventTypes, $factories, $industries,
                                 $reasons, $results)
     {
+        $collection = collect();
+
         foreach (json_decode($json, true) as $item) {
 
             $uuid = $item['_id'];
@@ -302,6 +305,10 @@ class ImportService
                 'event_type_id'   => $eventTypeId,
                 'user_id'         => $userId,
             ]);
+
+            $event['_id'] = $item['_id'];
+
+            $collection->push($event);
 
             $imageUrls = (array) array_get($item, 'images');
 
@@ -374,14 +381,19 @@ class ImportService
 
             $event->conflict->save();
         }
+
+        return $collection;
     }
 
     /**
      * @param $json
      * @param $users
+     * @return \Illuminate\Support\Collection
      */
     public function fetchNews($json, $users)
     {
+        $collection = collect();
+
         foreach (json_decode($json, true) as $item) {
 
             if (!array_has($item, 'inDisput')) continue;
@@ -399,6 +411,7 @@ class ImportService
                     $userId = $user->id;
                 }
             }
+
             $news = News::create([
                 'title'           => array_get($item, 'name'),
                 'content'         => array_get($item, 'content'),
@@ -408,12 +421,52 @@ class ImportService
                 'user_id'         => $userId,
             ]);
 
+            $news['_id'] = $item['_id'];
+
+            $collection->push($news);
+
             $imageUrls = (array) array_get($item, 'images');
 
             foreach ($imageUrls as $imageUrl) {
                 $news->photos()->create([
                     'url'           => $imageUrl,
                 ]);
+            }
+        }
+
+       return $collection;
+    }
+
+    /**
+     * @param $users
+     * @param $events
+     * @param $news
+     */
+    public function fetchFavourites($users, $events, $news)
+    {
+        foreach ($users as $user){
+            foreach (array_get($user,'favourite_posts', []) as $postId) {
+                $event = $events->where('_id', $postId)->first();
+
+                if ($event) {
+
+                    \DB::table('favourite_events')->insert([
+                        'user_id'  => $user->id,
+                        'event_id' => $event->id
+                    ]);
+
+                    continue;
+                }
+
+                $post = $news->where('_id', $postId)->first();
+
+                if ($post) {
+
+                  \DB::table('favourite_news')->insert([
+                      'user_id'  => $user->id,
+                      'news_id' => $post->id
+                  ]);
+                }
             }
         }
     }

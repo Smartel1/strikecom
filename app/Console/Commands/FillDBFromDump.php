@@ -69,7 +69,7 @@ class FillDBFromDump extends Command
             file_get_contents(resource_path('dump/results.json'))
         );
 
-        $this->info('Запланированиы результаты конфликтов');
+        $this->info('Запланированы результаты конфликтов');
         
 
         $eventStatuses = $service->fetchEventStatuses(
@@ -100,7 +100,7 @@ class FillDBFromDump extends Command
         $this->info('Разгорелись конфликты');
         
 
-        $service->fetchEvents(
+        $events = $service->fetchEvents(
             file_get_contents(resource_path('dump/posts.json')),
             $users,
             $conflicts,
@@ -115,12 +115,16 @@ class FillDBFromDump extends Command
         $this->info('Зарегистрированы события');
         
 
-        $service->fetchNews(
+        $news = $service->fetchNews(
             file_get_contents(resource_path('dump/posts.json')),
             $users
         );
 
         $this->info('Опубликованы новости');
+
+        $service->fetchFavourites($users, $events, $news);
+
+        $this->info('Народ оценил');
 
         $this->warn('ошибки выведены в лог');
     }
