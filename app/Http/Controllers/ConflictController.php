@@ -15,9 +15,11 @@ class ConflictController extends Controller
     {
         $fields = $request->get('brief') ?  ['id','title'] : '*';
 
-        return Conflict::select($fields)
+        $data = Conflict::select($fields)
             ->orderBy('created_at','desc')
             ->get();
+
+        return ['data' => $data];
     }
 
     public function store(ConflictStoreRequest $request)
