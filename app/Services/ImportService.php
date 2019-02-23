@@ -279,6 +279,18 @@ class ImportService
                 $eventTypeId = $eventType->id;
             }
 
+            $userId = null;
+
+            if (array_get($item, 'creator')) {
+                $user = $users->where('_id', array_get($item, 'creator'))->first();
+
+                if (!$user) {
+                    \Log::error("Не удалось привязать пользователя к событию $uuid");
+                } else {
+                    $userId = $user->id;
+                }
+            }
+
             $event = Event::create([
                 'title'           => array_get($item, 'name'),
                 'content'         => array_get($item, 'content'),
@@ -288,6 +300,7 @@ class ImportService
                 'conflict_id'     => $conflict->id,
                 'event_status_id' => $eventStatusId,
                 'event_type_id'   => $eventTypeId,
+                'user_id'         => $userId,
             ]);
 
             $imageUrls = (array) array_get($item, 'images');
@@ -373,12 +386,26 @@ class ImportService
 
             if (!array_has($item, 'inDisput')) continue;
 
+            $uuid = $item['_id'];
+
+            $userId = null;
+
+            if (array_get($item, 'creator')) {
+                $user = $users->where('_id', array_get($item, 'creator'))->first();
+
+                if (!$user) {
+                    \Log::error("Не удалось привязать пользователя к событию $uuid");
+                } else {
+                    $userId = $user->id;
+                }
+            }
             $news = News::create([
                 'title'           => array_get($item, 'name'),
                 'content'         => array_get($item, 'content'),
                 'date'            => array_get($item, 'date'),
                 'views'           => array_get($item, 'count_view', 0),
                 'source_link'     => array_get($item, 'link'),
+                'user_id'         => $userId,
             ]);
 
             $imageUrls = (array) array_get($item, 'images');
