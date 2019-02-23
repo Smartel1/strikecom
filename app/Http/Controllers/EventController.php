@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Conflict;
 use App\Event;
 use App\Http\Requests\Event\EventDestroyRequest;
 use App\Http\Requests\Event\EventIndexRequest;
@@ -26,26 +25,25 @@ class EventController extends Controller
         $this->tagService = $tagService;
     }
 
-    public function index(EventIndexRequest $request, Conflict $conflict)
+    public function index(EventIndexRequest $request)
     {
         $tag_id = array_get($request->validated(),'filters.tag_id');
 
-        return $conflict->events()
+        return Event::with($this->relations)
             ->when($tag_id, function($query) use ($tag_id){
                 $query->whereHas('tags', function($query) use ($tag_id){
                     $query->where('id', $tag_id);
                 });
             })
-            ->with($this->relations)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(array_get($request, 'per_page', 20));
     }
 
-    public function store(EventStoreRequest $request, Conflict $conflict)
+    public function store(EventStoreRequest $request)
     {
         $this->authorize('create', Event::class);
 
-        $event = $conflict->events()->create($request->validated());
+        $event = Event::create($request->validated());
 
         foreach ($request->get('image_urls', []) as $image) {
             $event->photos()->create(['url' => $image]);
@@ -56,14 +54,14 @@ class EventController extends Controller
         return $event->fresh($this->relations);
     }
 
-    public function show(EventShowRequest $request, Conflict $conflict, Event $event)
+    public function show(EventShowRequest $request, Event $event)
     {
         $event->increment('views');
 
         return $event->fresh(array_merge($this->relations, ['comments.photos']));
     }
 
-    public function update(EventUpdateRequest $request, Conflict $conflict, Event $event)
+    public function update(EventUpdateRequest $request, Event $event)
     {
         $this->authorize('update', $event);
 
@@ -80,7 +78,7 @@ class EventController extends Controller
         return $event->fresh($this->relations);
     }
 
-    public function destroy(EventDestroyRequest $request, Conflict $conflict, Event $event)
+    public function destroy(EventDestroyRequest $request, Event $event)
     {
         $this->authorize('delete', $event);
 

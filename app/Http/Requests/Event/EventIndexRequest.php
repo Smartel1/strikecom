@@ -6,11 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class EventIndexRequest
- * @description Запрос на получение списка событий (применима фильтрация)
+ * @description Запрос на получение списка событий
  * @summary Получить список событий
  * @filters Необязательный массив фильтров. Может содержать ключ conflict_id, чтобы вывести только привязанные
  * к конкретному конфликту новости и tag_id для вывода новостей с тегом
  * @filters.tag_id индентификатор тэга, который содержится в событиях
+ * @filters.conflict_id индентификатор конфликта, к которому относится событие
+ * @per_page Количество элементов в пагинации (по умолчанию 20)
+ * @page Страница пагинации
  * @package App\Http\Requests
  */
 class EventIndexRequest extends FormRequest
@@ -33,8 +36,11 @@ class EventIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'filters' => 'nullable|array',
-            'filters.tag_id'        => 'nullable|integer',
+            'filters'             => 'nullable|array',
+            'filters.tag_id'      => 'nullable|integer',
+            'filters.conflict_id' => 'nullable|integer',
+            'per_page'            => 'integer|min:1',
+            'page'                => 'integer',
         ];
     }
 }

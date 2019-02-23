@@ -9,7 +9,6 @@ use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\News;
 use App\Services\TagService;
-use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -28,23 +27,23 @@ class NewsController extends Controller
 
     public function index(NewsIndexRequest $request)
     {
-        $tag_id = array_get($request->validated(),'filters.tag_id');
+        $tag_id = array_get($request->validated(), 'filters.tag_id');
 
-        return News::when($tag_id, function($query) use ($tag_id){
-                $query->whereHas('tags', function($query) use ($tag_id){
-                    $query->where('id', $tag_id);
-                });
-            })
+        return News::when($tag_id, function ($query) use ($tag_id) {
+            $query->whereHas('tags', function ($query) use ($tag_id) {
+                $query->where('id', $tag_id);
+            });
+        })
             ->with($this->relations)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(array_get($request, 'per_page', 20));
     }
 
     public function store(NewsStoreRequest $request)
     {
         $this->authorize('create', News::class);
 
-        $news = Auth::user()->news()->create($request->validated());
+        $news = News::create($request->validated());
 
         foreach ($request->get('image_urls', []) as $image) {
             $news->photos()->create(['url' => $image]);

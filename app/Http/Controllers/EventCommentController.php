@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Conflict;
 use App\Event;
 use App\Comment;
 use App\Http\Requests\Comment\CommentDestroyRequest;
@@ -14,12 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class EventCommentController extends Controller
 {
-    public function index(CommentIndexRequest $request, Conflict $conflict, Event $event)
+    public function index(CommentIndexRequest $request, Event $event)
     {
         return $event->comments()->with('user', 'photos')->get();
     }
 
-    public function store(CommentStoreRequest $request, Conflict $conflict, Event $event)
+    public function store(CommentStoreRequest $request, Event $event)
     {
         $this->authorize('create', Comment::class);
 
@@ -37,12 +36,12 @@ class EventCommentController extends Controller
         return $comment->fresh('user', 'photos');
     }
 
-    public function show(CommentShowRequest $request, Conflict $conflict, Event $event, Comment $comment)
+    public function show(CommentShowRequest $request, Event $event, Comment $comment)
     {
         return $comment->fresh('user', 'photos');
     }
 
-    public function update(CommentUpdateRequest $request, Conflict $conflict, Event $event, Comment $comment)
+    public function update(CommentUpdateRequest $request, Event $event, Comment $comment)
     {
         $this->authorize('update', $comment);
 
@@ -57,7 +56,7 @@ class EventCommentController extends Controller
         return $comment->fresh('user', 'photos');
     }
 
-    public function destroy(CommentDestroyRequest $request, Conflict $conflict, Event $event, Comment $comment)
+    public function destroy(CommentDestroyRequest $request, Event $event, Comment $comment)
     {
         $this->authorize('delete', $comment);
 

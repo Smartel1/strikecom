@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventStoreRequest
  * @description Запрос на создание события
  * @summary Создание события
+ * @conflict_id ид. конфликта
  * @title заголовок
  * @content тело события
  * @date дата unix-timestamp
@@ -38,6 +39,7 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'conflict_id'       => 'required|exists:conflicts,id',
             'title'             => 'required|min:3|max:255',
             'content'           => 'required|min:3',
             'date'              => 'required|integer',

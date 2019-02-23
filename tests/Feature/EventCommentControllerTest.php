@@ -59,7 +59,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get('/api/conflict/1/event/1/comment')
+        $this->get('/api/event/1/comment')
             ->assertStatus(200);
     }
 
@@ -74,7 +74,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get("/api/conflict/1/event/1/comment/$comment->id")
+        $this->get("/api/event/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -85,7 +85,7 @@ class EventCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->get('/api/conflict/1/event/1/comment/2')
+        $this->get('/api/event/1/comment/2')
             ->assertStatus(404);
     }
 
@@ -96,7 +96,7 @@ class EventCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->post('/api/conflict/1/event/1/comment', [
+        $this->post('/api/event/1/comment', [
                 'content'       => 'Надо что-то менять!',
                 'image_urls'    => ['https://heroku.com/image.png']
             ])
@@ -110,7 +110,7 @@ class EventCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->post('/api/conflict/1/event/1/comment', [
+        $this->post('/api/event/1/comment', [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -128,7 +128,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/conflict/1/event/1/comment/$comment->id", [
+        $this->put("/api/event/1/comment/$comment->id", [
             'content'       => 'Надо что-то менять!',
             'image_urls'    => ['https://heroku.com/image.png']
         ])
@@ -146,7 +146,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/conflict/1/event/1/comment/$comment->id", [
+        $this->put("/api/event/1/comment/$comment->id", [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -160,7 +160,7 @@ class EventCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->put('/api/conflict/1/event/1/comment/1', [
+        $this->put('/api/event/1/comment/1', [
             'content'       => 'comment',
         ])
             ->assertStatus(404);
@@ -177,7 +177,7 @@ class EventCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->delete("/api/conflict/1/event/1/comment/$comment->id")
+        $this->delete("/api/event/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -188,7 +188,7 @@ class EventCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->delete('/api/conflict/1/event/1/comment/1')
+        $this->delete('/api/event/1/comment/1')
             ->assertStatus(404);
     }
 }

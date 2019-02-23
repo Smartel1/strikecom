@@ -27,20 +27,17 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::bind('conflict', function($id){
-
-            Route::bind('event', function($id, $route){
-
-                Route::bind('comment', function($id, $route){
-                    return $route->parameters()['event']->comments()->findOrFail($id);
-                });
-
-                return $route->parameters()['conflict']->events()->findOrFail($id);
-            });
-
             return Conflict::findOrFail($id);
         });
 
+        Route::bind('event', function($id, $route){
 
+            Route::bind('comment', function($id, $route){
+                return $route->parameters()['event']->comments()->findOrFail($id);
+            });
+
+            return Event::findOrFail($id);
+        });
 
         Route::bind('news', function($id){
 
