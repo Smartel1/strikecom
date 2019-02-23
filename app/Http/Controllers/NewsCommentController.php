@@ -29,8 +29,10 @@ class NewsCommentController extends Controller
             'content' => $data['content'],
         ]);
 
-        foreach (array_get($data, 'image_urls', []) as $image) {
-            $comment->photos()->create(['url' => $image]);
+        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
+            $comment->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         return $comment->fresh('user', 'photos');
@@ -49,8 +51,10 @@ class NewsCommentController extends Controller
 
         $comment->photos()->delete();
 
-        foreach (array_get($request->validated(), 'image_urls', []) as $image) {
-            $comment->photos()->create(['url' => $image]);
+        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
+            $comment->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         return $comment->fresh('user', 'photos');

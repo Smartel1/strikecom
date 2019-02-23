@@ -16,7 +16,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @event_status_id ссылка на статус события
  * @event_type_id ссылка на тип события
  * @tags массив тэгов
- * @image_urls массив ссылок на изображения
+ * @photo_urls массив ссылок на фото
+ * @videos массив видео
  * @package App\Http\Requests\Event
  */
 class EventStoreRequest extends FormRequest
@@ -39,17 +40,20 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'conflict_id'       => 'required|exists:conflicts,id',
-            'title'             => 'required|min:3|max:255',
-            'content'           => 'required|min:3',
-            'date'              => 'required|integer',
-            'source_link'       => 'nullable|string|max:500',
-            'event_status_id'   => 'required|exists:event_statuses,id',
-            'event_type_id'     => 'required|exists:event_types,id',
-            'tags'              => 'nullable|array',
-            'tags.*'            => 'string|min:2|max:20',
-            'image_urls'        => 'nullable|array',
-            'image_urls.*'      => 'string|max:500',
+            'conflict_id'         => 'required|exists:conflicts,id',
+            'title'               => 'required|min:3|max:255',
+            'content'             => 'required|min:3',
+            'date'                => 'required|integer',
+            'source_link'         => 'nullable|string|max:500',
+            'event_status_id'     => 'required|exists:event_statuses,id',
+            'event_type_id'       => 'required|exists:event_types,id',
+            'tags'                => 'nullable|array',
+            'tags.*'              => 'string|min:2|max:20',
+            'photo_urls'           => 'nullable|array',
+            'photo_urls.*'         => 'required|string|max:500',
+            'videos'               => 'nullable|array',
+            'videos.*.url'         => 'required|string|max:500',
+            'videos.*.preview_url' => 'nullable|string|max:500',
         ];
     }
 }

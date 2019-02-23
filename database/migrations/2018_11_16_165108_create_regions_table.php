@@ -15,9 +15,9 @@ class CreateRegionsTable extends Migration
     {
         Schema::create('regions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('parent_id')->nullable();
-            $table->foreign('parent_id')->references('id')->on('regions')->onDelete('set null');
+            $table->string('name_ru')->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('name_es')->nullable();
         });
 
         (new \RefSeeders\RegionSeeder())->run();

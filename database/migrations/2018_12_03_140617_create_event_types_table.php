@@ -15,11 +15,12 @@ class CreateEventTypesTable extends Migration
     {
         Schema::create('event_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
-            $table->string('name');
+            $table->string('name_ru')->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('name_es')->nullable();
         });
 
-        (new \RefSeeders\EventTypeSeeder())->run();
+//        (new \RefSeeders\EventTypeSeeder())->run();
     }
 
     /**

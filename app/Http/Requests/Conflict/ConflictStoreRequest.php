@@ -43,7 +43,7 @@ class ConflictStoreRequest extends FormRequest
             'title'         => 'required|string|max:255',
             'latitude'      => 'required|numeric',
             'longitude'     => 'required|numeric',
-            'company_name'  => 'required|string|min:3|max:500',
+            'company_name'  => 'nullable|string|min:3|max:500',
             'date_from'     => 'nullable|integer',
             'date_to'       => 'nullable|integer',
             'conflict_reason_id'     => 'required|exists:conflict_reasons,id',

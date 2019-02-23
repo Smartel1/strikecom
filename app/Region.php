@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Region extends Model
 {
     protected $fillable = [
-        'name',
+        'name_ru', 'name_en', 'name_es',
     ];
+
+    protected $visible = ['id', 'name'];
+
+    protected $appends = ['name'];
+
+    public $timestamps = false;
+
+    public function getNameAttribute()
+    {
+        //todo локализация
+        return $this->name_ru ?? 'untranslated';
+    }
 }

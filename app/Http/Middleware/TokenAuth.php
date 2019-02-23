@@ -22,7 +22,7 @@ class TokenAuth
     public function handle($request, Closure $next)
     {
         if (!request()->bearerToken()) {
-            Auth::login(User::firstOrCreate(['uid'=>1, 'admin'=>true]));
+            Auth::login(User::firstOrCreate(['uuid'=>1, 'admin'=>true]));
             return $next($request);
         }
 
@@ -46,14 +46,14 @@ class TokenAuth
 
         $verifiedIdToken = $firebase->getAuth()->verifyIdToken(request()->bearerToken());
 
-        $uid = $verifiedIdToken->getClaim('sub');
+        $uuid = $verifiedIdToken->getClaim('sub');
 
-        if (!$user = User::where('uid', $uid)->first()) {
+        if (!$user = User::where('uuid', $uuid)->first()) {
 
-            $userData = $firebase->getAuth()->getUser($uid);
+            $userData = $firebase->getAuth()->getUser($uuid);
 
             $user = User::create([
-                'uid'=>$userData->uid,
+                'uuid'=>$userData->uuid,
                 'email'=>$userData->email,
                 'name'=>$userData->displayName,
             ]);

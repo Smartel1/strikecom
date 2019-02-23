@@ -20,6 +20,8 @@ class CreateNewsTable extends Migration
             $table->bigInteger('date');
             $table->integer('views')->default(0);
             $table->string('source_link', 500)->nullable();
+            $table->integer('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->bigInteger('created_at')->nullable();
             $table->bigInteger('updated_at')->nullable();
         });

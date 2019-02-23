@@ -15,26 +15,26 @@ class Comment extends Model
     protected $dateFormat = 'U';
 
     protected $casts = [
-        'created_at' =>'integer',
-        'updated_at' =>'integer',
+        'created_at' => 'integer',
+        'updated_at' => 'integer',
     ];
 
-    public function user ()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function events ()
+    public function events()
     {
         return $this->belongsToMany(Event::class);
     }
 
-    public function news ()
+    public function news()
     {
         return $this->belongsToMany(Event::class);
     }
 
-    public function photos ()
+    public function photos()
     {
         return $this->belongsToMany(Photo::class);
     }

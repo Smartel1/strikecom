@@ -1,0 +1,70 @@
+[{ 
+    "_id" : "5b4f4e26376b784f008b4568", 
+    "name" : "Строительство", 
+    "name_en" : "Building"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4569", 
+    "name" : "Транспорт", 
+    "name_en" : "Transport"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456a", 
+    "name" : "Образование", 
+    "name_en" : "Education"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456b", 
+    "name" : "Здравоохранение", 
+    "name_en" : "Health care"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456d", 
+    "name" : "Торговля", 
+    "name_en" : "Trading"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456e", 
+    "name" : "Научные исследования", 
+    "name_en" : "Scientific research"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456f", 
+    "name" : "Электроэнергетика", 
+    "name_en" : "Power industry"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4570", 
+    "name" : "Добывающая промышленность", 
+    "name_en" : "Mining industry"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4571", 
+    "name" : "Сельское хозяйство", 
+    "name_en" : "Agriculture"
+},
+{ 
+    "_id" : "5b853bda3d11d11136f36ea3", 
+    "name" : "Культура", 
+    "name_en" : "Culture"
+},
+{ 
+    "_id" : "5bc884c4d1e1a44f008b4567", 
+    "name" : "Пищепром", 
+    "name_en" : "Food industry"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456c", 
+    "name" : "ЖКХ", 
+    "name_en" : "Housing and communal services"
+},
+{ 
+    "_id" : "5bc884a8d1e1a44e008b4567", 
+    "name" : "Спорт", 
+    "name_en" : "Sport"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4567", 
+    "name" : "Обрабатывающие производства", 
+    "name_en" : "Manufacturing industries"
+}]

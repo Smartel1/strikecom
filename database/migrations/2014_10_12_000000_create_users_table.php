@@ -15,10 +15,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('uid')->unique();
+            $table->string('uuid')->unique();
             $table->string('name')->nullable();
             $table->string('email')->nullable();
+            $table->string('fcm')->nullable();
             $table->boolean('admin')->default(false);
+            $table->boolean('push')->default(false);
+            $table->integer('reward')->default(0);
             $table->string('image_url', 500)->nullable();
             $table->bigInteger('created_at')->nullable();
             $table->bigInteger('updated_at')->nullable();

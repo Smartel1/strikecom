@@ -13,21 +13,21 @@ class Photo extends Model
     protected $dateFormat = 'U';
 
     protected $casts = [
-        'created_at' =>'integer',
-        'updated_at' =>'integer',
+        'created_at'    => 'integer',
+        'updated_at'    => 'integer',
     ];
 
-    public function events ()
+    public function events()
     {
         return $this->belongsToMany(Event::class);
     }
 
-    public function news ()
+    public function news()
     {
         return $this->belongsToMany(News::class);
     }
 
-    public function comments ()
+    public function comments()
     {
         return $this->belongsToMany(Comment::class);
     }

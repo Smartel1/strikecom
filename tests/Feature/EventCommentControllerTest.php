@@ -37,7 +37,7 @@ class EventCommentControllerTest extends TestCase
 
         DB::table('users')->insert([
             'id'            => 1,
-            'uid'           => 'tasd446d6a4sd46as4d6',
+            'uuid'           => 'tasd446d6a4sd46as4d6',
             'name'          => 'John Doe',
             'email'         => 'jd@mail.ty',
             'admin'         => true,

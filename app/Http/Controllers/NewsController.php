@@ -9,6 +9,7 @@ use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\News;
 use App\Services\TagService;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -43,10 +44,14 @@ class NewsController extends Controller
     {
         $this->authorize('create', News::class);
 
-        $news = News::create($request->validated());
+        $news = Auth::check()
+            ? Auth::user()->news()->create($request->validated())
+            : News::create($request->validated());
 
-        foreach ($request->get('image_urls', []) as $image) {
-            $news->photos()->create(['url' => $image]);
+        foreach ($request->get('photo_urls', []) as $url) {
+            $news->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));
@@ -69,8 +74,10 @@ class NewsController extends Controller
 
         $news->photos()->delete();
 
-        foreach (array_get($request->validated(), 'image_urls', []) as $image) {
-            $news->photos()->create(['url' => $image]);
+        foreach ($request->get('photo_urls', []) as $url) {
+            $news->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));

@@ -9,7 +9,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @description Запрос на создание комментария
  * @summary Создать комментарий
  * @content содержание
- * @image_urls массив ссылок на картинки
+ * @photo_urls массив ссылок на фото
+ * @videos массив видео
  * @package App\Http\Requests\Comment
  */
 class CommentStoreRequest extends FormRequest
@@ -32,9 +33,12 @@ class CommentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'       => 'required|min:3',
-            'image_urls'    => 'nullable|array',
-            'image_urls.*'  => 'string|max:500',
+            'content'              => 'required|min:3',
+            'photo_urls'           => 'nullable|array',
+            'photo_urls.*'         => 'required|string|max:500',
+            'videos'               => 'nullable|array',
+            'videos.*.url'         => 'required|string|max:500',
+            'videos.*.preview_url' => 'nullable|string|max:500',
         ];
     }
 }

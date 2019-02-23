@@ -18,7 +18,7 @@ class CreateConflictsTable extends Migration
             $table->string('title');
             $table->double('latitude');
             $table->double('longitude');
-            $table->string('company_name', 500);
+            $table->string('company_name', 500)->nullable();
             $table->bigInteger('date_from')->nullable();
             $table->bigInteger('date_to')->nullable();
             $table->integer('conflict_reason_id')->nullable();

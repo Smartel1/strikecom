@@ -22,11 +22,12 @@ class News extends Model
     protected $dates = ['date'];
 
     protected $casts = [
-        'latitude' => 'double',
-        'longitude' => 'double',
-        'date' =>'integer',
-        'created_at' =>'integer',
-        'updated_at' =>'integer'
+        'latitude'   => 'double',
+        'longitude'  => 'double',
+        'date'       => 'integer',
+        'user_id'    => 'integer',
+        'created_at' => 'integer',
+        'updated_at' => 'integer'
     ];
 
     public function status()
@@ -34,27 +35,27 @@ class News extends Model
         return $this->belongsTo(EventStatus::class);
     }
 
-    public function type ()
+    public function type()
     {
         return $this->belongsTo(EventType::class);
     }
 
-    public function user ()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function comments ()
+    public function comments()
     {
         return $this->belongsToMany(Comment::class);
     }
 
-    public function photos ()
+    public function photos()
     {
         return $this->belongsToMany(Photo::class);
     }
 
-    public function tags ()
+    public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }

@@ -15,10 +15,12 @@ class CreateIndustriesTable extends Migration
     {
         Schema::create('industries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name_ru')->nullable();
+            $table->string('name_en')->nullable();
+            $table->string('name_es')->nullable();
         });
 
-        (new \RefSeeders\IndustrySeeder())->run();
+//        (new \RefSeeders\IndustrySeeder())->run();
     }
 
     /**

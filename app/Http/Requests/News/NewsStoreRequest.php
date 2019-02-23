@@ -13,7 +13,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @date дата unix-timestamp
  * @source_link ссылка на источник
  * @tags массив тэгов
- * @image_urls массив ссылок на изображения
+ * @photo_urls массив ссылок на фото
+ * @videos массив видео
  * @package App\Http\Requests\News
  */
 class NewsStoreRequest extends FormRequest
@@ -36,14 +37,17 @@ class NewsStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'             => 'required|min:3|max:255',
-            'content'           => 'required|min:3',
-            'date'              => 'required|integer',
-            'source_link'       => 'nullable|string|max:500',
-            'tags'              => 'nullable|array',
-            'tags.*'            => 'string|min:2|max:20',
-            'image_urls'        => 'nullable|array',
-            'image_urls.*'      => 'string|max:500',
+            'title'                => 'required|min:3|max:255',
+            'content'              => 'required|min:3',
+            'date'                 => 'required|integer',
+            'source_link'          => 'nullable|string|max:500',
+            'tags'                 => 'nullable|array',
+            'tags.*'               => 'string|min:2|max:20',
+            'photo_urls'           => 'nullable|array',
+            'photo_urls.*'         => 'required|string|max:500',
+            'videos'               => 'nullable|array',
+            'videos.*.url'         => 'required|string|max:500',
+            'videos.*.preview_url' => 'nullable|string|max:500',
         ];
     }
 }

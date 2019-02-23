@@ -9,6 +9,7 @@ use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventShowRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
 use App\Services\TagService;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -43,10 +44,14 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        $event = Event::create($request->validated());
+        $event = Auth::check()
+            ? Auth::user()->events()->create($request->validated())
+            : Event::create($request->validated());
 
-        foreach ($request->get('image_urls', []) as $image) {
-            $event->photos()->create(['url' => $image]);
+        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
+            $event->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         $this->tagService->updateEventTags($event, $request->get('tags', []));
@@ -69,8 +74,10 @@ class EventController extends Controller
 
         $event->photos()->delete();
 
-        foreach (array_get($request->validated(), 'image_urls', []) as $image) {
-            $event->photos()->create(['url' => $image]);
+        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
+            $event->photos()->create([
+                'url'           => $url,
+            ]);
         }
 
         $this->tagService->updateEventTags($event, $request->get('tags', []));
