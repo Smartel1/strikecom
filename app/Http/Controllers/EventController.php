@@ -29,8 +29,12 @@ class EventController extends Controller
     public function index(EventIndexRequest $request)
     {
         $tag_id = array_get($request->validated(),'filters.tag_id');
+        $conflict_id = array_get($request->validated(),'filters.conflict_id');
 
         return Event::with($this->relations)
+            ->when($conflict_id, function($query) use ($conflict_id){
+                $query->where('conflict_id', $conflict_id);
+            })
             ->when($tag_id, function($query) use ($tag_id){
                 $query->whereHas('tags', function($query) use ($tag_id){
                     $query->where('id', $tag_id);
