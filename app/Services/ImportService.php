@@ -285,7 +285,7 @@ class ImportService
             $userId = null;
 
             if (array_get($item, 'creator')) {
-                $user = $users->where('_id', array_get($item, 'creator'))->first();
+                $user = $users->where('uuid', array_get($item, 'creator'))->first();
 
                 if (!$user) {
                     \Log::error("Не удалось привязать пользователя к событию $uuid");
@@ -403,10 +403,10 @@ class ImportService
             $userId = null;
 
             if (array_get($item, 'creator')) {
-                $user = $users->where('_id', array_get($item, 'creator'))->first();
+                $user = $users->where('uuid', array_get($item, 'creator'))->first();
 
                 if (!$user) {
-                    \Log::error("Не удалось привязать пользователя к событию $uuid");
+                    \Log::error("Не удалось привязать пользователя к новости $uuid");
                 } else {
                     $userId = $user->id;
                 }
