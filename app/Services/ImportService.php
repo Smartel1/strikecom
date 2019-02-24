@@ -396,7 +396,7 @@ class ImportService
 
         foreach (json_decode($json, true) as $item) {
 
-            if (!array_has($item, 'inDisput')) continue;
+            if (array_has($item, 'inDisput')) continue;
 
             $uuid = $item['_id'];
 
