@@ -71,7 +71,10 @@ class NewsControllerTest extends TestCase
             'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
             'tags'              => ['нищета', 'голод'],
-            'image_urls'        => ['images/ff.gif'],
+            'photo_urls'        => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(200);
     }
@@ -87,7 +90,8 @@ class NewsControllerTest extends TestCase
             'date'              => 15,
             'source_link'       => [],
             'tags'              => '55',
-            'image_urls'        => 'images/ff.gif',
+            'photo_urls'        => 'images/ff.gif',
+            'videos'            => [[]],
         ])
             ->assertStatus(422);
     }
@@ -112,7 +116,10 @@ class NewsControllerTest extends TestCase
             'date'              => 1544690093,
             'source_link'       => 'https://domain.ru/img.png',
             'tags'              => ['голод'],
-            'image_urls'        => ['images/ff.gif'],
+            'photo_urls'        => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(200);
     }
@@ -137,7 +144,8 @@ class NewsControllerTest extends TestCase
             'date'              => 15,
             'source_link'       => [],
             'tags'              => '55',
-            'image_urls'        => 'images/ff.gif',
+            'photo_urls'        => 'images/ff.gif',
+            'videos'            => [],
         ])
             ->assertStatus(422);
     }
@@ -155,7 +163,10 @@ class NewsControllerTest extends TestCase
             'date'              => '2018-10-02',
             'source_link'       => 'https://domain.ru/img.png',
             'tags'              => ['голод'],
-            'image_urls'        => ['images/ff.gif'],
+            'photo_urls'        => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(404);
     }

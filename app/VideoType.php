@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MediaType extends Model
+class VideoType extends Model
 {
     protected $fillable = [
-        'name',
+        'code'
     ];
 
     public $timestamps = false;

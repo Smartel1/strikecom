@@ -65,4 +65,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function videos()
+    {
+        return $this->belongsToMany(Video::class);
+    }
 }

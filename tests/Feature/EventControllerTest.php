@@ -99,7 +99,10 @@ class EventControllerTest extends TestCase
             'event_status_id' => '1',
             'event_type_id'   => '3',
             'tags'            => ['нищета', 'голод'],
-            'image_urls'      => ['images/ff.gif'],
+            'photo_urls'      => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(200);
     }
@@ -120,7 +123,8 @@ class EventControllerTest extends TestCase
             'event_status_id' => -1,
             'event_type_id'   => -1,
             'tags'            => '55',
-            'image_urls'      => 'images/ff.gif',
+            'photo_urls'      => 'images/ff.gif',
+            'videos'          => [[]],
         ])
             ->assertStatus(422);
     }
@@ -148,7 +152,10 @@ class EventControllerTest extends TestCase
             'event_status_id' => '2',
             'event_type_id'   => '5',
             'tags'            => ['голод'],
-            'image_urls'      => ['images/ff.gif'],
+            'photo_urls'      => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(200);
     }
@@ -176,7 +183,8 @@ class EventControllerTest extends TestCase
             'event_status_id' => -1,
             'event_type_id'   => -1,
             'tags'            => '55',
-            'image_urls'      => 'images/ff.gif',
+            'photo_urls'      => 'images/ff.gif',
+            'videos'          => [[]],
         ])
             ->assertStatus(422);
     }
@@ -196,7 +204,10 @@ class EventControllerTest extends TestCase
             'event_status_id' => '2',
             'event_type_id'   => '5',
             'tags'            => ['голод'],
-            'image_urls'      => ['images/ff.gif'],
+            'photo_urls'      => ['images/ff.gif'],
+            'videos'            => [
+                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            ],
         ])
             ->assertStatus(404);
     }

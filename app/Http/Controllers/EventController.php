@@ -15,7 +15,7 @@ class EventController extends Controller
 {
     protected $tagService;
 
-    protected $relations = ['photos', 'user', 'tags', 'conflict'];
+    protected $relations = ['photos', 'videos' ,'user', 'tags', 'conflict'];
 
     /**
      * EventController constructor.
@@ -58,6 +58,10 @@ class EventController extends Controller
             ]);
         }
 
+        foreach (array_get($request->validated(), 'videos', []) as $video) {
+            $event->videos()->create($video);
+        }
+
         $this->tagService->updateEventTags($event, $request->get('tags', []));
 
         return $event->fresh($this->relations);
@@ -77,11 +81,16 @@ class EventController extends Controller
         $event->update($request->validated());
 
         $event->photos()->delete();
+        $event->videos()->delete();
 
         foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
             $event->photos()->create([
                 'url'           => $url,
             ]);
+        }
+
+        foreach (array_get($request->validated(), 'videos', []) as $video) {
+            $event->videos()->create($video);
         }
 
         $this->tagService->updateEventTags($event, $request->get('tags', []));

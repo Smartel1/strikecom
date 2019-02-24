@@ -59,4 +59,9 @@ class News extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function videos()
+    {
+        return $this->belongsToMany(Video::class);
+    }
 }

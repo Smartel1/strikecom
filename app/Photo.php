@@ -10,6 +10,8 @@ class Photo extends Model
         'url',
     ];
 
+    protected $hidden = ['pivot'];
+
     protected $dateFormat = 'U';
 
     protected $casts = [

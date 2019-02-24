@@ -15,7 +15,7 @@ class NewsController extends Controller
 {
     protected $tagService;
 
-    protected $relations = ['photos', 'user', 'tags'];
+    protected $relations = ['photos', 'videos', 'user', 'tags'];
 
     /**
      * NewsController constructor.
@@ -54,6 +54,10 @@ class NewsController extends Controller
             ]);
         }
 
+        foreach (array_get($request->validated(), 'videos', []) as $video) {
+            $news->videos()->create($video);
+        }
+
         $this->tagService->updateNewsTags($news, $request->get('tags', []));
 
         return $news->fresh($this->relations);
@@ -73,11 +77,16 @@ class NewsController extends Controller
         $news->update($request->validated());
 
         $news->photos()->delete();
+        $news->videos()->delete();
 
         foreach ($request->get('photo_urls', []) as $url) {
             $news->photos()->create([
                 'url'           => $url,
             ]);
+        }
+
+        foreach (array_get($request->validated(), 'videos', []) as $video) {
+            $news->videos()->create($video);
         }
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));

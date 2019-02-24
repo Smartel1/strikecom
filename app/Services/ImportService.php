@@ -14,6 +14,7 @@ use App\MediaType;
 use App\News;
 use App\Region;
 use App\User;
+use App\VideoType;
 
 class ImportService
 {
@@ -318,6 +319,21 @@ class ImportService
                 ]);
             }
 
+            $videos = (array) array_get($item, 'videos');
+
+            foreach ($videos as $video) {
+
+                $type = array_get($video, 'type');
+
+                if ($type === -2) continue;
+
+                $event->videos()->create([
+                    'url'           => array_get($video, 'link'),
+                    'preview_url'   => array_get($video, 'image'),
+                    'video_type_id' => $this->defineVideoTypeId($type),
+                ]);
+            }
+
             $inn = array_get($item, 'inn');
 
             if ($inn) {
@@ -432,6 +448,21 @@ class ImportService
                     'url'           => $imageUrl,
                 ]);
             }
+
+            $videos = (array) array_get($item, 'videos');
+
+            foreach ($videos as $video) {
+
+                $type = array_get($video, 'type');
+
+                if ($type === -2) continue;
+
+                $news->videos()->create([
+                    'url'           => array_get($video, 'link'),
+                    'preview_url'   => array_get($video, 'image'),
+                    'video_type_id' => $this->defineVideoTypeId($type),
+                ]);
+            }
         }
 
        return $collection;
@@ -484,11 +515,10 @@ class ImportService
      * @param $type
      * @return mixed
      */
-    private function defineMediaTypeId($type)
+    private function defineVideoTypeId($type)
     {
-        if ($type === 0) return MediaType::whereName('youtube_link')->value('id');
-        if ($type === 1) return MediaType::whereName('vk_link')->value('id');
-        if ($type === -2) return MediaType::whereName('photo_url')->value('id');
-        return MediaType::whereName('other')->value('id');
+        if ($type === 0) return VideoType::whereCode('youtube_link')->value('id');
+        if ($type === 1) return VideoType::whereCode('vk_link')->value('id');
+        return VideoType::whereCode('other')->value('id');
     }
 }
