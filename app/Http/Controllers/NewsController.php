@@ -36,7 +36,7 @@ class NewsController extends Controller
             });
         })
             ->with($this->relations)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('date', 'desc')
             ->paginate(array_get($request, 'per_page', 20));
     }
 

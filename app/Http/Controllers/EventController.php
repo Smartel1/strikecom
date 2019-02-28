@@ -40,7 +40,7 @@ class EventController extends Controller
                     $query->where('id', $tag_id);
                 });
             })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('date', 'desc')
             ->paginate(array_get($request, 'per_page', 20));
     }
 
