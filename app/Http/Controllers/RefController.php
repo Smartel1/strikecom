@@ -32,4 +32,38 @@ class RefController extends Controller
             'regions',
             'videoTypes');
     }
+
+    public function checkSum()
+    {
+        $eventTypeCheckSum = EventType::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $conflictReasonCheckSum = ConflictReason::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $conflictResultCheckSum = ConflictResult::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $eventStatusCheckSum = EventStatus::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $industryCheckSum = Industry::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $regionCheckSum = Region::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        $videoTypeCheckSum = VideoType::get()->reduce(function($carry, $item){
+            return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
+        });
+
+        return md5($eventTypeCheckSum . $conflictReasonCheckSum . $conflictResultCheckSum . $eventStatusCheckSum
+        . $industryCheckSum . $regionCheckSum . $videoTypeCheckSum);
+    }
 }

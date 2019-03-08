@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
 
-    Route::get('references', 'RefController@index');
+    Route::get('reference', 'RefController@index');
+
+    Route::get('reference-checksum', 'RefController@checkSum');
 
     Route::apiResource('conflict', 'ConflictController');
 
