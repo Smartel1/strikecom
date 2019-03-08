@@ -6,8 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ConflictShowRequest
- * @description Запрос на получение события
- * @summary Найти событие
+ * @description Запрос на получение конфликта
+ * @summary Найти конфликт
  * @package App\Http\Requests\Conflict
  */
 class ConflictShowRequest extends FormRequest

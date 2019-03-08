@@ -296,8 +296,12 @@ class ImportService
             }
 
             $event = Event::create([
-                'title'           => array_get($item, 'name'),
-                'content'         => array_get($item, 'content'),
+                'title_ru'        => array_get($item, 'name'),
+                'title_en'        => array_get($item, 'name_en'),
+                'title_es'        => array_get($item, 'name_es'),
+                'content_ru'      => array_get($item, 'content'),
+                'content_en'      => array_get($item, 'content_en'),
+                'content_es'      => array_get($item, 'content_es'),
                 'date'            => array_get($item, 'date'),
                 'views'           => array_get($item, 'count_view', 0),
                 'source_link'     => array_get($item, 'link'),
@@ -429,8 +433,12 @@ class ImportService
             }
 
             $news = News::create([
-                'title'           => array_get($item, 'name'),
-                'content'         => array_get($item, 'content'),
+                'title_ru'        => array_get($item, 'name'),
+                'title_en'        => array_get($item, 'name_en'),
+                'title_es'        => array_get($item, 'name_es'),
+                'content_ru'      => array_get($item, 'content'),
+                'content_en'      => array_get($item, 'content_en'),
+                'content_es'      => array_get($item, 'content_es'),
                 'date'            => array_get($item, 'date'),
                 'views'           => array_get($item, 'count_view', 0),
                 'source_link'     => array_get($item, 'link'),

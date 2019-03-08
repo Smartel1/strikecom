@@ -15,8 +15,12 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->text('content');
+            $table->string('title_ru')->nullable();
+            $table->string('title_en')->nullable();
+            $table->string('title_es')->nullable();
+            $table->text('content_ru')->nullable();
+            $table->text('content_en')->nullable();
+            $table->text('content_es')->nullable();
             $table->bigInteger('date');
             $table->integer('views')->default(0);
             $table->string('source_link', 500)->nullable();

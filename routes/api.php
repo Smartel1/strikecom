@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware'=>'tokenAuth'],function (){
+Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
 
     Route::get('references', 'RefController@index');
 

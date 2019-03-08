@@ -22,7 +22,7 @@ class ReferenceControllerTest extends TestCase
         DB::table('conflict_results')->where('id','>',3)->delete();
 
         //запрос на список конфликтов
-        $response = $this->get('/api/references');
+        $response = $this->get('/api/ru/references');
 
         $response->assertStatus(200);
     }

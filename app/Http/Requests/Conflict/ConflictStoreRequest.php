@@ -9,6 +9,9 @@ use Illuminate\Foundation\Http\FormRequest;
  * @description Запрос на создание конфликта
  * @summary Создание конфликта
  * @title Заголовок
+ * @title_ru Заголовок на русском
+ * @title_en Заголовок на английском
+ * @title_es Заголовок на испанском
  * @latitude Долгота
  * @longitude Широта
  * @company_name Наименование предприятия
@@ -40,7 +43,10 @@ class ConflictStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'         => 'required|string|max:255',
+            'title'         => 'nullable|string|max:255',
+            'title_ru'      => 'nullable|string|max:255',
+            'title_en'      => 'nullable|string|max:255',
+            'title_es'      => 'nullable|string|max:255',
             'latitude'      => 'required|numeric',
             'longitude'     => 'required|numeric',
             'company_name'  => 'nullable|string|min:3|max:500',
@@ -57,6 +63,9 @@ class ConflictStoreRequest extends FormRequest
     {
         return [
             'title'         => 'заголовок',
+            'title_ru'      => 'заголовок на русском',
+            'title_en'      => 'заголовок на ангийском',
+            'title_es'      => 'заголовок на испанском',
             'latitude'      => 'долгота',
             'longitude'     => 'широта',
             'company_name'  => 'наименование предприятия',

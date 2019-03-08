@@ -6,9 +6,54 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
+    protected static function boot()
+    {
+        parent::boot();
+
+        //При сохранении модели мы поле title перезаписываем в поле title_ru [en/es]
+        self::creating(function($model){
+
+            $locale = app('locale');
+
+            if (array_has($model, 'title') and $locale !== 'all') {
+                $model["title_$locale"] = $model['title'];
+            }
+
+            unset($model['title']);
+
+            if (array_has($model, 'content') and $locale !== 'all') {
+                $model["content_$locale"] = $model['content'];
+            }
+
+            unset($model['content']);
+        });
+
+        self::updating(function($model){
+
+            $locale = app('locale');
+
+            if (array_has($model, 'title') and $locale !== 'all') {
+                $model["title_$locale"] = $model['title'];
+            }
+
+            unset($model['title']);
+
+            if (array_has($model, 'content') and $locale !== 'all') {
+                $model["content_$locale"] = $model['content'];
+            }
+
+            unset($model['content']);
+        });
+    }
+
     protected $fillable = [
         'title',
-        'content',
+        'title_ru',
+        'title_en',
+        'title_es',
+        'content_ru',
+        'content_en',
+        'content_es',
         'date',
         'views',
         'source_link',

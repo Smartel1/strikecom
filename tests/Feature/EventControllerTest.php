@@ -18,7 +18,7 @@ class EventControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'                 => 1,
-            'title'              => 'Острый конфликт',
+            'title_ru'              => 'Острый конфликт',
             'latitude'           => 1351315135.45,
             'longitude'          => 1256413515.45,
             'company_name'       => 'ЗАО ПАО',
@@ -41,15 +41,15 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'              => 1,
             'conflict_id'     => 1,
-            'title'           => 'Трудовой конфликт',
-            'content'         => 'Такие вот дела',
+            'title_ru'           => 'Трудовой конфликт',
+            'content_ru'         => 'Такие вот дела',
             'date'            => 1544680093,
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
         ]);
 
-        $this->get('/api/event')
+        $this->get('/api/ru/event')
             ->assertStatus(200);
     }
 
@@ -63,12 +63,12 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title'       => 'Трудовой конфликт',
-            'content'     => 'Такие вот дела',
+            'title_ru'       => 'Трудовой конфликт',
+            'content_ru'     => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->get('/api/event/1')
+        $this->get('/api/ru/event/1')
             ->assertStatus(200);
     }
 
@@ -79,7 +79,7 @@ class EventControllerTest extends TestCase
     {
         $this->clearConflictsAndAddOne();
 
-        $this->get('/api/event/1')
+        $this->get('/api/ru/event/1')
             ->assertStatus(404);
     }
 
@@ -90,7 +90,7 @@ class EventControllerTest extends TestCase
     {
         $this->clearConflictsAndAddOne();
 
-        $this->post('/api/event', [
+        $this->post('/api/ru/event', [
             'conflict_id'     => '1',
             'title'           => 'Беда в городе',
             'content'         => 'Рабы кричат и гневятся',
@@ -104,7 +104,7 @@ class EventControllerTest extends TestCase
                 ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
             ],
         ])
-            ->assertStatus(200);
+            ->assertStatus(201);
     }
 
     /**
@@ -114,7 +114,7 @@ class EventControllerTest extends TestCase
     {
         $this->clearConflictsAndAddOne();
 
-        $this->post('/api/event', [
+        $this->post('/api/ru/event', [
             'conflict_id'     => -1,
             'title'           => [],
             'content'         => [],
@@ -139,12 +139,12 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title'       => 'Трудовой конфликт',
-            'content'     => 'Такие вот дела',
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->put('/api/event/1', [
+        $this->put('/api/ru/event/1', [
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,
@@ -153,7 +153,7 @@ class EventControllerTest extends TestCase
             'event_type_id'   => '5',
             'tags'            => ['голод'],
             'photo_urls'      => ['images/ff.gif'],
-            'videos'            => [
+            'videos'          => [
                 ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
             ],
         ])
@@ -170,12 +170,12 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title'       => 'Трудовой конфликт',
-            'content'     => 'Такие вот дела',
+            'title_ru'       => 'Трудовой конфликт',
+            'content_ru'     => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->put('/api/event/1', [
+        $this->put('/api/ru/event/1', [
             'title'           => [],
             'content'         => [],
             'date'            => 15,
@@ -196,7 +196,7 @@ class EventControllerTest extends TestCase
     {
         $this->clearConflictsAndAddOne();
 
-        $this->put('/api/event/1', [
+        $this->put('/api/ru/event/1', [
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => '2018-10-02',
@@ -222,12 +222,12 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title'       => 'Трудовой конфликт',
-            'content'     => 'Такие вот дела',
+            'title_ru'       => 'Трудовой конфликт',
+            'content_ru'     => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->delete('/api/event/1')
+        $this->delete('/api/ru/event/1')
             ->assertStatus(200);
     }
 
@@ -238,7 +238,7 @@ class EventControllerTest extends TestCase
     {
         $this->clearConflictsAndAddOne();
 
-        $this->delete('/api/event/1')
+        $this->delete('/api/ru/event/1')
             ->assertStatus(404);
     }
 }

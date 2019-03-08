@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class ConflictDestroyRequest
  * @description Запрос на удаление события
- * @summary Удалить событие
+ * @summary Удалить конфликт
  * @package App\Http\Requests\Conflict
  */
 class ConflictDestroyRequest extends FormRequest

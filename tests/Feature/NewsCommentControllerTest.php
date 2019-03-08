@@ -20,8 +20,8 @@ class NewsCommentControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'            => 1,
-            'title'         => 'Новость из соседнего села',
-            'content'       => 'Такие вот дела',
+            'title_ru'         => 'Новость из соседнего села',
+            'content_ru'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
@@ -51,7 +51,7 @@ class NewsCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get('/api/news/1/comment')
+        $this->get('/api/ru/news/1/comment')
             ->assertStatus(200);
     }
 
@@ -66,7 +66,7 @@ class NewsCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->get("/api/news/1/comment/$comment->id")
+        $this->get("/api/ru/news/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -77,7 +77,7 @@ class NewsCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->get('/api/news/1/comment/2')
+        $this->get('/api/ru/news/1/comment/2')
             ->assertStatus(404);
     }
 
@@ -88,11 +88,11 @@ class NewsCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->post('/api/news/1/comment', [
+        $this->post('/api/ru/news/1/comment', [
                 'content'       => 'Надо реагировать!',
                 'image_urls'    => ['https://heroku.com/image.png']
             ])
-            ->assertStatus(200);
+            ->assertStatus(201);
     }
 
     /**
@@ -102,7 +102,7 @@ class NewsCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->post('/api/news/1/comment', [
+        $this->post('/api/ru/news/1/comment', [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -120,7 +120,7 @@ class NewsCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/news/1/comment/$comment->id", [
+        $this->put("/api/ru/news/1/comment/$comment->id", [
             'content'       => 'Надо что-то думать!',
             'image_urls'    => ['https://heroku.com/image.png']
         ])
@@ -138,7 +138,7 @@ class NewsCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->put("/api/news/1/comment/$comment->id", [
+        $this->put("/api/ru/news/1/comment/$comment->id", [
             'content'       => 1,
             'image_urls'    => 1
         ])
@@ -152,7 +152,7 @@ class NewsCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->put('/api/news/1/comment/1', [
+        $this->put('/api/ru/news/1/comment/1', [
             'content'       => 'comment',
         ])
             ->assertStatus(404);
@@ -169,7 +169,7 @@ class NewsCommentControllerTest extends TestCase
             'content'         => 'Ну и дела'
         ]);
 
-        $this->delete("/api/news/1/comment/$comment->id")
+        $this->delete("/api/ru/news/1/comment/$comment->id")
             ->assertStatus(200);
     }
 
@@ -180,7 +180,7 @@ class NewsCommentControllerTest extends TestCase
     {
         $this->prepareDB();
 
-        $this->delete('/api/news/1/comment/1')
+        $this->delete('/api/ru/news/1/comment/1')
             ->assertStatus(404);
     }
 }

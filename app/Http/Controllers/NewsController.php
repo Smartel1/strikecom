@@ -7,6 +7,8 @@ use App\Http\Requests\News\NewsIndexRequest;
 use App\Http\Requests\News\NewsShowRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
+use App\Http\Resources\News\NewsDetailResource;
+use App\Http\Resources\News\NewsIndexResource;
 use App\News;
 use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
@@ -26,21 +28,27 @@ class NewsController extends Controller
         $this->tagService = $tagService;
     }
 
-    public function index(NewsIndexRequest $request)
+    public function index(NewsIndexRequest $request, $locale)
     {
         $tag_id = array_get($request->validated(), 'filters.tag_id');
 
-        return News::when($tag_id, function ($query) use ($tag_id) {
+        $news = News::when($tag_id, function ($query) use ($tag_id) {
             $query->whereHas('tags', function ($query) use ($tag_id) {
                 $query->where('id', $tag_id);
             });
         })
-            ->with($this->relations)
+            //Только локализованные записи
+            ->when($locale !== 'all', function ($query) use ($locale){
+                $query->whereNotNull("title_$locale")->whereNotNull("content_$locale");
+            })
+            ->with(['photos', 'videos', 'user', 'tags'])
             ->orderBy('date', 'desc')
             ->paginate(array_get($request, 'per_page', 20));
+
+        return NewsIndexResource::collection($news);
     }
 
-    public function store(NewsStoreRequest $request)
+    public function store(NewsStoreRequest $request, $locale)
     {
         $this->authorize('create', News::class);
 
@@ -60,17 +68,17 @@ class NewsController extends Controller
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));
 
-        return $news->fresh($this->relations);
+        return NewsDetailResource::make($news);
     }
 
-    public function show(NewsShowRequest $request, News $news)
+    public function show(NewsShowRequest $request, $locale, News $news)
     {
         $news->increment('views');
 
-        return $news->fresh(array_merge($this->relations, ['comments.photos']));
+        return NewsDetailResource::make($news);
     }
 
-    public function update(NewsUpdateRequest $request, News $news)
+    public function update(NewsUpdateRequest $request, $locale, News $news)
     {
         $this->authorize('update', $news);
 
@@ -91,10 +99,10 @@ class NewsController extends Controller
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));
 
-        return $news->fresh($this->relations);
+        return NewsDetailResource::make($news);
     }
 
-    public function destroy(NewsDestroyRequest $request, News $news)
+    public function destroy(NewsDestroyRequest $request, $locale, News $news)
     {
         $this->authorize('delete', $news);
 

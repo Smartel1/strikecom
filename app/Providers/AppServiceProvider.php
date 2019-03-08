@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //дефолтная локаль (в первую очередь для консольных скриптов)
+        app()->instance('locale', 'ru');
     }
 
     /**

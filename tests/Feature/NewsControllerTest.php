@@ -21,13 +21,13 @@ class NewsControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'                => 1,
-            'title'             => 'Новости соседнего села',
-            'content'           => 'Такие вот дела',
+            'title_ru'             => 'Новости соседнего села',
+            'content_ru'           => 'Такие вот дела',
             'date'              => 1544680093,
             'source_link'       => 'https://domain.ru/img.gif',
         ]);
 
-        $this->get('/api/news')
+        $this->get('/api/ru/news')
             ->assertStatus(200);
     }
 
@@ -40,12 +40,12 @@ class NewsControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
-            'content'       => 'Такие вот дела',
+            'title_ru'         => 'Трудовой конфликт',
+            'content_ru'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->get('/api/news/1')
+        $this->get('/api/ru/news/1')
             ->assertStatus(200);
     }
 
@@ -56,7 +56,7 @@ class NewsControllerTest extends TestCase
     {
         DB::table('news')->where('id',1)->delete();
 
-        $this->get('/api/news/1')
+        $this->get('/api/ru/news/1')
             ->assertStatus(404);
     }
 
@@ -65,7 +65,7 @@ class NewsControllerTest extends TestCase
      */
     public function testStore ()
     {
-        $this->post('/api/news', [
+        $this->post('/api/ru/news', [
             'title'             => 'Беда в городе',
             'content'           => 'Рабы кричат и гневятся',
             'date'              => 1544680093,
@@ -76,7 +76,7 @@ class NewsControllerTest extends TestCase
                 ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
             ],
         ])
-            ->assertStatus(200);
+            ->assertStatus(201);
     }
 
     /**
@@ -84,7 +84,7 @@ class NewsControllerTest extends TestCase
      */
     public function testStoreInvalid ()
     {
-        $this->post('/api/news', [
+        $this->post('/api/ru/news', [
             'title'             => [],
             'content'           => [],
             'date'              => 15,
@@ -105,12 +105,12 @@ class NewsControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'            => 1,
-            'title'         => 'Новости села',
-            'content'       => 'Такие вот дела',
+            'title_ru'         => 'Новости села',
+            'content_ru'       => 'Такие вот дела',
             'date'          => 1544680093,
         ]);
 
-        $this->put('/api/news/1', [
+        $this->put('/api/ru/news/1', [
             'title'             => 'Беда в мегаполисе',
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => 1544690093,
@@ -133,12 +133,12 @@ class NewsControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'            => 1,
-            'title'         => 'Рабы захотели деньжат',
-            'content'       => 'Богатые дяди визжат',
+            'title_ru'         => 'Рабы захотели деньжат',
+            'content_ru'       => 'Богатые дяди визжат',
             'date'          => 1544680093,
         ]);
 
-        $this->put('/api/news/1', [
+        $this->put('/api/ru/news/1', [
             'title'             => [],
             'content'           => [],
             'date'              => 15,
@@ -157,7 +157,7 @@ class NewsControllerTest extends TestCase
     {
         DB::table('news')->where('id',1)->delete();
 
-        $this->put('/api/news/1', [
+        $this->put('/api/ru/news/1', [
             'title'             => 'Беда в мегаполисе',
             'content'           => 'Рабы беснуются и гневятся',
             'date'              => '2018-10-02',
@@ -180,12 +180,12 @@ class NewsControllerTest extends TestCase
 
         DB::table('news')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой заговор',
-            'content'       => 'Рабочие тайком сговорились работать на совесть',
+            'title_ru'         => 'Трудовой заговор',
+            'content_ru'       => 'Рабочие тайком сговорились работать на совесть',
             'date'          => 1544680093,
         ]);
 
-        $this->delete('/api/news/1')
+        $this->delete('/api/ru/news/1')
             ->assertStatus(200);
     }
 
@@ -196,7 +196,7 @@ class NewsControllerTest extends TestCase
     {
         DB::table('news')->where('id',1)->delete();
 
-        $this->delete('/api/news/1')
+        $this->delete('/api/ru/news/1')
             ->assertStatus(404);
     }
 }

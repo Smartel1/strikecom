@@ -9,16 +9,17 @@ use App\Http\Requests\Comment\CommentIndexRequest;
 use App\Http\Requests\Comment\CommentShowRequest;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Requests\Comment\CommentUpdateRequest;
+use App\Http\Resources\Comment\CommentResource;
 use Illuminate\Support\Facades\Auth;
 
 class EventCommentController extends Controller
 {
-    public function index(CommentIndexRequest $request, Event $event)
+    public function index(CommentIndexRequest $request, $locale, Event $event)
     {
-        return $event->comments()->with('user', 'photos')->get();
+        return CommentResource::collection($event->comments);
     }
 
-    public function store(CommentStoreRequest $request, Event $event)
+    public function store(CommentStoreRequest $request, $locale, Event $event)
     {
         $this->authorize('create', Comment::class);
 
@@ -35,15 +36,15 @@ class EventCommentController extends Controller
             ]);
         }
 
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function show(CommentShowRequest $request, Event $event, Comment $comment)
+    public function show(CommentShowRequest $request, $locale, Event $event, Comment $comment)
     {
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function update(CommentUpdateRequest $request, Event $event, Comment $comment)
+    public function update(CommentUpdateRequest $request, $locale, Event $event, Comment $comment)
     {
         $this->authorize('update', $comment);
 
@@ -57,10 +58,10 @@ class EventCommentController extends Controller
             ]);
         }
 
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function destroy(CommentDestroyRequest $request, Event $event, Comment $comment)
+    public function destroy(CommentDestroyRequest $request, $locale, Event $event, Comment $comment)
     {
         $this->authorize('delete', $comment);
 

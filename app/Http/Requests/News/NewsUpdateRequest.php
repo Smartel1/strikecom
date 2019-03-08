@@ -8,7 +8,13 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventRequest
  * @summary Обновление новости
  * @title заголовок
- * @content тело новости
+ * @title_ru Заголовок на русском
+ * @title_en Заголовок на английском
+ * @title_es Заголовок на испанском
+ * @content тело события
+ * @content_ru тело на русском
+ * @content_en тело на английском
+ * @content_es тело на испанском
  * @date дата unix-timestamp
  * @source_link ссылка на источник
  * @tags массив тэгов
@@ -36,8 +42,14 @@ class NewsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'                 => 'nullable|min:3|max:255',
-            'content'               => 'nullable|min:3',
+            'title'                 => 'nullable|string|max:255',
+            'title_ru'              => 'nullable|string|max:255',
+            'title_en'              => 'nullable|string|max:255',
+            'title_es'              => 'nullable|string|max:255',
+            'content'               => 'nullable|string|min:3',
+            'content_ru'            => 'nullable|string|min:3',
+            'content_en'            => 'nullable|string|min:3',
+            'content_es'            => 'nullable|string|min:3',
             'date'                  => 'nullable|integer',
             'source_link'           => 'nullable|string|max:500',
             'tags'                  => 'nullable|array',

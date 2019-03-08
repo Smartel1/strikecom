@@ -10,7 +10,13 @@ use Illuminate\Foundation\Http\FormRequest;
  * @summary Создание события
  * @conflict_id ид. конфликта
  * @title заголовок
+ * @title_ru Заголовок на русском
+ * @title_en Заголовок на английском
+ * @title_es Заголовок на испанском
  * @content тело события
+ * @content_ru тело на русском
+ * @content_en тело на английском
+ * @content_es тело на испанском
  * @date дата unix-timestamp
  * @source_link ссылка на источник
  * @event_status_id ссылка на статус события
@@ -41,8 +47,14 @@ class EventStoreRequest extends FormRequest
     {
         return [
             'conflict_id'            => 'required|exists:conflicts,id',
-            'title'                  => 'required|min:3|max:255',
-            'content'                => 'required|min:3',
+            'title'                  => 'nullable|string|max:255',
+            'title_ru'               => 'nullable|string|max:255',
+            'title_en'               => 'nullable|string|max:255',
+            'title_es'               => 'nullable|string|max:255',
+            'content'                => 'nullable|string|min:3',
+            'content_ru'             => 'nullable|string|min:3',
+            'content_en'             => 'nullable|string|min:3',
+            'content_es'             => 'nullable|string|min:3',
             'date'                   => 'required|integer',
             'source_link'            => 'nullable|string|max:500',
             'event_status_id'        => 'required|exists:event_statuses,id',

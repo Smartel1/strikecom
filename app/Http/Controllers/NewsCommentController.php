@@ -8,17 +8,18 @@ use App\Http\Requests\Comment\CommentIndexRequest;
 use App\Http\Requests\Comment\CommentShowRequest;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Requests\Comment\CommentUpdateRequest;
+use App\Http\Resources\Comment\CommentResource;
 use App\News;
 use Illuminate\Support\Facades\Auth;
 
 class NewsCommentController extends Controller
 {
-    public function index(CommentIndexRequest $request, News $news)
+    public function index(CommentIndexRequest $request, $locale, News $news)
     {
-        return $news->comments()->with('user', 'photos')->get();
+        return CommentResource::collection($news->comments);
     }
 
-    public function store(CommentStoreRequest $request, News $news)
+    public function store(CommentStoreRequest $request, $locale, News $news)
     {
         $this->authorize('create', Comment::class);
 
@@ -35,15 +36,15 @@ class NewsCommentController extends Controller
             ]);
         }
 
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function show(CommentShowRequest $request, News $news, Comment $comment)
+    public function show(CommentShowRequest $request, $locale, News $news, Comment $comment)
     {
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function update(CommentUpdateRequest $request, News $news, Comment $comment)
+    public function update(CommentUpdateRequest $request, $locale, News $news, Comment $comment)
     {
         $this->authorize('update', $comment);
 
@@ -57,10 +58,10 @@ class NewsCommentController extends Controller
             ]);
         }
 
-        return $comment->fresh('user', 'photos');
+        return CommentResource::make($comment);
     }
 
-    public function destroy(CommentDestroyRequest $request, News $news, Comment $comment)
+    public function destroy(CommentDestroyRequest $request, $locale, News $news, Comment $comment)
     {
         $this->authorize('delete', $comment);
 

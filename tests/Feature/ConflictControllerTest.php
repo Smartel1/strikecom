@@ -18,7 +18,7 @@ class ConflictControllerTest extends TestCase
      */
     public function testIndexBrief ()
     {
-        $this->get('/api/conflict?brief=1')
+        $this->get('/api/ru/conflict?brief=1')
             ->assertStatus(200);
     }
 
@@ -31,7 +31,7 @@ class ConflictControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
+            'title_ru'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
             'company_name'  => 'ПАО АМЗ',
@@ -43,7 +43,7 @@ class ConflictControllerTest extends TestCase
             'region_id'              => 57
         ]);
 
-        $this->get('/api/conflict')
+        $this->get('/api/ru/conflict')
             ->assertStatus(200);
     }
 
@@ -52,7 +52,7 @@ class ConflictControllerTest extends TestCase
      */
     public function testIndexInvalid ()
     {
-        $this->get('/api/conflict?brief=true')
+        $this->get('/api/ru/conflict?brief=true')
             ->assertStatus(422);
     }
 
@@ -65,7 +65,7 @@ class ConflictControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
+            'title_ru'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
             'company_name'  => 'ПАО АМЗ',
@@ -77,7 +77,7 @@ class ConflictControllerTest extends TestCase
             'region_id'              => 57
         ]);
 
-        $this->get('/api/conflict/1')
+        $this->get('/api/ru/conflict/1')
             ->assertStatus(200);
     }
 
@@ -88,7 +88,7 @@ class ConflictControllerTest extends TestCase
     {
         DB::table('conflicts')->where('id',1)->delete();
 
-        $this->get('/api/conflict/1')
+        $this->get('/api/ru/conflict/1')
             ->assertStatus(404);
     }
 
@@ -97,7 +97,7 @@ class ConflictControllerTest extends TestCase
      */
     public function testStore ()
     {
-        $this->post('/api/conflict', [
+        $this->post('/api/ru/conflict', [
             'title'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
@@ -109,7 +109,7 @@ class ConflictControllerTest extends TestCase
             'industry_id'            => 2,
             'region_id'              => 57
         ])
-            ->assertStatus(200);
+            ->assertStatus(201);
     }
 
     /**
@@ -117,7 +117,7 @@ class ConflictControllerTest extends TestCase
      */
     public function testStoreInvalid ()
     {
-        $this->post('/api/conflict', [])
+        $this->post('/api/ru/conflict', [])
             ->assertStatus(422);
     }
 
@@ -130,13 +130,13 @@ class ConflictControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
+            'title_ru'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
             'company_name'  => 'ПАО АМЗ',
         ]);
 
-        $this->put('/api/conflict/1', [
+        $this->put('/api/ru/conflict/1', [
             'title'         => 'Трудовой конфликт',
             'latitude'      => 54.5944,
             'longitude'     => 57.1671,
@@ -160,13 +160,13 @@ class ConflictControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
+            'title_ru'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
             'company_name'  => 'ПАО АМЗ',
         ]);
 
-        $this->put('/api/conflict/1', [
+        $this->put('/api/ru/conflict/1', [
             'title'         => [],
             'latitude'      => [],
             'longitude'     => [],
@@ -188,7 +188,7 @@ class ConflictControllerTest extends TestCase
     {
         DB::table('conflicts')->where('id',1)->delete();
 
-        $this->put('/api/conflict/1', [
+        $this->put('/api/ru/conflict/1', [
             'title'         => 'Трудовой конфликт',
             'latitude'      => 54.5944,
             'longitude'     => 57.1671,
@@ -212,13 +212,13 @@ class ConflictControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'            => 1,
-            'title'         => 'Трудовой конфликт',
+            'title_ru'         => 'Трудовой конфликт',
             'latitude'      => 54.5943,
             'longitude'     => 57.1670,
             'company_name'  => 'ПАО АМЗ',
         ]);
 
-        $this->delete('/api/conflict/1')
+        $this->delete('/api/ru/conflict/1')
             ->assertStatus(200);
     }
 
@@ -229,7 +229,7 @@ class ConflictControllerTest extends TestCase
     {
         DB::table('conflicts')->where('id',1)->delete();
 
-        $this->delete('/api/conflict/1')
+        $this->delete('/api/ru/conflict/1')
             ->assertStatus(404);
     }
 }

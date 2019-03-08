@@ -7,20 +7,21 @@ use App\ConflictResult;
 use App\EventStatus;
 use App\EventType;
 use App\Http\Requests\Reference\ReferenceIndexRequest;
+use App\Http\Resources\Reference\ReferenceResource;
 use App\Industry;
 use App\Region;
 use App\VideoType;
 
 class RefController extends Controller
 {
-    public function index(ReferenceIndexRequest $request)
+    public function index(ReferenceIndexRequest $request, $locale)
     {
-        $eventTypes = EventType::get();
-        $conflictReasons = ConflictReason::get();
-        $conflictResults = ConflictResult::get();
-        $eventStatuses = EventStatus::get();
-        $industries = Industry::get();
-        $regions = Region::get();
+        $eventTypes = ReferenceResource::collection(EventType::get());
+        $conflictReasons = ReferenceResource::collection(ConflictReason::get());
+        $conflictResults = ReferenceResource::collection(ConflictResult::get());
+        $eventStatuses = ReferenceResource::collection(EventStatus::get());
+        $industries = ReferenceResource::collection(Industry::get());
+        $regions = ReferenceResource::collection(Region::get());
         $videoTypes = VideoType::get();
 
         return compact('eventTypes',

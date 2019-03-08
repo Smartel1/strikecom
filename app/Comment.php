@@ -14,6 +14,8 @@ class Comment extends Model
 
     protected $dateFormat = 'U';
 
+    protected $hidden = ['pivot'];
+
     protected $casts = [
         'created_at' => 'integer',
         'updated_at' => 'integer',
