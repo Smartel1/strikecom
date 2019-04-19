@@ -63,7 +63,9 @@ class RefController extends Controller
             return md5($carry . $item->id .$item->name_ru . $item->name_en . $item->name_es);
         });
 
-        return md5($eventTypeCheckSum . $conflictReasonCheckSum . $conflictResultCheckSum . $eventStatusCheckSum
-        . $industryCheckSum . $regionCheckSum . $videoTypeCheckSum);
+        return [
+            'checkSum' => md5($eventTypeCheckSum . $conflictReasonCheckSum . $conflictResultCheckSum . $eventStatusCheckSum
+                . $industryCheckSum . $regionCheckSum . $videoTypeCheckSum)
+        ];
     }
 }
