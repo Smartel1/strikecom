@@ -1,14 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EventType extends Model
+class Tag extends Model
 {
     protected $fillable = [
-        'name_ru', 'name_en', 'name_es',
+        'name',
     ];
+
+    protected $hidden = ['pivot'];
 
     public $timestamps = false;
 }

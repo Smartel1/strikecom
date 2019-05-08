@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Event;
 use Illuminate\Database\Eloquent\Model;
 
 class Conflict extends Model

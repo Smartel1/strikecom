@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Event;
-use App\Comment;
-use App\Conflict;
-use App\News;
+use App\Models\ClientVersion;
+use App\Models\Event;
+use App\Models\Comment;
+use App\Models\Conflict;
+use App\Models\News;
+use App\Policies\ClientVersionPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
 use App\Policies\EventPolicy;
@@ -20,10 +22,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        Conflict::class => ConflictPolicy::class,
-        Event::class    => EventPolicy::class,
-        News::class     => NewsPolicy::class,
-        Comment::class  => CommentPolicy::class,
+        Conflict::class      => ConflictPolicy::class,
+        Event::class         => EventPolicy::class,
+        News::class          => NewsPolicy::class,
+        Comment::class       => CommentPolicy::class,
+        ClientVersion::class => ClientVersionPolicy::class,
     ];
 
     /**

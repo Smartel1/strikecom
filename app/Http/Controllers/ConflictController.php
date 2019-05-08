@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Conflict;
+use App\Models\Conflict;
 use App\Http\Requests\Conflict\ConflictDestroyRequest;
 use App\Http\Requests\Conflict\ConflictIndexRequest;
 use App\Http\Requests\Conflict\ConflictShowRequest;

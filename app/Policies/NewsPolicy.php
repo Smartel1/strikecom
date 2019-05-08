@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
-use App\Event;
-use App\News;
-use App\User;
+use App\Models\Event;
+use App\Models\News;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class NewsPolicy

@@ -9,6 +9,8 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
 
     Route::get('reference-checksum', 'RefController@checkSum');
 
+    Route::resource('client-version', 'ClientVersionController', ['only' => ['index', 'store', 'destroy']]);
+
     Route::apiResource('conflict', 'ConflictController');
 
     Route::apiResource('event', 'EventController');

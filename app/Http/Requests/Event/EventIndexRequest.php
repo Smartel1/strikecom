@@ -11,7 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters Необязательный массив фильтров. Может содержать ключ conflict_id, чтобы вывести только привязанные
  * к конкретному конфликту новости и tag_id для вывода новостей с тегом
  * @filters.tag_id индентификатор тэга, который содержится в событиях
- * @filters.conflict_id индентификатор конфликта, к которому относится событие
+ * @filters.conflict_ids индентификаторы конфликтов, к которым относится событие
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests
@@ -36,11 +36,12 @@ class EventIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'filters'             => 'nullable|array',
-            'filters.tag_id'      => 'nullable|integer',
-            'filters.conflict_id' => 'nullable|integer',
-            'per_page'            => 'integer|min:1',
-            'page'                => 'integer',
+            'filters'                => 'nullable|array',
+            'filters.tag_id'         => 'nullable|integer',
+            'filters.conflict_ids'   => 'nullable|array',
+            'filters.conflict_ids.*' => 'integer',
+            'per_page'               => 'integer|min:1',
+            'page'                   => 'integer',
         ];
     }
 }

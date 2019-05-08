@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Conflict;
-use App\Event;
-use App\News;
+use App\Models\Conflict;
+use App\Models\Event;
+use App\Models\News;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 

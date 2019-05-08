@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Conflict;
+use App\Models\ClientVersion;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ConflictPolicy
+class ClientVersionPolicy
 {
     use HandlesAuthorization;
 
@@ -20,12 +20,7 @@ class ConflictPolicy
         return false;
     }
 
-    public function update (User $user, Conflict $conflict)
-    {
-        return false;
-    }
-
-    public function delete (User $user, Conflict $conflict)
+    public function delete (User $user, ClientVersion $clientVersion)
     {
         return false;
     }

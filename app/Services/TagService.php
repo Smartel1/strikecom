@@ -3,9 +3,9 @@
 namespace App\Services;
 
 
-use App\Event;
-use App\News;
-use App\Tag;
+use App\Models\Event;
+use App\Models\News;
+use App\Models\Tag;
 
 class TagService
 {

@@ -9,9 +9,10 @@ use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
 use App\Http\Resources\News\NewsIndexResource;
-use App\News;
+use App\Models\News;
 use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -52,9 +53,13 @@ class NewsController extends Controller
     {
         $this->authorize('create', News::class);
 
+        DB::beginTransaction();
+
         $news = Auth::check()
             ? Auth::user()->news()->create($request->validated())
             : News::create($request->validated());
+
+        $news->views = 0;
 
         foreach ($request->get('photo_urls', []) as $url) {
             $news->photos()->create([
@@ -67,6 +72,8 @@ class NewsController extends Controller
         }
 
         $this->tagService->updateNewsTags($news, $request->get('tags', []));
+
+        DB::commit();
 
         return NewsDetailResource::make($news);
     }

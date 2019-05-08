@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
+use App\Models\Comment;
 use App\Http\Requests\Comment\CommentDestroyRequest;
 use App\Http\Requests\Comment\CommentIndexRequest;
 use App\Http\Requests\Comment\CommentShowRequest;
 use App\Http\Requests\Comment\CommentStoreRequest;
 use App\Http\Requests\Comment\CommentUpdateRequest;
 use App\Http\Resources\Comment\CommentResource;
-use App\News;
+use App\Models\News;
 use Illuminate\Support\Facades\Auth;
 
 class NewsCommentController extends Controller

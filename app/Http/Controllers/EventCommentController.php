@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
-use App\Comment;
+use App\Models\Event;
+use App\Models\Comment;
 use App\Http\Requests\Comment\CommentDestroyRequest;
 use App\Http\Requests\Comment\CommentIndexRequest;
 use App\Http\Requests\Comment\CommentShowRequest;

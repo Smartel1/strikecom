@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ConflictResult extends Model
+class VideoType extends Model
 {
     protected $fillable = [
-        'name_ru', 'name_en', 'name_es',
+        'code'
     ];
 
     public $timestamps = false;

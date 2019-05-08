@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Event;
+use App\Models\Event;
 use App\Http\Requests\Event\EventDestroyRequest;
 use App\Http\Requests\Event\EventIndexRequest;
 use App\Http\Requests\Event\EventStoreRequest;
@@ -12,6 +12,7 @@ use App\Http\Resources\Event\EventDetailResource;
 use App\Http\Resources\Event\EventIndexResource;
 use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
@@ -29,11 +30,11 @@ class EventController extends Controller
     public function index(EventIndexRequest $request, $locale)
     {
         $tag_id = array_get($request->validated(),'filters.tag_id');
-        $conflict_id = array_get($request->validated(),'filters.conflict_id');
+        $conflict_ids = array_get($request->validated(),'filters.conflict_ids');
 
         $events = Event::with(['photos', 'videos' ,'user', 'tags', 'conflict'])
-            ->when($conflict_id, function($query) use ($conflict_id){
-                $query->where('conflict_id', $conflict_id);
+            ->when($conflict_ids, function($query) use ($conflict_ids){
+                $query->whereIn('conflict_id', $conflict_ids);
             })
             ->when($tag_id, function($query) use ($tag_id){
                 $query->whereHas('tags', function($query) use ($tag_id){
@@ -54,9 +55,13 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
+        DB::beginTransaction();
+
         $event = Auth::check()
             ? Auth::user()->events()->create($request->validated())
             : Event::create($request->validated());
+
+        $event->views = 0;
 
         foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
             $event->photos()->create([
@@ -69,6 +74,8 @@ class EventController extends Controller
         }
 
         $this->tagService->updateEventTags($event, $request->get('tags', []));
+
+        DB::commit();
 
         return EventDetailResource::make($event);
     }

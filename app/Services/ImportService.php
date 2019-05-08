@@ -3,18 +3,18 @@
 namespace App\Services;
 
 
-use App\Conflict;
-use App\ConflictReason;
-use App\ConflictResult;
-use App\Event;
-use App\EventStatus;
-use App\EventType;
-use App\Industry;
+use App\Models\Conflict;
+use App\Models\ConflictReason;
+use App\Models\ConflictResult;
+use App\Models\Event;
+use App\Models\EventStatus;
+use App\Models\EventType;
+use App\Models\Industry;
 use App\MediaType;
-use App\News;
-use App\Region;
-use App\User;
-use App\VideoType;
+use App\Models\News;
+use App\Models\Region;
+use App\Models\User;
+use App\Models\VideoType;
 
 class ImportService
 {

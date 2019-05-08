@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Event;
+use App\Models\Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\CreatesApplication;

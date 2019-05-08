@@ -1,7 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Comment;
+use App\Models\Event;
+use App\Models\News;
 use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model

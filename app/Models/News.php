@@ -1,10 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\Comment;
+use App\Models\EventStatus;
+use App\Models\EventType;
+use App\Models\Photo;
+use App\Models\Tag;
+use App\Models\User;
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class News extends Model
 {
     protected static function boot()
     {
@@ -28,7 +35,6 @@ class Event extends Model
             unset($model['content']);
         });
 
-        //При сохранении модели мы поле title перезаписываем в поле title_ru [en/es]
         self::updating(function($model){
 
             $locale = app('locale');
@@ -58,7 +64,6 @@ class Event extends Model
         'date',
         'views',
         'source_link',
-        'conflict_id',
         'event_type_id',
         'event_status_id',
         'user_id',
@@ -76,11 +81,6 @@ class Event extends Model
         'created_at' => 'integer',
         'updated_at' => 'integer'
     ];
-
-    public function conflict()
-    {
-        return $this->belongsTo(Conflict::class);
-    }
 
     public function status()
     {

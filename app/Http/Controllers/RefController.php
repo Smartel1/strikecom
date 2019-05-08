@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\ConflictReason;
-use App\ConflictResult;
-use App\EventStatus;
-use App\EventType;
+use App\Models\ConflictReason;
+use App\Models\ConflictResult;
+use App\Models\EventStatus;
+use App\Models\EventType;
 use App\Http\Requests\Reference\ReferenceIndexRequest;
 use App\Http\Resources\Reference\ReferenceResource;
-use App\Industry;
-use App\Region;
-use App\VideoType;
+use App\Models\Industry;
+use App\Models\Region;
+use App\Models\VideoType;
 
 class RefController extends Controller
 {

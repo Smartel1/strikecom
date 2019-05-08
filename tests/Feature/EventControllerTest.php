@@ -18,7 +18,7 @@ class EventControllerTest extends TestCase
 
         DB::table('conflicts')->insert([
             'id'                 => 1,
-            'title_ru'              => 'Острый конфликт',
+            'title_ru'           => 'Острый конфликт',
             'latitude'           => 1351315135.45,
             'longitude'          => 1256413515.45,
             'company_name'       => 'ЗАО ПАО',
@@ -41,8 +41,8 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'              => 1,
             'conflict_id'     => 1,
-            'title_ru'           => 'Трудовой конфликт',
-            'content_ru'         => 'Такие вот дела',
+            'title_ru'        => 'Трудовой конфликт',
+            'content_ru'      => 'Такие вот дела',
             'date'            => 1544680093,
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
@@ -63,8 +63,8 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title_ru'       => 'Трудовой конфликт',
-            'content_ru'     => 'Такие вот дела',
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
@@ -100,8 +100,8 @@ class EventControllerTest extends TestCase
             'event_type_id'   => '3',
             'tags'            => ['нищета', 'голод'],
             'photo_urls'      => ['images/ff.gif'],
-            'videos'            => [
-                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            'videos'          => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
             ],
         ])
             ->assertStatus(201);
@@ -154,7 +154,7 @@ class EventControllerTest extends TestCase
             'tags'            => ['голод'],
             'photo_urls'      => ['images/ff.gif'],
             'videos'          => [
-                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
             ],
         ])
             ->assertStatus(200);
@@ -170,8 +170,8 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title_ru'       => 'Трудовой конфликт',
-            'content_ru'     => 'Такие вот дела',
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
@@ -205,8 +205,8 @@ class EventControllerTest extends TestCase
             'event_type_id'   => '5',
             'tags'            => ['голод'],
             'photo_urls'      => ['images/ff.gif'],
-            'videos'            => [
-                ['url'=> 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url'=> 'http://a']
+            'videos'          => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
             ],
         ])
             ->assertStatus(404);
@@ -222,8 +222,8 @@ class EventControllerTest extends TestCase
         DB::table('events')->insert([
             'id'          => 1,
             'conflict_id' => 1,
-            'title_ru'       => 'Трудовой конфликт',
-            'content_ru'     => 'Такие вот дела',
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 

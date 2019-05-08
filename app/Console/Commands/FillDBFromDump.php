@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\ConflictReason;
+use App\Models\ConflictReason;
 use App\Services\ImportService;
 use Illuminate\Console\Command;
 

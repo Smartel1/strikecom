@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\News;
+use App\Models\News;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Tests\CreatesApplication;
