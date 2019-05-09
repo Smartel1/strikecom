@@ -32,6 +32,25 @@ class NewsControllerTest extends TestCase
     }
 
     /**
+     * запрос на список новостей POST запросом
+     */
+    public function testIndexPostRequest ()
+    {
+        DB::table('news')->delete();
+
+        DB::table('news')->insert([
+            'id'                => 1,
+            'title_ru'             => 'Новости соседнего села',
+            'content_ru'           => 'Такие вот дела',
+            'date'              => 1544680093,
+            'source_link'       => 'https://domain.ru/img.gif',
+        ]);
+
+        $this->post('/api/ru/news-list')
+            ->assertStatus(200);
+    }
+
+    /**
      * запрос одной новости
      */
     public function testView ()

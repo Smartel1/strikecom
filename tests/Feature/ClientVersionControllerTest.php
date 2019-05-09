@@ -22,7 +22,7 @@ class ClientVersionControllerTest extends TestCase
         DB::table('client_versions')->insert([
             'id'             => 1,
             'version'        => '1.2.0',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => true,
             'description_ru' => 'Добавлена возможность свергать деспотов',
             'description_en' => 'Features added',
@@ -32,14 +32,14 @@ class ClientVersionControllerTest extends TestCase
         DB::table('client_versions')->insert([
             'id'             => 2,
             'version'        => '1.2.1',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => false,
             'description_ru' => 'Исправление ошибок свержения',
             'description_en' => 'Bugfixes',
             'description_es' => 'Smth',
         ]);
 
-        $this->get('/api/ru/client-version?client_id=1&current_version=1.2.0')
+        $this->get('/api/ru/client-version?client_id=org.nrstudio.strikecom&current_version=1.2.0')
             ->assertStatus(200);
     }
 
@@ -53,7 +53,7 @@ class ClientVersionControllerTest extends TestCase
         DB::table('client_versions')->insert([
             'id'             => 1,
             'version'        => '1.2.0',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => true,
             'description_ru' => 'Добавлена возможность свергать деспотов',
             'description_en' => 'Features added',
@@ -63,14 +63,14 @@ class ClientVersionControllerTest extends TestCase
         DB::table('client_versions')->insert([
             'id'             => 2,
             'version'        => '1.2.1',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => false,
             'description_ru' => 'Исправление ошибок свержения',
             'description_en' => 'Bugfixes',
             'description_es' => 'Smth',
         ]);
 
-        $this->get('/api/ru/client-version?client_id=2&current_version=1.2')
+        $this->get('/api/ru/client-version?client_id=org.nrstudio.strikecom&current_version=1.2')
             ->assertStatus(422);
     }
 
@@ -81,7 +81,7 @@ class ClientVersionControllerTest extends TestCase
     {
         $this->post('/api/ru/client-version', [
             'version'        => '1.2.1',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => false,
             'description_ru' => 'Исправление ошибок свержения',
             'description_en' => 'Bugfixes',
@@ -97,7 +97,7 @@ class ClientVersionControllerTest extends TestCase
     {
         $this->post('/api/ru/client-version', [
             'version'        => true,
-            'client_id'      => 'android',
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => 6,
             'description_ru' => false,
             'description_en' => false,
@@ -116,7 +116,7 @@ class ClientVersionControllerTest extends TestCase
         DB::table('client_versions')->insert([
             'id'             => 1,
             'version'        => '1.2.0',
-            'client_id'      => 1,
+            'client_id'      => 'org.nrstudio.strikecom',
             'required'       => true,
             'description_ru' => 'Добавлена возможность свергать деспотов',
             'description_en' => 'Features added',

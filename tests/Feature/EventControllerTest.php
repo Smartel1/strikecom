@@ -54,6 +54,28 @@ class EventControllerTest extends TestCase
     }
 
     /**
+     * запрос на список событий POST запросом
+     */
+    public function testIndexPostRequest()
+    {
+        $this->clearConflictsAndAddOne();
+
+        DB::table('events')->insert([
+            'id'              => 1,
+            'conflict_id'     => 1,
+            'title_ru'        => 'Трудовой конфликт',
+            'content_ru'      => 'Такие вот дела',
+            'date'            => 1544680093,
+            'source_link'     => 'https://domain.ru/img.gif',
+            'event_status_id' => '1',
+            'event_type_id'   => '3',
+        ]);
+
+        $this->post('/api/ru/event-list', ['filters' => ['conflict_ids' => [284, 299]]], ['content-type'=>'application/json'])
+            ->assertStatus(200);
+    }
+
+    /**
      * запрос одного события
      */
     public function testView()

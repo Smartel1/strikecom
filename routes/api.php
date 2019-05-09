@@ -14,10 +14,12 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     Route::apiResource('conflict', 'ConflictController');
 
     Route::apiResource('event', 'EventController');
+    Route::post('event-list', 'EventController@index'); //запрос списка с параметрами в теле
 
     Route::apiResource('event.comment', 'EventCommentController');
 
     Route::apiResource('news', 'NewsController');
+    Route::post('news-list', 'NewsController@index'); //запрос списка с параметрами в теле
 
     Route::apiResource('news.comment', 'NewsCommentController');
 

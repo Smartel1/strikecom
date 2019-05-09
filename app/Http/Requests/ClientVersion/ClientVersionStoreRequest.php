@@ -37,7 +37,7 @@ class ClientVersionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id'      => 'required|integer',
+            'client_id'      => 'required|string',
             'version'        => 'required|string',
             'required'       => 'required|boolean',
             'description_ru' => 'required|string|max:500',
