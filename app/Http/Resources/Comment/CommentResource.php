@@ -21,7 +21,7 @@ class CommentResource extends Resource
                 'name'   => $this->user->name,
                 'email'  => $this->user->email
             ] : null,
-            'content' => $this->id,
+            'content' => $this->content,
             'photos'  => $this->photos->pluck('url'),
         ];
     }
