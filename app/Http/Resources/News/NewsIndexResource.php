@@ -23,7 +23,6 @@ class NewsIndexResource extends Resource
             'photos'           => $this->photos->pluck('url'),
             'videos'           => $this->videos->makeHidden(['id', 'created_at', 'updated_at']),
             'tags'             => $this->tags->pluck('name'),
-            'conflict'         => ConflictDetailResource::make($this->conflict),
             'comments_count'   => $this->comments->count(),
         ];
 

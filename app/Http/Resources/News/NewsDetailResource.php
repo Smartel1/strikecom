@@ -29,7 +29,6 @@ class NewsDetailResource extends Resource
                 'name'   => $this->user->name,
                 'email'  => $this->user->email
             ] : null,
-            'conflict'         => ConflictDetailResource::make($this->conflict),
         ];
 
         $locale = app('locale');
