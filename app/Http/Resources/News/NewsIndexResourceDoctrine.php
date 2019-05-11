@@ -7,12 +7,12 @@ use App\Entities\Tag;
 use App\Entities\Video;
 use Illuminate\Http\Resources\Json\Resource;
 
-class NewsDetailResource extends Resource
+class NewsIndexResourceDoctrine extends Resource
 {
     /**
-     * Структура ответа на запрос деталки новости
+     * Структура ответа на запрос списка новостей
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
@@ -35,11 +35,7 @@ class NewsDetailResource extends Resource
             'tags'        => $this->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
             })->toArray(),
-            'user'        => $this->getUser() ? [
-                'id'    => $this->getUser()->getId(),
-                'name'  => $this->getUser()->getName(),
-                'email' => $this->getUser()->getEmail()
-            ] : null,
+//            'comments_count'   => $this->comments->count(),
         ];
 
         $locale = app('locale');

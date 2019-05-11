@@ -8,45 +8,46 @@ use App\Http\Requests\News\NewsShowRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
-use App\Http\Resources\News\NewsIndexResource;
+use App\Http\Resources\News\NewsIndexResourceDoctrine;
 use App\Models\News;
+use App\Services\NewsService;
 use App\Services\TagService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
     protected $tagService;
+    protected $service;
 
     protected $relations = ['photos', 'videos', 'user', 'tags'];
 
     /**
      * NewsController constructor.
-     * @param $tagService
+     * @param NewsService $service
+     * @param TagService $tagService
      */
-    public function __construct(TagService $tagService)
+    public function __construct(NewsService $service, TagService $tagService)
     {
+        $this->service = $service;
         $this->tagService = $tagService;
     }
 
+    /**
+     * @param NewsIndexRequest $request
+     * @param $locale
+     * @return AnonymousResourceCollection
+     */
     public function index(NewsIndexRequest $request, $locale)
     {
-        $tag_id = array_get($request->validated(), 'filters.tag_id');
+        $news = $this->service->index(
+            array_get($request->validated(), 'filters',[]),
+            array_get($request, 'per_page', 20),
+            array_get($request, 'page', 1)
+        );
 
-        $news = News::when($tag_id, function ($query) use ($tag_id) {
-            $query->whereHas('tags', function ($query) use ($tag_id) {
-                $query->where('id', $tag_id);
-            });
-        })
-            //Только локализованные записи
-            ->when($locale !== 'all', function ($query) use ($locale){
-                $query->whereNotNull("title_$locale")->whereNotNull("content_$locale");
-            })
-            ->with(['photos', 'videos', 'user', 'tags'])
-            ->orderBy('date', 'desc')
-            ->paginate(array_get($request, 'per_page', 20));
-
-        return NewsIndexResource::collection($news);
+        return NewsIndexResourceDoctrine::collection($news);
     }
 
     public function store(NewsStoreRequest $request, $locale)

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::get('test', 'RefController@test');
+
 Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
 
     Route::get('reference', 'RefController@index');
