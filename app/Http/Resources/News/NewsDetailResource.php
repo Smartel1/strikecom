@@ -30,7 +30,6 @@ class NewsDetailResource extends Resource
                 'email'  => $this->user->email
             ] : null,
             'conflict'         => ConflictDetailResource::make($this->conflict),
-            'comments'         => CommentResource::collection($this->comments),
         ];
 
         $locale = app('locale');
