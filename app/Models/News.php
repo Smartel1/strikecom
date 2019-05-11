@@ -58,6 +58,7 @@ class News extends Model
         'title_ru',
         'title_en',
         'title_es',
+        'content',
         'content_ru',
         'content_en',
         'content_es',
