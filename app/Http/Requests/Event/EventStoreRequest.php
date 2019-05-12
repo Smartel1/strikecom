@@ -46,7 +46,7 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'conflict_id'            => 'required|exists:conflicts,id',
+            'conflict_id'            => 'required|exists:App\Entities\Conflict,id',
             'title'                  => 'nullable|string|max:255',
             'title_ru'               => 'nullable|string|max:255',
             'title_en'               => 'nullable|string|max:255',
@@ -57,8 +57,8 @@ class EventStoreRequest extends FormRequest
             'content_es'             => 'nullable|string|min:3',
             'date'                   => 'required|integer',
             'source_link'            => 'nullable|string|max:500',
-            'event_status_id'        => 'required|exists:event_statuses,id',
-            'event_type_id'          => 'required|exists:event_types,id',
+            'event_status_id'        => 'required|exists:App\Entities\References\EventStatus,id',
+            'event_type_id'          => 'required|exists:App\Entities\References\EventType,id',
             'tags'                   => 'nullable|array',
             'tags.*'                 => 'string|min:2|max:20',
             'photo_urls'             => 'nullable|array',
@@ -66,7 +66,7 @@ class EventStoreRequest extends FormRequest
             'videos'                 => 'nullable|array',
             'videos.*.url'           => 'required|string|max:500',
             'videos.*.preview_url'   => 'nullable|string|max:500',
-            'videos.*.video_type_id' => 'exists:video_types,id',
+            'videos.*.video_type_id' => 'exists:App\Entities\References\VideoType,id',
         ];
     }
 }

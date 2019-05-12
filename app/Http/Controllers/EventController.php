@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event;
+use App\Entities\Event;
 use App\Http\Requests\Event\EventDestroyRequest;
 use App\Http\Requests\Event\EventIndexRequest;
 use App\Http\Requests\Event\EventStoreRequest;
@@ -10,113 +10,106 @@ use App\Http\Requests\Event\EventShowRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
 use App\Http\Resources\Event\EventDetailResource;
 use App\Http\Resources\Event\EventIndexResource;
-use App\Services\TagService;
+use App\Services\EventService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class EventController extends Controller
 {
-    protected $tagService;
+    protected $service;
 
     /**
      * EventController constructor.
-     * @param $tagService
+     * @param EventService $service
      */
-    public function __construct(TagService $tagService)
+    public function __construct(EventService $service)
     {
-        $this->tagService = $tagService;
+        $this->service = $service;
     }
 
+    /**
+     * @param EventIndexRequest $request
+     * @param $locale
+     * @return AnonymousResourceCollection
+     */
     public function index(EventIndexRequest $request, $locale)
     {
-        $tag_id = array_get($request->validated(),'filters.tag_id');
-        $conflict_ids = array_get($request->validated(),'filters.conflict_ids');
-
-        $events = Event::with(['photos', 'videos' ,'user', 'tags', 'conflict'])
-            ->when($conflict_ids, function($query) use ($conflict_ids){
-                $query->whereIn('conflict_id', $conflict_ids);
-            })
-            ->when($tag_id, function($query) use ($tag_id){
-                $query->whereHas('tags', function($query) use ($tag_id){
-                    $query->where('id', $tag_id);
-                });
-            })
-            //Только локализованные записи
-            ->when($locale !== 'all', function ($query) use ($locale){
-                $query->whereNotNull("title_$locale")->whereNotNull("content_$locale");
-            })
-            ->orderBy('date', 'desc')
-            ->paginate(array_get($request, 'per_page', 20));
+        $events = $this->service->index(
+            array_get($request->validated(), 'filters',[]),
+            array_get($request, 'per_page', 20),
+            array_get($request, 'page', 1)
+        );
 
         return EventIndexResource::collection($events);
     }
 
+    /**
+     * @param EventStoreRequest $request
+     * @param $locale
+     * @return EventDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
     public function store(EventStoreRequest $request, $locale)
     {
         $this->authorize('create', Event::class);
 
-        DB::beginTransaction();
-
-        $event = Auth::check()
-            ? Auth::user()->events()->create($request->validated())
-            : Event::create($request->validated());
-
-        $event->views = 0;
-
-        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
-            $event->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $event->videos()->create($video);
-        }
-
-        $this->tagService->updateEventTags($event, $request->get('tags', []));
-
-        DB::commit();
+        $event = $this->service->create($request->validated(), Auth::user());
 
         return EventDetailResource::make($event);
     }
 
+    /**
+     * @param EventShowRequest $request
+     * @param $locale
+     * @param Event $event
+     * @return EventDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function show(EventShowRequest $request, $locale, Event $event)
     {
-        $event->increment('views');
+        $this->service->incrementViews($event);
 
         return EventDetailResource::make($event);
     }
 
+    /**
+     * @param EventUpdateRequest $request
+     * @param $locale
+     * @param Event $event
+     * @return EventDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     * @throws AuthorizationException
+     */
     public function update(EventUpdateRequest $request, $locale, Event $event)
     {
         $this->authorize('update', $event);
 
-        $event->update($request->validated());
-
-        $event->photos()->delete();
-        $event->videos()->delete();
-
-        foreach (array_get($request->validated(), 'photo_urls', []) as $url) {
-            $event->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $event->videos()->create($video);
-        }
-
-        $this->tagService->updateEventTags($event, $request->get('tags', []));
+        $event = $this->service->update($event, $request->validated());
 
         return EventDetailResource::make($event);
     }
 
+    /**
+     * @param EventDestroyRequest $request
+     * @param $locale
+     * @param Event $event
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
     public function destroy(EventDestroyRequest $request, $locale, Event $event)
     {
         $this->authorize('delete', $event);
 
-        $event->delete();
-
-        return $event->id;
+        $this->service->delete($event);
     }
 }

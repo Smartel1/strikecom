@@ -15,26 +15,26 @@ class ConflictDetailResource extends Resource
     public function toArray($request)
     {
         $structure = [
-            'id'                    => $this->id,
-            'latitude'              => $this->latitude,
-            'longitude'             => $this->longitude,
-            'company_name'          => $this->company_name,
-            'date_from'             => $this->date_from,
-            'date_to'               => $this->date_to,
-            'conflict_reason_id'    => $this->conflict_reason_id,
-            'conflict_result_id'    => $this->conflict_result_id,
-            'industry_id'           => $this->industry_id,
-            'region_id'             => $this->region_id,
+            'id'                    => $this->getId(),
+            'latitude'              => $this->getLatitude(),
+            'longitude'             => $this->getLongitude(),
+            'company_name'          => $this->getCompanyName(),
+            'date_from'             => $this->getDateFrom(),
+            'date_to'               => $this->getDateTo(),
+            'conflict_reason_id'    => $this->getConflictReasonId(),
+            'conflict_result_id'    => $this->getConflictResultId(),
+            'industry_id'           => $this->getIndustryId(),
+            'region_id'             => $this->getRegionId(),
         ];
 
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['title'] = $this['title_'.$locale];
+            $structure['title'] = $this->__call('getTitle' . $locale, []);
         } else {
-            $structure['title_ru'] = $this['title_ru'];
-            $structure['title_en'] = $this['title_en'];
-            $structure['title_es'] = $this['title_es'];
+            $structure['title_ru'] = $this->getTitleRu();
+            $structure['title_en'] = $this->getTitleEn();
+            $structure['title_es'] = $this->getTitleEs();
         }
 
         return $structure;

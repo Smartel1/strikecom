@@ -3,16 +3,17 @@
 
 namespace App\Entities;
 
+use App\Entities\References\EventStatus;
+use App\Entities\References\EventType;
 use App\Entities\Traits\Timestamps;
 use Doctrine\ORM\Mapping AS ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="news")
+ * @ORM\Table(name="events")
  */
-class News
+class Event
 {
     use Timestamps;
 
@@ -69,9 +70,24 @@ class News
     protected $source_link;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $conflict_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $event_status_id;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $event_type_id;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Photo")
-     * @ORM\JoinTable(name="news_photo",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
+     * @ORM\JoinTable(name="event_photo",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id")}
      *      )
      * @var ArrayCollection|Photo[]
@@ -80,8 +96,8 @@ class News
 
     /**
      * @ORM\ManyToMany(targetEntity="Video")
-     * @ORM\JoinTable(name="news_video",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
+     * @ORM\JoinTable(name="event_video",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")}
      *      )
      * @var ArrayCollection|Video[]
@@ -90,8 +106,8 @@ class News
 
     /**
      * @ORM\ManyToMany(targetEntity="Tag")
-     * @ORM\JoinTable(name="news_tag",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
+     * @ORM\JoinTable(name="event_tag",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
      *      )
      * @var ArrayCollection|Tag[]
@@ -105,13 +121,31 @@ class News
     protected $user;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\Conflict")
+     * @var Conflict|null
+     */
+    protected $conflict;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\References\EventStatus")
+     * @var EventStatus|null
+     */
+    protected $eventStatus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\References\EventType")
+     * @var EventType|null
+     */
+    protected $eventType;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Comment")
      * @var ArrayCollection|Comment[]
      */
     protected $comments;
 
     /**
-     * News constructor.
+     * Event constructor.
      */
     public function __construct()
     {
@@ -135,6 +169,60 @@ class News
     public function setVideos($videos)
     {
         $this->videos = $videos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConflictId()
+    {
+        if ($this->conflict !== null) return $this->conflict->getId();
+
+        return $this->conflict_id;
+    }
+
+    /**
+     * @param mixed $conflict_id
+     */
+    public function setConflictId($conflict_id): void
+    {
+        $this->conflict_id = $conflict_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventStatusId()
+    {
+        if ($this->eventStatus !== null) return $this->eventStatus->getId();
+
+        return $this->event_status_id;
+    }
+
+    /**
+     * @param mixed $event_status_id
+     */
+    public function setEventStatusId($event_status_id): void
+    {
+        $this->event_status_id = $event_status_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEventTypeId()
+    {
+        if ($this->eventType !== null) return $this->eventType->getId();
+
+        return $this->event_type_id;
+    }
+
+    /**
+     * @param mixed $event_type_id
+     */
+    public function setEventTypeId($event_type_id): void
+    {
+        $this->event_type_id = $event_type_id;
     }
 
     /**
@@ -183,6 +271,54 @@ class News
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return Conflict|null
+     */
+    public function getConflict(): ?Conflict
+    {
+        return $this->conflict;
+    }
+
+    /**
+     * @param Conflict|null $conflict
+     */
+    public function setConflict(?Conflict $conflict): void
+    {
+        $this->conflict = $conflict;
+    }
+
+    /**
+     * @return EventStatus|null
+     */
+    public function getEventStatus(): ?EventStatus
+    {
+        return $this->eventStatus;
+    }
+
+    /**
+     * @param EventStatus|null $eventStatus
+     */
+    public function setEventStatus(?EventStatus $eventStatus): void
+    {
+        $this->eventStatus = $eventStatus;
+    }
+
+    /**
+     * @return EventType|null
+     */
+    public function getEventType(): ?EventType
+    {
+        return $this->eventType;
+    }
+
+    /**
+     * @param EventType|null $eventType
+     */
+    public function setEventType(?EventType $eventType): void
+    {
+        $this->eventType = $eventType;
     }
 
     /**

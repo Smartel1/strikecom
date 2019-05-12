@@ -11,7 +11,6 @@ use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
 use App\Http\Resources\News\NewsIndexResource;
 use App\Services\NewsService;
-use App\Services\TagService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
@@ -21,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
-    protected $tagService;
     protected $service;
 
     protected $relations = ['photos', 'videos', 'user', 'tags'];
@@ -29,19 +27,18 @@ class NewsController extends Controller
     /**
      * NewsController constructor.
      * @param NewsService $service
-     * @param TagService $tagService
      */
-    public function __construct(NewsService $service, TagService $tagService)
+    public function __construct(NewsService $service)
     {
         $this->service = $service;
-        $this->tagService = $tagService;
     }
 
     /**
      * @param NewsIndexRequest $request
+     * @param $locale
      * @return AnonymousResourceCollection
      */
-    public function index(NewsIndexRequest $request)
+    public function index(NewsIndexRequest $request, $locale)
     {
         $news = $this->service->index(
             array_get($request->validated(), 'filters',[]),
@@ -59,7 +56,7 @@ class NewsController extends Controller
      * @throws OptimisticLockException
      * @throws AuthorizationException
      */
-    public function store(NewsStoreRequest $request)
+    public function store(NewsStoreRequest $request, $locale)
     {
         $this->authorize('create', News::class);
 
@@ -75,7 +72,7 @@ class NewsController extends Controller
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function show(NewsShowRequest $request, News $news)
+    public function show(NewsShowRequest $request, $locale, News $news)
     {
         $this->service->incrementViews($news);
 
@@ -91,7 +88,7 @@ class NewsController extends Controller
      * @throws TransactionRequiredException
      * @throws AuthorizationException
      */
-    public function update(NewsUpdateRequest $request, News $news)
+    public function update(NewsUpdateRequest $request, $locale, News $news)
     {
         $this->authorize('update', $news);
 
@@ -107,7 +104,7 @@ class NewsController extends Controller
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function destroy(NewsDestroyRequest $request, News $news)
+    public function destroy(NewsDestroyRequest $request, $locale, News $news)
     {
         $this->authorize('delete', $news);
 

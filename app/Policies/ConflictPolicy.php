@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Conflict;
-use App\Models\User;
+use App\Entities\Conflict;
+use App\Entities\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ConflictPolicy
@@ -12,7 +12,7 @@ class ConflictPolicy
 
     public function before (User $user, $action)
     {
-        if ($user->admin) return true;
+        if ($user->isAdmin()) return true;
     }
 
     public function create (User $user)

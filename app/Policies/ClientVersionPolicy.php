@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\ClientVersion;
-use App\Models\User;
+use App\Entities\ClientVersion;
+use App\Entities\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ClientVersionPolicy
@@ -12,7 +12,7 @@ class ClientVersionPolicy
 
     public function before (User $user, $action)
     {
-        if ($user->admin) return true;
+        if ($user->isAdmin()) return true;
     }
 
     public function create (User $user)

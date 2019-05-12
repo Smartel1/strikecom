@@ -81,6 +81,8 @@ class Video
      */
     public function getVideoTypeId()
     {
+        if ($this->videoType !== null) return $this->videoType->getId();
+
         return $this->video_type_id;
     }
 

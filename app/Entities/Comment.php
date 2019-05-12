@@ -3,6 +3,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Traits\Timestamps;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Comment
 {
+    use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -22,6 +25,11 @@ class Comment
      * @ORM\Column(type="string", length=255)
      */
     protected $content;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $user_id;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -59,6 +67,22 @@ class Comment
     public function setContent($content): void
     {
         $this->content = $content;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param mixed $user_id
+     */
+    public function setUserId($user_id): void
+    {
+        $this->user_id = $user_id;
     }
 
     /**
