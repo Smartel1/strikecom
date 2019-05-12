@@ -94,8 +94,63 @@ class NewsService
     {
         $this->em->beginTransaction();
 
-        //Заполняем поля новости данными из запроса
-        $news = new News();
+        $news = new News;
+        $news->setUser($user);
+        $this->fillNewsFields($news, $data);
+        $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
+        $this->syncVideos($news, Arr::get($data, 'videos', []));
+        $this->syncTags($news, Arr::get($data, 'tags', []));
+
+        $this->em->persist($news);
+        $this->em->flush();
+        $this->em->commit();
+
+        return $news;
+    }
+
+    /**
+     * @param News $news
+     * @param $data
+     * @return News
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    public function update(News $news, $data)
+    {
+        $this->em->beginTransaction();
+
+        $this->fillNewsFields($news, $data);
+        $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
+        $this->syncVideos($news, Arr::get($data, 'videos', []));
+        $this->syncTags($news, Arr::get($data, 'tags', []));
+
+        $this->em->persist($news);
+        $this->em->flush();
+        $this->em->commit();
+
+        return $news;
+    }
+
+    /**
+     * @param News $news
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function incrementViews(News $news)
+    {
+        $news->setViews($news->getViews() + 1);
+
+        $this->em->flush();
+    }
+
+    /**
+     * Заполнить поля новости переданными данными
+     * @param News $news
+     * @param $data
+     */
+    private function fillNewsFields(News $news, $data)
+    {
         $news->setDate(Arr::get($data, 'date'));
         $news->setSourceLink(Arr::get($data, 'source_link'));
         $news->setViews(0);
@@ -105,12 +160,11 @@ class NewsService
         $news->setContentRu(Arr::get($data, 'content_ru'));
         $news->setContentEn(Arr::get($data, 'content_en'));
         $news->setContentEs(Arr::get($data, 'content_es'));
-        $news->setUser($user);
 
         $locale = app('locale');
 
         //В зависимости от локали
-        //при сохранении новости мы поле title перезаписываем в поле title_ru [en/es]
+        //при сохранении новости мы поле title записываем в поле title_ru [en/es]
         if (Arr::has($data, 'title') and $locale !== 'all') {
             $titleSetterName = 'setTitle' . $locale;
             $news->$titleSetterName(Arr::get($data, 'title'));
@@ -120,18 +174,42 @@ class NewsService
             $contentSetterName = 'setContent' . $locale;
             $news->$contentSetterName(Arr::get($data, 'content'));
         }
+    }
+
+    /**
+     * @param News $news
+     * @param array $photoUrls
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function syncPhotos(News $news, array $photoUrls)
+    {
+        foreach ($news->getPhotos() as $oldPhoto){
+            $this->em->remove($oldPhoto);
+        };
 
         //сохраняем фотографии
-        $photoUrls = Arr::get($data, 'photo_urls', []);
         foreach ($photoUrls as $photoUrl) {
             $photo = new Photo();
             $photo->setUrl($photoUrl);
             $this->em->persist($photo);
             $news->getPhotos()->add($photo);
         }
+    }
+
+    /**
+     * @param News $news
+     * @param array $receivedVideos
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
+    private function syncVideos(News $news, array $receivedVideos)
+    {
+        foreach ($news->getVideos() as $oldVideo){
+            $this->em->remove($oldVideo);
+        };
 
         //сохраняем видео
-        $receivedVideos = Arr::get($data, 'videos', []);
         foreach ($receivedVideos as $receivedVideo) {
             $video = new Video();
             $video->setUrl($receivedVideo['url']);
@@ -144,9 +222,19 @@ class NewsService
             $this->em->persist($video);
             $news->getVideos()->add($video);
         }
+    }
+
+    /**
+     * @param News $news
+     * @param array $receivedTags
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function syncTags(News $news, array $receivedTags)
+    {
+        //Не удаляем старые теги из таблицы, они могут быть привязаны к дургим новостям
+        $news->getTags()->clear();
 
         //сохраняем тэги
-        $receivedTags = Arr::get($data, 'tags', []);
         foreach ($receivedTags as $receivedTag) {
             $tagRepo = $this->em->getRepository('App\Entities\Tag');
             $tag = $tagRepo->findOneBy(['name' => $receivedTag]);
@@ -157,11 +245,17 @@ class NewsService
             }
             $news->getTags()->add($tag);
         }
+    }
 
-        $this->em->persist($news);
+    /**
+     * @param News $news
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(News $news)
+    {
+        $this->em->remove($news);
+
         $this->em->flush();
-        $this->em->commit();
-
-        return $news;
     }
 }

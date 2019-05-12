@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\News\NewsDestroyRequest;
+use App\Entities\News;
 use App\Http\Requests\News\NewsIndexRequest;
-use App\Http\Requests\News\NewsShowRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
 use App\Http\Resources\News\NewsIndexResourceDoctrine;
-use App\Models\News;
 use App\Services\NewsService;
 use App\Services\TagService;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -37,10 +37,9 @@ class NewsController extends Controller
 
     /**
      * @param NewsIndexRequest $request
-     * @param $locale
      * @return AnonymousResourceCollection
      */
-    public function index(NewsIndexRequest $request, $locale)
+    public function index(NewsIndexRequest $request)
     {
         $news = $this->service->index(
             array_get($request->validated(), 'filters',[]),
@@ -51,55 +50,63 @@ class NewsController extends Controller
         return NewsIndexResourceDoctrine::collection($news);
     }
 
-    public function store(NewsStoreRequest $request, $locale)
+    /**
+     * @param NewsStoreRequest $request
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
+    public function store(NewsStoreRequest $request)
     {
         $this->authorize('create', News::class);
 
-        //todo поставить драйвер аутентификации на рельсы doctrine
-        $user = app('em')->find('App\Entities\User', Auth::user()->id);
-
-        $news = $this->service->create($request->validated(), $user);
+        $news = $this->service->create($request->validated(), Auth::user());
 
         return NewsDetailResource::make($news);
     }
 
-    public function show(NewsShowRequest $request, $locale, News $news)
+    /**
+     * @param News $news
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function show(News $news)
     {
-        $news->increment('views');
+        $this->service->incrementViews($news);
 
         return NewsDetailResource::make($news);
     }
 
-    public function update(NewsUpdateRequest $request, $locale, News $news)
+    /**
+     * @param NewsUpdateRequest $request
+     * @param News $news
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     * @throws AuthorizationException
+     */
+    public function update(NewsUpdateRequest $request, News $news)
     {
         $this->authorize('update', $news);
 
-        $news->update($request->validated());
-
-        $news->photos()->delete();
-        $news->videos()->delete();
-
-        foreach ($request->get('photo_urls', []) as $url) {
-            $news->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $news->videos()->create($video);
-        }
-
-        $this->tagService->updateNewsTags($news, $request->get('tags', []));
+        $news = $this->service->update($news, $request->validated());
 
         return NewsDetailResource::make($news);
     }
 
-    public function destroy(NewsDestroyRequest $request, $locale, News $news)
+    /**
+     * @param News $news
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
+    public function destroy(News $news)
     {
         $this->authorize('delete', $news);
 
-        $news->delete();
-
-        return $news->id;
+        $this->service->delete($news);
     }
 }

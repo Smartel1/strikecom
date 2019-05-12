@@ -26,7 +26,7 @@ class NewsDetailResource extends Resource
                 ->map(function (Photo $photo) {
                     return $photo->getUrl();
                 })
-                ->toArray(),
+                ->getValues(),
             'videos'      => $this->getVideos()
                 ->map(function (Video $video) {
                     return [
@@ -34,11 +34,11 @@ class NewsDetailResource extends Resource
                         'preview_url'   => $video->getPreviewUrl(),
                         'video_type_id' => $video->getVideoType()->getId(),
                     ];
-                })->toArray(),
+                })->getValues(),
             'tags'        => $this->getTags()
                 ->map(function (Tag $tag) {
                     return $tag->getName();
-                })->toArray(),
+                })->getValues(),
             'user'        => $this->getUser() ? [
                 'id'    => $this->getUser()->getId(),
                 'name'  => $this->getUser()->getName(),

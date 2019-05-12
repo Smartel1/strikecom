@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\News;
-use App\Http\Resources\News\NewsDetailResource;
 use App\Models\ConflictReason;
 use App\Models\ConflictResult;
 use App\Models\EventStatus;
@@ -13,7 +11,6 @@ use App\Http\Resources\Reference\ReferenceResource;
 use App\Models\Industry;
 use App\Models\Region;
 use App\Models\VideoType;
-use LaravelDoctrine\ORM\Facades\EntityManager;
 
 class RefController extends Controller
 {
@@ -70,21 +67,5 @@ class RefController extends Controller
             'checkSum' => md5($eventTypeCheckSum . $conflictReasonCheckSum . $conflictResultCheckSum . $eventStatusCheckSum
                 . $industryCheckSum . $regionCheckSum . $videoTypeCheckSum)
         ];
-    }
-
-    public function test()
-    {
-        $r= EntityManager::createQuery('select n, u from App\Entities\News n join n.user u')->getResult();
-        $r = EntityManager::createQueryBuilder()
-            ->select('n')
-            ->from('App\Entities\News', 'n')
-            ->leftJoin('n.user', 'u')
-            ->getQuery()
-            ->getResult();
-
-        return dd($r);
-        $repo = EntityManager::getRepository(News::class);
-        $news = $repo->find(1);
-        return NewsDetailResource::make($news);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Event;
-use App\Models\News;
-use App\Models\User;
+use App\Entities\News;
+use App\Entities\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class NewsPolicy
@@ -13,7 +12,7 @@ class NewsPolicy
 
     public function before (User $user, $action)
     {
-        if ($user->admin) return true;
+        if ($user->isAdmin()) return true;
     }
 
     public function create (User $user)

@@ -27,17 +27,17 @@ class NewsIndexResourceDoctrine extends Resource
             'source_link' => $this[0]->getSourceLink(),
             'photos'      => $this[0]->getPhotos()->map(function (Photo $photo) {
                 return $photo->getUrl();
-            })->toArray(),
+            })->getValues(),
             'videos'      => $this[0]->getVideos()->map(function (Video $video) {
                 return [
                     'url'           => $video->getUrl(),
                     'preview_url'   => $video->getPreviewUrl(),
                     'video_type_id' => $video->getVideoTypeId(),
                 ];
-            })->toArray(),
+            })->getValues(),
             'tags'        => $this[0]->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
-            })->toArray(),
+            })->getValues(),
             'comments_count'   => $this['comments_count'],
         ];
 

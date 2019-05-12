@@ -59,7 +59,7 @@ class NewsUpdateRequest extends FormRequest
             'videos'                => 'nullable|array',
             'videos.*.url'          => 'required|string|max:500',
             'videos.*.preview_url'  => 'nullable|string|max:500',
-            'videos.*.video_type_id'=> 'exists:video_types,id',
+            'videos.*.video_type_id'=> 'exists:App\Entities\References\VideoType,id',
         ];
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Entities\User;
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
@@ -21,8 +22,18 @@ class TokenAuth
      */
     public function handle($request, Closure $next)
     {
+        $em = app('em');
+
+        //Заглушка на время разработки
         if (!request()->bearerToken()) {
-            Auth::login(User::firstOrCreate(['uuid'=>1, 'admin'=>true]));
+            $user = $em->getRepository('App\Entities\User')->findOneBy(['uuid'=>1, 'admin'=>true]);
+            if (!$user) {
+                $user = new User;
+                $user->setUuid(1);
+                $user->setAdmin(true);
+                $em->persist();
+            }
+            Auth::login($user);
             return $next($request);
         }
 
@@ -40,23 +51,30 @@ class TokenAuth
 
         ]);
 
-        $firebase = (new Factory)
-            ->withServiceAccount($serviceAccount)
-            ->create();
+        try {
+            $firebase = (new Factory)
+                ->withServiceAccount($serviceAccount)
+                ->create();
 
-        $verifiedIdToken = $firebase->getAuth()->verifyIdToken(request()->bearerToken());
+            $verifiedIdToken = $firebase->getAuth()->verifyIdToken(request()->bearerToken());
 
-        $uuid = $verifiedIdToken->getClaim('sub');
+            $uuid = $verifiedIdToken->getClaim('sub');
+        } catch (\Throwable $e) {
+            throw new AuthenticationException('Проблемы с аутентификацией');
+        }
 
-        if (!$user = User::where('uuid', $uuid)->first()) {
+        $user = $em->getRepository('App\Entities\User')->findOneBy(['uuid', $uuid]);
+
+        if (!$user) {
 
             $userData = $firebase->getAuth()->getUser($uuid);
 
-            $user = User::create([
-                'uuid'=>$userData->uuid,
-                'email'=>$userData->email,
-                'name'=>$userData->displayName,
-            ]);
+            $user = new User;
+            $user->setUuid($userData->uuid);
+            $user->setEmail($userData->email);
+            $user->setName($userData->displayName);
+
+            $em->persist($user);
         }
 
         Auth::login($user);

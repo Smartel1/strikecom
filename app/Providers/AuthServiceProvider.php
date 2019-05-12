@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Entities\News;
 use App\Models\ClientVersion;
 use App\Models\Event;
 use App\Models\Comment;
 use App\Models\Conflict;
-use App\Models\News;
 use App\Policies\ClientVersionPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
