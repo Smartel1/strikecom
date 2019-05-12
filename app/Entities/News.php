@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class News
 {
     use Timestamps;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -99,9 +100,30 @@ class News
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinTable(name="comment_news",
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")}
+     *      )
      * @var User|null
      */
     protected $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Comment")
+     * @var ArrayCollection|Comment[]
+     */
+    protected $comments;
+
+    /**
+     * News constructor.
+     */
+    public function __construct()
+    {
+        $this->videos = new ArrayCollection();
+        $this->photos = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     /**
      * @return Video[]|ArrayCollection
@@ -165,6 +187,22 @@ class News
     public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return Comment[]|ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment[]|ArrayCollection $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
     }
 
     /**

@@ -22,19 +22,23 @@ class NewsDetailResource extends Resource
             'date'        => $this->getDate(),
             'views'       => $this->getViews(),
             'source_link' => $this->getSourceLink(),
-            'photos'      => $this->getPhotos()->map(function (Photo $photo) {
-                return $photo->getUrl();
-            })->toArray(),
-            'videos'      => $this->getVideos()->map(function (Video $video) {
-                return [
-                    'url'           => $video->getUrl(),
-                    'preview_url'   => $video->getPreviewUrl(),
-                    'video_type_id' => $video->getVideoTypeId(),
-                ];
-            })->toArray(),
-            'tags'        => $this->getTags()->map(function (Tag $tag) {
-                return $tag->getName();
-            })->toArray(),
+            'photos'      => $this->getPhotos()
+                ->map(function (Photo $photo) {
+                    return $photo->getUrl();
+                })
+                ->toArray(),
+            'videos'      => $this->getVideos()
+                ->map(function (Video $video) {
+                    return [
+                        'url'           => $video->getUrl(),
+                        'preview_url'   => $video->getPreviewUrl(),
+                        'video_type_id' => $video->getVideoType()->getId(),
+                    ];
+                })->toArray(),
+            'tags'        => $this->getTags()
+                ->map(function (Tag $tag) {
+                    return $tag->getName();
+                })->toArray(),
             'user'        => $this->getUser() ? [
                 'id'    => $this->getUser()->getId(),
                 'name'  => $this->getUser()->getName(),

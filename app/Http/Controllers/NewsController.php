@@ -12,6 +12,7 @@ use App\Http\Resources\News\NewsIndexResourceDoctrine;
 use App\Models\News;
 use App\Services\NewsService;
 use App\Services\TagService;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -54,27 +55,10 @@ class NewsController extends Controller
     {
         $this->authorize('create', News::class);
 
-        DB::beginTransaction();
+        //todo поставить драйвер аутентификации на рельсы doctrine
+        $user = app('em')->find('App\Entities\User', Auth::user()->id);
 
-        $news = Auth::check()
-            ? Auth::user()->news()->create($request->validated())
-            : News::create($request->validated());
-
-        $news->views = 0;
-
-        foreach ($request->get('photo_urls', []) as $url) {
-            $news->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $news->videos()->create($video);
-        }
-
-        $this->tagService->updateNewsTags($news, $request->get('tags', []));
-
-        DB::commit();
+        $news = $this->service->create($request->validated(), $user);
 
         return NewsDetailResource::make($news);
     }

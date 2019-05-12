@@ -3,6 +3,7 @@
 
 namespace App\Entities;
 
+use App\Entities\References\VideoType;
 use App\Entities\Traits\Timestamps;
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -108,7 +109,7 @@ class Video
     }
 
     /**
-     * @return mixed
+     * @return VideoType
      */
     public function getVideoType()
     {
@@ -116,7 +117,7 @@ class Video
     }
 
     /**
-     * @param mixed $videoType
+     * @param mixed VideoType
      */
     public function setVideoType($videoType)
     {

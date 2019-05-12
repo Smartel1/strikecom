@@ -24,7 +24,7 @@ class VideoType
     protected $code;
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getId()
     {

@@ -64,10 +64,10 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'comments', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'comments', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -198,6 +198,17 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function addVideo(\App\Entities\Video $video): \App\Entities\News
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addVideo', [$video]);
+
+        return parent::addVideo($video);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getPhotos()
     {
 
@@ -215,6 +226,17 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPhotos', [$photos]);
 
         return parent::setPhotos($photos);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addPhoto(\App\Entities\Photo $photo): \App\Entities\News
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPhoto', [$photo]);
+
+        return parent::addPhoto($photo);
     }
 
     /**
@@ -259,6 +281,28 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
 
         return parent::setUser($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getComments()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComments', []);
+
+        return parent::getComments();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setComments($comments): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComments', [$comments]);
+
+        parent::setComments($comments);
     }
 
     /**
