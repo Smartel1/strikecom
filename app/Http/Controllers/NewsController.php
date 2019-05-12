@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Entities\News;
+use App\Http\Requests\News\NewsDestroyRequest;
 use App\Http\Requests\News\NewsIndexRequest;
+use App\Http\Requests\News\NewsShowRequest;
 use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
-use App\Http\Resources\News\NewsIndexResourceDoctrine;
+use App\Http\Resources\News\NewsIndexResource;
 use App\Services\NewsService;
 use App\Services\TagService;
 use Doctrine\ORM\OptimisticLockException;
@@ -47,7 +49,7 @@ class NewsController extends Controller
             array_get($request, 'page', 1)
         );
 
-        return NewsIndexResourceDoctrine::collection($news);
+        return NewsIndexResource::collection($news);
     }
 
     /**
@@ -67,12 +69,13 @@ class NewsController extends Controller
     }
 
     /**
+     * @param NewsShowRequest $request
      * @param News $news
      * @return NewsDetailResource
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function show(News $news)
+    public function show(NewsShowRequest $request, News $news)
     {
         $this->service->incrementViews($news);
 
@@ -98,12 +101,13 @@ class NewsController extends Controller
     }
 
     /**
+     * @param NewsDestroyRequest $request
      * @param News $news
+     * @throws AuthorizationException
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws AuthorizationException
      */
-    public function destroy(News $news)
+    public function destroy(NewsDestroyRequest $request, News $news)
     {
         $this->authorize('delete', $news);
 

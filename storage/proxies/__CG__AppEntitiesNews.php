@@ -198,17 +198,6 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addVideo(\App\Entities\Video $video): \App\Entities\News
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addVideo', [$video]);
-
-        return parent::addVideo($video);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getPhotos()
     {
 
@@ -226,17 +215,6 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPhotos', [$photos]);
 
         return parent::setPhotos($photos);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addPhoto(\App\Entities\Photo $photo): \App\Entities\News
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPhoto', [$photo]);
-
-        return parent::addPhoto($photo);
     }
 
     /**

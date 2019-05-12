@@ -301,6 +301,17 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function isAdmin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAdmin', []);
+
+        return parent::isAdmin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setAdmin($admin)
     {
 
@@ -373,6 +384,72 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImageUrl', [$image_url]);
 
         return parent::setImageUrl($image_url);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthIdentifierName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthIdentifierName', []);
+
+        return parent::getAuthIdentifierName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthIdentifier()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthIdentifier', []);
+
+        return parent::getAuthIdentifier();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAuthPassword()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthPassword', []);
+
+        return parent::getAuthPassword();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRememberToken()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRememberToken', []);
+
+        return parent::getRememberToken();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRememberToken($value)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRememberToken', [$value]);
+
+        return parent::setRememberToken($value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRememberTokenName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRememberTokenName', []);
+
+        return parent::getRememberTokenName();
     }
 
     /**
