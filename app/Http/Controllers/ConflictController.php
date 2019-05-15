@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Conflict;
+use App\Entities\Conflict;
 use App\Http\Requests\Conflict\ConflictDestroyRequest;
 use App\Http\Requests\Conflict\ConflictIndexRequest;
 use App\Http\Requests\Conflict\ConflictShowRequest;
@@ -11,51 +11,105 @@ use App\Http\Requests\Conflict\ConflictUpdateRequest;
 use App\Http\Resources\Conflict\ConflictBriefIndexResource;
 use App\Http\Resources\Conflict\ConflictDetailResource;
 use App\Http\Resources\Conflict\ConflictIndexResource;
+use App\Services\ConflictService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ConflictController extends Controller
 {
-    public function index(ConflictIndexRequest $request, $locale)
-    {
-        if ($request->get('brief')) {
-            return ConflictBriefIndexResource::collection(Conflict::get());
-        }
+    /**
+     * @var ConflictService
+     */
+    protected $conflictService;
 
-        return ConflictIndexResource::collection(Conflict::get());
+    /**
+     * ConflictController constructor.
+     * @param ConflictService $conflictService
+     */
+    public function __construct(ConflictService $conflictService)
+    {
+        $this->conflictService = $conflictService;
     }
 
+    /**
+     * @param ConflictIndexRequest $request
+     * @param $locale
+     * @return AnonymousResourceCollection
+     */
+    public function index(ConflictIndexRequest $request, $locale)
+    {
+        $conflictsCollection = $this->conflictService->index();
+
+        if ($request->get('brief')) {
+            return ConflictBriefIndexResource::collection($conflictsCollection);
+        }
+
+        return ConflictIndexResource::collection($conflictsCollection);
+    }
+
+    /**
+     * @param ConflictStoreRequest $request
+     * @param $locale
+     * @return ConflictDetailResource
+     * @throws AuthorizationException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     */
     public function store(ConflictStoreRequest $request, $locale)
     {
         $this->authorize('create', Conflict::class);
 
-        $data = $request->validated();
-
-        $conflict = Conflict::create($data);
+        $conflict = $this->conflictService->create($request->validated());
 
         return ConflictDetailResource::make($conflict);
     }
 
-    public function show(ConflictShowRequest $request, $locale, Conflict $conflict)
+    /**
+     * @param ConflictShowRequest $request
+     * @param $locale
+     * @param Conflict $conflict
+     * @return ConflictDetailResource
+     */
+    public function show(Conflict $conflict)
     {
         return ConflictDetailResource::make($conflict);
     }
 
+    /**
+     * @param ConflictUpdateRequest $request
+     * @param $locale
+     * @param Conflict $conflict
+     * @return ConflictDetailResource
+     * @throws AuthorizationException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     */
     public function update(ConflictUpdateRequest $request, $locale, Conflict $conflict)
     {
         $this->authorize('update', $conflict);
 
-        $data = $request->validated();
-
-        $conflict->update($data);
+        $conflict = $this->conflictService->update($conflict, $request->validated());
 
         return ConflictDetailResource::make($conflict);
     }
 
+    /**
+     * @param ConflictDestroyRequest $request
+     * @param $locale
+     * @param Conflict $conflict
+     * @throws AuthorizationException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function destroy(ConflictDestroyRequest $request, $locale, Conflict $conflict)
     {
         $this->authorize('delete', $conflict);
 
-        $conflict->delete();
-
-        return $conflict->id;
+        $this->conflictService->delete($conflict);
     }
 }

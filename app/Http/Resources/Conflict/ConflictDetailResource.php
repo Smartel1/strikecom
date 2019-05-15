@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Conflict;
 
+use App\Entities\Conflict;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ConflictDetailResource extends Resource
@@ -14,27 +15,30 @@ class ConflictDetailResource extends Resource
      */
     public function toArray($request)
     {
+        /** @var $conflict Conflict */
+        $conflict = $this;
+
         $structure = [
-            'id'                    => $this->getId(),
-            'latitude'              => $this->getLatitude(),
-            'longitude'             => $this->getLongitude(),
-            'company_name'          => $this->getCompanyName(),
-            'date_from'             => $this->getDateFrom(),
-            'date_to'               => $this->getDateTo(),
-            'conflict_reason_id'    => $this->getConflictReasonId(),
-            'conflict_result_id'    => $this->getConflictResultId(),
-            'industry_id'           => $this->getIndustryId(),
-            'region_id'             => $this->getRegionId(),
+            'id'                    => $conflict->getId(),
+            'latitude'              => $conflict->getLatitude(),
+            'longitude'             => $conflict->getLongitude(),
+            'company_name'          => $conflict->getCompanyName(),
+            'date_from'             => $conflict->getDateFrom(),
+            'date_to'               => $conflict->getDateTo(),
+            'conflict_reason_id'    => $conflict->getConflictReason() ? $conflict->getConflictReason()->getId() : null,
+            'conflict_result_id'    => $conflict->getConflictResult() ? $conflict->getConflictResult()->getId() : null,
+            'industry_id'           => $conflict->getIndustry() ? $conflict->getIndustry()->getId() : null,
+            'region_id'             => $conflict->getRegion() ? $conflict->getRegion()->getId() : null,
         ];
 
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['title'] = $this->__call('getTitle' . $locale, []);
+            $structure['title'] = $conflict->getTitleByLocale($locale);
         } else {
-            $structure['title_ru'] = $this->getTitleRu();
-            $structure['title_en'] = $this->getTitleEn();
-            $structure['title_es'] = $this->getTitleEs();
+            $structure['title_ru'] = $conflict->getTitleRu();
+            $structure['title_en'] = $conflict->getTitleEn();
+            $structure['title_es'] = $conflict->getTitleEs();
         }
 
         return $structure;

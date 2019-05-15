@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 
 class TokenAuth
 {
@@ -16,12 +17,16 @@ class TokenAuth
      * Парсим токен, сверяем. Берем юзера из токена и записываем в базу если его там нет.
      * Аутентифицируем
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
+     * @throws AuthenticationException
      */
     public function handle($request, Closure $next)
     {
+        /**
+         * @var $em EntityManager
+         */
         $em = app('em');
 
         //Заглушка на время разработки
@@ -31,7 +36,7 @@ class TokenAuth
                 $user = new User;
                 $user->setUuid(1);
                 $user->setAdmin(true);
-                $em->persist();
+                $em->persist($user);
             }
             Auth::login($user);
             return $next($request);

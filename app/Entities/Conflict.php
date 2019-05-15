@@ -66,26 +66,6 @@ class Conflict
     protected $date_to;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $conflict_reason_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $conflict_result_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $industry_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $region_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entities\References\ConflictReason")
      * @var ConflictReason|null
      */
@@ -254,78 +234,6 @@ class Conflict
     }
 
     /**
-     * @return mixed
-     */
-    public function getConflictReasonId()
-    {
-        if ($this->conflictReason !== null) return $this->conflictReason->getId();
-
-        return $this->conflict_reason_id;
-    }
-
-    /**
-     * @param mixed $conflict_reason_id
-     */
-    public function setConflictReasonId($conflict_reason_id): void
-    {
-        $this->conflict_reason_id = $conflict_reason_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConflictResultId()
-    {
-        if ($this->conflictResult !== null) return $this->conflictResult->getId();
-
-        return $this->conflict_result_id;
-    }
-
-    /**
-     * @param mixed $conflict_result_id
-     */
-    public function setConflictResultId($conflict_result_id): void
-    {
-        $this->conflict_result_id = $conflict_result_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIndustryId()
-    {
-        if ($this->industry !== null) return $this->industry->getId();
-
-        return $this->industry_id;
-    }
-
-    /**
-     * @param mixed $industry_id
-     */
-    public function setIndustryId($industry_id): void
-    {
-        $this->industry_id = $industry_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRegionId()
-    {
-        if ($this->region !== null) return $this->region->getId();
-
-        return $this->region_id;
-    }
-
-    /**
-     * @param mixed $region_id
-     */
-    public function setRegionId($region_id): void
-    {
-        $this->region_id = $region_id;
-    }
-
-    /**
      * @return ConflictReason|null
      */
     public function getConflictReason(): ?ConflictReason
@@ -387,5 +295,17 @@ class Conflict
     public function setRegion(?Region $region): void
     {
         $this->region = $region;
+    }
+
+    /**
+     * Получить локализованный заголовок
+     * @param string $locale
+     * @return string|null
+     */
+    public function getTitleByLocale(string $locale) : ?string
+    {
+        $getterName = 'getTitle' . $locale;
+
+        return $this->$getterName();
     }
 }

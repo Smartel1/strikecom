@@ -180,7 +180,7 @@ class News
     /**
      * @param User|null $user
      */
-    public function setUser(User $user)
+    public function setUser(?User $user)
     {
         $this->user = $user;
     }
@@ -359,5 +359,29 @@ class News
     public function setSourceLink($source_link)
     {
         $this->source_link = $source_link;
+    }
+
+    /**
+     * Получить локализованный заголовок
+     * @param string $locale
+     * @return string|null
+     */
+    public function getTitleByLocale(string $locale) : ?string
+    {
+        $getterName = 'getTitle' . $locale;
+
+        return $this->$getterName();
+    }
+
+    /**
+     * Получить локализованное содержимое
+     * @param string $locale
+     * @return string|null
+     */
+    public function getContentByLocale(string $locale) : ?string
+    {
+        $getterName = 'getContent' . $locale;
+
+        return $this->$getterName();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event;
 
+use App\Entities\Event;
 use App\Entities\Photo;
 use App\Entities\Tag;
 use App\Entities\Video;
@@ -18,33 +19,36 @@ class EventDetailResource extends Resource
      */
     public function toArray($request)
     {
+        /** @var $event Event */
+        $event = $this;
+
         $structure = [
-            'id'              => $this->getId(),
-            'date'            => $this->getDate(),
-            'views'           => $this->getViews(),
-            'source_link'     => $this->getSourceLink(),
-            'conflict_id'     => $this->getConflictId(),
-            'event_status_id' => $this->getEventStatusId(),
-            'event_type_id'   => $this->getEventTypeId(),
-            'photos'          => $this->getPhotos()->map(function (Photo $photo) {
+            'id'              => $event->getId(),
+            'date'            => $event->getDate(),
+            'views'           => $event->getViews(),
+            'source_link'     => $event->getSourceLink(),
+            'conflict_id'     => $event->getConflict()->getId(),
+            'event_status_id' => $event->getEventStatus() ? $event->getEventStatus()->getId() : null,
+            'event_type_id'   => $event->getEventType() ? $event->getEventType()->getId() : null,
+            'photos'          => $event->getPhotos()->map(function (Photo $photo) {
                 return $photo->getUrl();
             })->getValues(),
-            'videos'          => $this->getVideos()->map(function (Video $video) {
+            'videos'          => $event->getVideos()->map(function (Video $video) {
                 return [
                     'url'           => $video->getUrl(),
                     'preview_url'   => $video->getPreviewUrl(),
                     'video_type_id' => $video->getVideoTypeId(),
                 ];
             })->getValues(),
-            'tags'            => $this->getTags()->map(function (Tag $tag) {
+            'tags'            => $event->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
             })->getValues(),
-            'user'        => $this->getUser() ? [
-                'id'    => $this->getUser()->getId(),
-                'name'  => $this->getUser()->getName(),
-                'email' => $this->getUser()->getEmail()
+            'user'            => $event->getUser() ? [
+                'id'    => $event->getUser()->getId(),
+                'name'  => $event->getUser()->getName(),
+                'email' => $event->getUser()->getEmail()
             ] : null,
-            'conflict'        => ConflictDetailResource::make($this->getConflict()),
+            'conflict'        => ConflictDetailResource::make($event->getConflict()),
         ];
 
         $locale = app('locale');
@@ -53,15 +57,15 @@ class EventDetailResource extends Resource
          * Иначе возвращаем title_ru, title_en, title_es и content_ru, content_es, content_es
          */
         if ($locale !== 'all') {
-            $structure['title'] = $this->__call('getTitle' . $locale, []);
-            $structure['content'] = $this->__call('getContent' . $locale, []);
+            $structure['title'] = $event->getTitleByLocale($locale);
+            $structure['content'] = $event->getContentByLocale($locale);
         } else {
-            $structure['title_ru'] = $this->getTitleRu();
-            $structure['title_en'] = $this->getTitleEn();
-            $structure['title_es'] = $this->getTitleEs();
-            $structure['content_ru'] = $this->getContentRu();
-            $structure['content_en'] = $this->getContentEn();
-            $structure['content_es'] = $this->getContentEs();
+            $structure['title_ru'] = $event->getTitleRu();
+            $structure['title_en'] = $event->getTitleEn();
+            $structure['title_es'] = $event->getTitleEs();
+            $structure['content_ru'] = $event->getContentRu();
+            $structure['content_en'] = $event->getContentEn();
+            $structure['content_es'] = $event->getContentEs();
         }
 
         return $structure;

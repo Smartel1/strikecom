@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\News;
 
+use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\Tag;
 use App\Entities\Video;
@@ -19,23 +20,26 @@ class NewsIndexResource extends Resource
     {
         /**
          * Сервис выполняет dirty запрос, поэтому новость с индексом 0
+         * @var $news News
          */
+        $news = $this[0];
+
         $structure = [
-            'id'          => $this[0]->getId(),
-            'date'        => $this[0]->getDate(),
-            'views'       => $this[0]->getViews(),
-            'source_link' => $this[0]->getSourceLink(),
-            'photos'      => $this[0]->getPhotos()->map(function (Photo $photo) {
+            'id'          => $news->getId(),
+            'date'        => $news->getDate(),
+            'views'       => $news->getViews(),
+            'source_link' => $news->getSourceLink(),
+            'photos'      => $news->getPhotos()->map(function (Photo $photo) {
                 return $photo->getUrl();
             })->getValues(),
-            'videos'      => $this[0]->getVideos()->map(function (Video $video) {
+            'videos'      => $news->getVideos()->map(function (Video $video) {
                 return [
                     'url'           => $video->getUrl(),
                     'preview_url'   => $video->getPreviewUrl(),
                     'video_type_id' => $video->getVideoTypeId(),
                 ];
             })->getValues(),
-            'tags'        => $this[0]->getTags()->map(function (Tag $tag) {
+            'tags'        => $news->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
             })->getValues(),
             'comments_count'   => $this['comments_count'],
@@ -47,15 +51,15 @@ class NewsIndexResource extends Resource
          * Иначе возвращаем title_ru, title_en, title_es и content_ru, content_es, content_es
          */
         if ($locale !== 'all') {
-            $structure['title'] = $this[0]->__call('getTitle' . $locale, []);
-            $structure['content'] = $this[0]->__call('getContent' . $locale, []);
+            $structure['title'] = $news->getTitleByLocale($locale);
+            $structure['content'] = $news->getContentByLocale($locale);
         } else {
-            $structure['title_ru'] = $this[0]->getTitleRu();
-            $structure['title_en'] = $this[0]->getTitleEn();
-            $structure['title_es'] = $this[0]->getTitleEs();
-            $structure['content_ru'] = $this[0]->getContentRu();
-            $structure['content_en'] = $this[0]->getContentEn();
-            $structure['content_es'] = $this[0]->getContentEs();
+            $structure['title_ru'] = $news->getTitleRu();
+            $structure['title_en'] = $news->getTitleEn();
+            $structure['title_es'] = $news->getTitleEs();
+            $structure['content_ru'] = $news->getContentRu();
+            $structure['content_en'] = $news->getContentEn();
+            $structure['content_es'] = $news->getContentEs();
         }
 
         return $structure;

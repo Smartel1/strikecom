@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
 use App\Entities\References\EventStatus;
@@ -62,7 +63,7 @@ class EventService
             $queryBuilder->andWhere($expr->eq('t.id', $tagId));
         }
 
-        //Если передан фильтр по тэгу, добавляем условие
+        //Если передан фильтр по конфликту, добавляем условие
         $conflictIds = array_get($filters, 'conflict_ids');
 
         if ($conflictIds) {
@@ -74,8 +75,8 @@ class EventService
 
         if ($locale !== 'all') {
             $queryBuilder
-                ->andWhere($expr->isNotNull('n.title_' . $locale))
-                ->andWhere($expr->isNotNull('n.content_' . $locale));
+                ->andWhere($expr->isNotNull('e.title_' . $locale))
+                ->andWhere($expr->isNotNull('e.content_' . $locale));
         }
 
         //Пагинируем результат
@@ -87,7 +88,7 @@ class EventService
         $laravelPaginator = new LengthAwarePaginator(
             collect($doctrinePaginator),
             $doctrinePaginator->count(),
-            $perPage,
+            (integer)$perPage,
             $page,
             ['path'=>request()->url()]
         );
@@ -168,6 +169,7 @@ class EventService
      */
     private function fillNewsFields(Event $event, $data)
     {
+        //todo use Builder pattern
         $event->setDate(Arr::get($data, 'date'));
         $event->setSourceLink(Arr::get($data, 'source_link'));
         $event->setViews(0);
@@ -178,18 +180,8 @@ class EventService
         $event->setContentEn(Arr::get($data, 'content_en'));
         $event->setContentEs(Arr::get($data, 'content_es'));
 
-        $eventStatus = $this->em->find(
-            'App\Entities\References\EventStatus',
-            Arr::get($data, 'event_status_id')
-        );
-        $event->setEventStatus($eventStatus);
-
-        $eventType = $this->em->find(
-            'App\Entities\References\EventType',
-            Arr::get($data, 'event_type_id')
-        );
-
-        $event->setEventType($eventType);
+        $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
+        $this->setEventType($event, Arr::get($data, 'event_type_id'));
 
         $locale = app('locale');
 
@@ -208,6 +200,46 @@ class EventService
 
     /**
      * @param Event $event
+     * @param string|null $eventStatusId
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     */
+    private function setEventStatus(Event $event, ?string $eventStatusId)
+    {
+        if (!$eventStatusId) {
+            $event->setEventStatus(null);
+            return;
+        }
+
+        /** @var $status EventStatus */
+        $status = $this->em->find('App\Entities\References\EventStatus', $eventStatusId);
+
+        $event->setEventStatus($status);
+    }
+
+    /**
+     * @param Event $event
+     * @param string|null $eventTypeId
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     */
+    private function setEventType(Event $event, ?string $eventTypeId)
+    {
+        if (!$eventTypeId) {
+            $event->setEventType(null);
+            return;
+        }
+
+        /** @var $type EventType */
+        $type = $this->em->find('App\Entities\References\EventType', $eventTypeId);
+
+        $event->setEventType($type);
+    }
+
+    /**
+     * @param Event $event
      * @param $conflictId
      * @throws ORMException
      * @throws OptimisticLockException
@@ -215,6 +247,7 @@ class EventService
      */
     private function attachConflict(Event $event, $conflictId)
     {
+        /** @var $conflict Conflict */
         $conflict = $this->em->find('App\Entities\Conflict', $conflictId);
         $event->setConflict($conflict);
     }

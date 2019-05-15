@@ -8,7 +8,10 @@ use App\Entities\Photo;
 use App\Entities\Tag;
 use App\Entities\Video;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -74,7 +77,7 @@ class NewsService
         $laravelPaginator = new LengthAwarePaginator(
             collect($doctrinePaginator),
             $doctrinePaginator->count(),
-            $perPage,
+            (integer)$perPage,
             $page,
             ['path'=>request()->url()]
         );
@@ -87,8 +90,8 @@ class NewsService
      * @param $data
      * @param $user
      * @return News
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function create($data, $user)
     {
@@ -112,9 +115,9 @@ class NewsService
      * @param News $news
      * @param $data
      * @return News
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
      */
     public function update(News $news, $data)
     {
@@ -134,8 +137,8 @@ class NewsService
 
     /**
      * @param News $news
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function incrementViews(News $news)
     {
@@ -179,7 +182,7 @@ class NewsService
     /**
      * @param News $news
      * @param array $photoUrls
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      */
     private function syncPhotos(News $news, array $photoUrls)
     {
@@ -199,9 +202,9 @@ class NewsService
     /**
      * @param News $news
      * @param array $receivedVideos
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
      */
     private function syncVideos(News $news, array $receivedVideos)
     {
@@ -227,7 +230,7 @@ class NewsService
     /**
      * @param News $news
      * @param array $receivedTags
-     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
      */
     private function syncTags(News $news, array $receivedTags)
     {
@@ -249,8 +252,8 @@ class NewsService
 
     /**
      * @param News $news
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function delete(News $news)
     {

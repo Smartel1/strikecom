@@ -70,21 +70,6 @@ class Event
     protected $source_link;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $conflict_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $event_status_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    protected $event_type_id;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Photo")
      * @ORM\JoinTable(name="event_photo",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
@@ -169,60 +154,6 @@ class Event
     public function setVideos($videos)
     {
         $this->videos = $videos;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConflictId()
-    {
-        if ($this->conflict !== null) return $this->conflict->getId();
-
-        return $this->conflict_id;
-    }
-
-    /**
-     * @param mixed $conflict_id
-     */
-    public function setConflictId($conflict_id): void
-    {
-        $this->conflict_id = $conflict_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEventStatusId()
-    {
-        if ($this->eventStatus !== null) return $this->eventStatus->getId();
-
-        return $this->event_status_id;
-    }
-
-    /**
-     * @param mixed $event_status_id
-     */
-    public function setEventStatusId($event_status_id): void
-    {
-        $this->event_status_id = $event_status_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEventTypeId()
-    {
-        if ($this->eventType !== null) return $this->eventType->getId();
-
-        return $this->event_type_id;
-    }
-
-    /**
-     * @param mixed $event_type_id
-     */
-    public function setEventTypeId($event_type_id): void
-    {
-        $this->event_type_id = $event_type_id;
     }
 
     /**
@@ -495,5 +426,29 @@ class Event
     public function setSourceLink($source_link)
     {
         $this->source_link = $source_link;
+    }
+
+    /**
+     * Получить локализованный заголовок
+     * @param string $locale
+     * @return string
+     */
+    public function getTitleByLocale(string $locale) : ?string
+    {
+        $getterName = 'getTitle' . $locale;
+
+        return $this->$getterName();
+    }
+
+    /**
+     * Получить локализованное содержимое
+     * @param string $locale
+     * @return string
+     */
+    public function getContentByLocale(string $locale) : ?string
+    {
+        $getterName = 'getContent' . $locale;
+
+        return $this->$getterName();
     }
 }

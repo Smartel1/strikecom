@@ -43,38 +43,38 @@ class ConflictStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'         => 'nullable|string|max:255',
-            'title_ru'      => 'nullable|string|max:255',
-            'title_en'      => 'nullable|string|max:255',
-            'title_es'      => 'nullable|string|max:255',
-            'latitude'      => 'required|numeric',
-            'longitude'     => 'required|numeric',
-            'company_name'  => 'nullable|string|min:3|max:500',
-            'date_from'     => 'nullable|integer',
-            'date_to'       => 'nullable|integer',
-            'conflict_reason_id'     => 'required|exists:conflict_reasons,id',
-            'conflict_result_id'     => 'nullable|exists:conflict_results,id',
-            'industry_id'            => 'nullable|exists:industries,id',
-            'region_id'              => 'nullable|exists:regions,id',
+            'title'              => 'nullable|string|max:255',
+            'title_ru'           => 'nullable|string|max:255',
+            'title_en'           => 'nullable|string|max:255',
+            'title_es'           => 'nullable|string|max:255',
+            'latitude'           => 'required|numeric',
+            'longitude'          => 'required|numeric',
+            'company_name'       => 'nullable|string|min:3|max:500',
+            'date_from'          => 'nullable|integer',
+            'date_to'            => 'nullable|integer',
+            'conflict_reason_id' => 'required|exists:App\Entities\References\ConflictReason,id',
+            'conflict_result_id' => 'nullable|exists:App\Entities\References\ConflictResult,id',
+            'industry_id'        => 'nullable|exists:App\Entities\References\Industry,id',
+            'region_id'          => 'nullable|exists:App\Entities\References\Region,id',
         ];
     }
 
     public function attributes()
     {
         return [
-            'title'         => 'заголовок',
-            'title_ru'      => 'заголовок на русском',
-            'title_en'      => 'заголовок на ангийском',
-            'title_es'      => 'заголовок на испанском',
-            'latitude'      => 'долгота',
-            'longitude'     => 'широта',
-            'company_name'  => 'наименование предприятия',
-            'date_from'     => 'дата начала конфликта',
-            'date_to'       => 'дата окончания конфликта',
-            'conflict_reason_id'     => 'идентификатор причины конфликта',
-            'conflict_result_id'     => 'идентификатор результата конфликта',
-            'industry_id'            => 'идентификатор отрасли',
-            'region_id'              => 'идентификатор региона',
+            'title'              => 'заголовок',
+            'title_ru'           => 'заголовок на русском',
+            'title_en'           => 'заголовок на ангийском',
+            'title_es'           => 'заголовок на испанском',
+            'latitude'           => 'долгота',
+            'longitude'          => 'широта',
+            'company_name'       => 'наименование предприятия',
+            'date_from'          => 'дата начала конфликта',
+            'date_to'            => 'дата окончания конфликта',
+            'conflict_reason_id' => 'идентификатор причины конфликта',
+            'conflict_result_id' => 'идентификатор результата конфликта',
+            'industry_id'        => 'идентификатор отрасли',
+            'region_id'          => 'идентификатор региона',
         ];
     }
 }
