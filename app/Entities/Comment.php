@@ -4,6 +4,7 @@
 namespace App\Entities;
 
 use App\Entities\Traits\Timestamps;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -27,15 +28,28 @@ class Comment
     protected $content;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $user_id;
-
-    /**
      * @ORM\ManyToOne(targetEntity="User")
      * @var User|null
      */
     protected $user;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Photo")
+     * @ORM\JoinTable(name="comment_photo",
+     *      joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id", unique=true)}
+     *      )
+     * @var Photo[]|ArrayCollection
+     */
+    protected $photos;
+
+    /**
+     * Comment constructor.
+     */
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -70,19 +84,19 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @return Photo[]|ArrayCollection
      */
-    public function getUserId()
+    public function getPhotos()
     {
-        return $this->user_id;
+        return $this->photos;
     }
 
     /**
-     * @param mixed $user_id
+     * @param Photo[]|ArrayCollection $photos
      */
-    public function setUserId($user_id): void
+    public function setPhotos($photos): void
     {
-        $this->user_id = $user_id;
+        $this->photos = $photos;
     }
 
     /**

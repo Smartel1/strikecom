@@ -3,6 +3,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Interfaces\Commentable;
 use App\Entities\Traits\Timestamps;
 use Doctrine\ORM\Mapping AS ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="news")
  */
-class News
+class News implements Commentable
 {
     use Timestamps;
 

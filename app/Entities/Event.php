@@ -3,6 +3,7 @@
 
 namespace App\Entities;
 
+use App\Entities\Interfaces\Commentable;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\Traits\Timestamps;
@@ -13,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="events")
  */
-class Event
+class Event implements Commentable
 {
     use Timestamps;
 

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Comment;
 
+use App\Entities\Comment;
+use App\Entities\Photo;
 use Illuminate\Http\Resources\Json\Resource;
 
 class CommentResource extends Resource
@@ -14,15 +16,20 @@ class CommentResource extends Resource
      */
     public function toArray($request)
     {
+        /** @var $comment Comment*/
+        $comment = $this;
+
         return [
-            'id'      => $this->id,
-            'user'    => $this->user_id ? [
-                'id'     => $this->user->id,
-                'name'   => $this->user->name,
-                'email'  => $this->user->email
+            'id'      => $comment->getId(),
+            'user'    => $comment->getUser() ? [
+                'id'     => $comment->getUser()->getId(),
+                'name'   => $comment->getUser()->getName(),
+                'email'  => $comment->getUser()->getEmail()
             ] : null,
-            'content' => $this->content,
-            'photos'  => $this->photos->pluck('url'),
+            'content' => $comment->getContent(),
+            'photos'  => $comment->getPhotos()
+                ->map(function(Photo $photo){ return $photo->getUrl(); })
+                ->getValues(),
         ];
     }
 }
