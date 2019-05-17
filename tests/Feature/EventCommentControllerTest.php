@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Event;
+use App\Entities\Comment;
+use App\Entities\Conflict;
+use App\Entities\Event;
+use App\Entities\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
 
@@ -13,106 +16,110 @@ class EventCommentControllerTest extends TestCase
     use DatabaseTransactions;
     use CreatesApplication;
 
-    private function prepareDB()
+    /**
+     * Подготовить базу к тетсированию
+     * @return Event тестовое событие
+     */
+    private function prepareDB(): Event
     {
-        DB::table('conflicts')->delete();
+        EntityManager::createQueryBuilder()->from(Conflict::class, 'c')->delete()->getQuery()->getResult();
 
-        DB::table('conflicts')->insert([
-            'id'                => 1,
-            'title_ru'             => 'Острый конфликт',
-            'latitude'          => 1351315135.45,
-            'longitude'         => 1256413515.45,
-            'company_name'      => 'ЗАО ПАО',
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Острый конфликт',
+            'latitude'     => 1351315135.45,
+            'longitude'    => 1256413515.45,
+            'company_name' => 'ЗАО ПАО',
         ]);
 
-        DB::table('events')->insert([
-            'id'            => 1,
-            'conflict_id'   => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'content_ru'       => 'Такие вот дела',
-            'date'          => 1544680093,
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflict->getId(),
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
+            'date'        => 1544680093,
         ]);
 
-        DB::table('users')->where('id',1)->delete();
+        $comment1 = new Comment();
+        $comment1->setContent('Вот это дела');
 
-        DB::table('users')->insert([
-            'id'            => 1,
-            'uuid'           => 'tasd446d6a4sd46as4d6',
-            'name'          => 'John Doe',
-            'email'         => 'jd@mail.ty',
-            'admin'         => true,
+        $comment2 = new Comment();
+        $comment2->setContent('Ну и дела');
+
+        $event->getComments()->add($comment1);
+        $event->getComments()->add($comment2);
+
+        EntityManager::persist($comment1);
+        EntityManager::persist($comment2);
+        EntityManager::persist($event);
+
+        EntityManager::createQueryBuilder()->from(User::class, 'u')->delete()->getQuery()->getResult();
+
+        entity(User::class)->create([
+            'uuid'  => '1',
+            'name'  => 'John Doe',
+            'email' => 'jd@mail.ty',
+            'admin' => true,
         ]);
+
+        return $event;
     }
 
     /**
      * запрос на список комментариев к событиям
      */
-    public function testIndex ()
+    public function testIndex()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        Event::find(1)->comments()->create([
-            'content'         => 'Вот это дела'
-        ]);
-
-        Event::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->get('/api/ru/event/1/comment')
+        $this->get('/api/ru/event/' . $event->getId() . '/comment')
             ->assertStatus(200);
     }
 
     /**
      * запрос одного коммента
      */
-    public function testView ()
+    public function testView()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $comment = Event::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->get("/api/ru/event/1/comment/$comment->id")
+        $this->get('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId())
             ->assertStatus(200);
     }
 
     /**
      * запрос несуществующего коммента события
      */
-    public function testViewWrong ()
+    public function testViewWrong()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $this->get('/api/ru/event/1/comment/2')
+        $this->get('/api/ru/event/' . $event->getId() . '/comment/-1')
             ->assertStatus(404);
     }
 
     /**
      * запрос на создание коммента события
      */
-    public function testStore ()
+    public function testStore()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $this->post('/api/ru/event/1/comment', [
-                'content'       => 'Надо что-то менять!',
-                'image_urls'    => ['https://heroku.com/image.png']
-            ])
-            ->assertStatus(201);
+        $this->post('/api/ru/event/' . $event->getId() . '/comment', [
+            'content'    => 'Надо что-то менять!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(200);
     }
 
     /**
      * некорректный запрос на создание коммента события
      */
-    public function testStoreInvalid ()
+    public function testStoreInvalid()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $this->post('/api/ru/event/1/comment', [
-            'content'       => 1,
-            'image_urls'    => 1
+        $this->post('/api/ru/event/' . $event->getId() . '/comment', [
+            'content'    => 1,
+            'image_urls' => 1
         ])
             ->assertStatus(422);
     }
@@ -120,17 +127,13 @@ class EventCommentControllerTest extends TestCase
     /**
      * запрос на обновление коммента события
      */
-    public function testUpdate ()
+    public function testUpdate()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $comment = Event::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->put("/api/ru/event/1/comment/$comment->id", [
-            'content'       => 'Надо что-то менять!',
-            'image_urls'    => ['https://heroku.com/image.png']
+        $this->put('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId(), [
+            'content'    => 'Надо что-то менять!',
+            'image_urls' => ['https://heroku.com/image.png']
         ])
             ->assertStatus(200);
     }
@@ -138,17 +141,13 @@ class EventCommentControllerTest extends TestCase
     /**
      * некорректый запрос на обновление коммента события
      */
-    public function testUpdateInvalid ()
+    public function testUpdateInvalid()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $comment = Event::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->put("/api/ru/event/1/comment/$comment->id", [
-            'content'       => 1,
-            'image_urls'    => 1
+        $this->put('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId(), [
+            'content'    => 1,
+            'image_urls' => 1
         ])
             ->assertStatus(422);
     }
@@ -156,12 +155,12 @@ class EventCommentControllerTest extends TestCase
     /**
      * запрос на обновление несуществующего комментария
      */
-    public function testUpdateWrong ()
+    public function testUpdateWrong()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $this->put('/api/ru/event/1/comment/1', [
-            'content'       => 'comment',
+        $this->put('/api/ru/event/' . $event->getId() . '/comment/-1', [
+            'content' => 'comment',
         ])
             ->assertStatus(404);
     }
@@ -169,26 +168,22 @@ class EventCommentControllerTest extends TestCase
     /**
      * запрос на удаление комментария
      */
-    public function testDelete ()
+    public function testDelete()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $comment = Event::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->delete("/api/ru/event/1/comment/$comment->id")
+        $this->delete('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId())
             ->assertStatus(200);
     }
 
     /**
      * запрос на удаление несущесвующего комментария
      */
-    public function testDeleteWrong ()
+    public function testDeleteWrong()
     {
-        $this->prepareDB();
+        $event = $this->prepareDB();
 
-        $this->delete('/api/ru/event/1/comment/1')
+        $this->delete('/api/ru/event/' . $event->getId() . '/comment/-1')
             ->assertStatus(404);
     }
 }

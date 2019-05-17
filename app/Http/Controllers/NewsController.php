@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\News;
 use App\Http\Requests\News\NewsDestroyRequest;
 use App\Http\Requests\News\NewsIndexRequest;
 use App\Http\Requests\News\NewsShowRequest;
@@ -9,112 +10,104 @@ use App\Http\Requests\News\NewsStoreRequest;
 use App\Http\Requests\News\NewsUpdateRequest;
 use App\Http\Resources\News\NewsDetailResource;
 use App\Http\Resources\News\NewsIndexResource;
-use App\Models\News;
-use App\Services\TagService;
+use App\Services\NewsService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
-    protected $tagService;
+    protected $service;
 
     protected $relations = ['photos', 'videos', 'user', 'tags'];
 
     /**
      * NewsController constructor.
-     * @param $tagService
+     * @param NewsService $service
      */
-    public function __construct(TagService $tagService)
+    public function __construct(NewsService $service)
     {
-        $this->tagService = $tagService;
+        $this->service = $service;
     }
 
+    /**
+     * @param NewsIndexRequest $request
+     * @param $locale
+     * @return AnonymousResourceCollection
+     */
     public function index(NewsIndexRequest $request, $locale)
     {
-        $tag_id = array_get($request->validated(), 'filters.tag_id');
-
-        $news = News::when($tag_id, function ($query) use ($tag_id) {
-            $query->whereHas('tags', function ($query) use ($tag_id) {
-                $query->where('id', $tag_id);
-            });
-        })
-            //Только локализованные записи
-            ->when($locale !== 'all', function ($query) use ($locale){
-                $query->whereNotNull("title_$locale")->whereNotNull("content_$locale");
-            })
-            ->with(['photos', 'videos', 'user', 'tags'])
-            ->orderBy('date', 'desc')
-            ->paginate(array_get($request, 'per_page', 20));
+        $news = $this->service->index(
+            array_get($request->validated(), 'filters',[]),
+            array_get($request, 'per_page', 20),
+            array_get($request, 'page', 1)
+        );
 
         return NewsIndexResource::collection($news);
     }
 
+    /**
+     * @param NewsStoreRequest $request
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
     public function store(NewsStoreRequest $request, $locale)
     {
         $this->authorize('create', News::class);
 
-        DB::beginTransaction();
-
-        $news = Auth::check()
-            ? Auth::user()->news()->create($request->validated())
-            : News::create($request->validated());
-
-        $news->views = 0;
-
-        foreach ($request->get('photo_urls', []) as $url) {
-            $news->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $news->videos()->create($video);
-        }
-
-        $this->tagService->updateNewsTags($news, $request->get('tags', []));
-
-        DB::commit();
+        $news = $this->service->create($request->validated(), Auth::user());
 
         return NewsDetailResource::make($news);
     }
 
+    /**
+     * @param NewsShowRequest $request
+     * @param News $news
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function show(NewsShowRequest $request, $locale, News $news)
     {
-        $news->increment('views');
+        $this->service->incrementViews($news);
 
         return NewsDetailResource::make($news);
     }
 
+    /**
+     * @param NewsUpdateRequest $request
+     * @param News $news
+     * @return NewsDetailResource
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     * @throws AuthorizationException
+     */
     public function update(NewsUpdateRequest $request, $locale, News $news)
     {
         $this->authorize('update', $news);
 
-        $news->update($request->validated());
-
-        $news->photos()->delete();
-        $news->videos()->delete();
-
-        foreach ($request->get('photo_urls', []) as $url) {
-            $news->photos()->create([
-                'url'           => $url,
-            ]);
-        }
-
-        foreach (array_get($request->validated(), 'videos', []) as $video) {
-            $news->videos()->create($video);
-        }
-
-        $this->tagService->updateNewsTags($news, $request->get('tags', []));
+        $news = $this->service->update($news, $request->validated());
 
         return NewsDetailResource::make($news);
     }
 
+    /**
+     * @param NewsDestroyRequest $request
+     * @param News $news
+     * @throws AuthorizationException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function destroy(NewsDestroyRequest $request, $locale, News $news)
     {
         $this->authorize('delete', $news);
 
-        $news->delete();
-
-        return $news->id;
+        $this->service->delete($news);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class UserTest extends TestCase
 {
+    use DoctrineTransactions;
     use CreatesApplication;
 
     /**

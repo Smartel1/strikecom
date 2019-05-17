@@ -1,23 +1,23 @@
 <?php
 
+use App\Entities\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Arr;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
-
-$factory->define(\App\Models\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker, array $attributes) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
+        'title_ru'     => Arr::get($attributes, 'title_ru', $faker->word),
+        'title_en'     => Arr::get($attributes, 'title_en', $faker->word),
+        'title_es'     => Arr::get($attributes, 'title_es', $faker->word),
+        'content_ru'   => Arr::get($attributes, 'content_ru', $faker->word),
+        'content_en'   => Arr::get($attributes, 'content_en', $faker->word),
+        'content_es'   => Arr::get($attributes, 'content_es', $faker->word),
+        'date'         => Arr::get($attributes, 'date', $faker->randomNumber(5)),
+        'source_link'  => Arr::get($attributes, 'source_link', $faker->url),
+
+        'uuid'  => Arr::get($attributes, 'uuid', $faker->uuid),
+        'name'  => Arr::get($attributes, 'name', $faker->name),
+        'email' => Arr::get($attributes, 'email', $faker->email),
+        'admin' => Arr::get($attributes, 'admin', true),
     ];
 });

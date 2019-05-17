@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Conflict;
 
+use App\Entities\Conflict;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ConflictBriefIndexResource extends Resource
@@ -14,18 +15,21 @@ class ConflictBriefIndexResource extends Resource
      */
     public function toArray($request)
     {
+        /** @var $conflict Conflict */
+        $conflict = $this;
+
         $structure = [
-            'id' => $this->id,
+            'id' => $conflict->getId(),
         ];
 
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['title'] = $this['title_'.$locale];
+            $structure['title'] = $conflict->getTitleByLocale($locale);
         } else {
-            $structure['title_ru'] = $this['title_ru'];
-            $structure['title_en'] = $this['title_en'];
-            $structure['title_es'] = $this['title_es'];
+            $structure['title_ru'] = $conflict->getTitleRu();
+            $structure['title_en'] = $conflict->getTitleEn();
+            $structure['title_es'] = $conflict->getTitleEs();
         }
 
         return $structure;

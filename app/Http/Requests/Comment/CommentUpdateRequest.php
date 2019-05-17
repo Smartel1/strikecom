@@ -10,7 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @summary Обновление комментария
  * @content содержание
  * @photo_urls массив ссылок на фото
- * @videos массив видео
  * @package App\Http\Requests\Comment
  */
 class CommentUpdateRequest extends FormRequest
@@ -33,12 +32,9 @@ class CommentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'             => 'nullable|min:3',
-            'photo_urls'           => 'nullable|array',
-            'photo_urls.*'         => 'required|string|max:500',
-            'videos'               => 'nullable|array',
-            'videos.*.url'         => 'required|string|max:500',
-            'videos.*.preview_url' => 'nullable|string|max:500',
+            'content'      => 'nullable|min:3',
+            'photo_urls'   => 'nullable|array',
+            'photo_urls.*' => 'required|string|max:500',
         ];
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\News;
 
-use App\Http\Resources\Comment\CommentResource;
-use App\Http\Resources\Conflict\ConflictDetailResource;
+use App\Entities\News;
+use App\Entities\Photo;
+use App\Entities\Tag;
+use App\Entities\Video;
 use Illuminate\Http\Resources\Json\Resource;
 
 class NewsDetailResource extends Resource
@@ -11,38 +13,58 @@ class NewsDetailResource extends Resource
     /**
      * Структура ответа на запрос деталки новости
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        /** @var $news News*/
+        $news = $this;
+
         $structure = [
-            'id'               => $this->id,
-            'date'             => $this->date,
-            'views'            => $this->views,
-            'source_link'      => $this->source_link,
-            'photos'           => $this->photos->pluck('url'),
-            'videos'           => $this->videos->makeHidden(['id', 'created_at', 'updated_at']),
-            'tags'             => $this->tags->pluck('name'),
-            'user'    => $this->user_id ? [
-                'id'     => $this->user->id,
-                'name'   => $this->user->name,
-                'email'  => $this->user->email
+            'id'          => $news->getId(),
+            'date'        => $news->getDate(),
+            'views'       => $news->getViews(),
+            'source_link' => $news->getSourceLink(),
+            'photos'      => $news->getPhotos()
+                ->map(function (Photo $photo) {
+                    return $photo->getUrl();
+                })
+                ->getValues(),
+            'videos'      => $news->getVideos()
+                ->map(function (Video $video) {
+                    return [
+                        'url'           => $video->getUrl(),
+                        'preview_url'   => $video->getPreviewUrl(),
+                        'video_type_id' => $video->getVideoType()->getId(),
+                    ];
+                })->getValues(),
+            'tags'        => $news->getTags()
+                ->map(function (Tag $tag) {
+                    return $tag->getName();
+                })->getValues(),
+            'user'        => $news->getUser() ? [
+                'id'    => $news->getUser()->getId(),
+                'name'  => $news->getUser()->getName(),
+                'email' => $news->getUser()->getEmail()
             ] : null,
         ];
 
         $locale = app('locale');
-
+        /**
+         * Если передана конкретная локаль, то возвращаем поля title и content на нужном языке
+         * Иначе возвращаем title_ru, title_en, title_es и content_ru, content_es, content_es
+         */
         if ($locale !== 'all') {
-            $structure['title'] = $this['title_'.$locale];
-            $structure['content'] = $this['content_'.$locale];
+            $structure['title'] = $news->getTitleByLocale($locale);
+            $structure['content'] = $news->getContentByLocale($locale);
         } else {
-            $structure['title_ru'] = $this['title_ru'];
-            $structure['title_en'] = $this['title_en'];
-            $structure['title_es'] = $this['title_es'];
-            $structure['content_ru'] = $this['content_ru'];
-            $structure['content_en'] = $this['content_en'];
-            $structure['content_es'] = $this['content_es'];
+            $structure['title_ru'] = $news->getTitleRu();
+            $structure['title_en'] = $news->getTitleEn();
+            $structure['title_es'] = $news->getTitleEs();
+            $structure['content_ru'] = $news->getContentRu();
+            $structure['content_en'] = $news->getContentEn();
+            $structure['content_es'] = $news->getContentEs();
         }
 
         return $structure;

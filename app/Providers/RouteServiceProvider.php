@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Conflict;
-use App\Models\Event;
-use App\Models\News;
-use Illuminate\Support\Facades\Route;
+use App\Entities\Event;
+use App\Entities\News;
+use Doctrine\ORM\EntityNotFoundException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -27,30 +28,75 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::bind('conflict', function($id){
-            return Conflict::findOrFail($id);
+            return $this->findOrFail('App\Entities\Conflict', $id);
         });
 
         Route::bind('event', function($id, $route){
 
-            Route::bind('comment', function($id, $route){
-                return $route->parameters()['event']->comments()->findOrFail($id);
+            /** @var $event Event*/
+            $event = $this->findOrFail('App\Entities\Event', $id);
+
+            Route::bind('comment', function($id, $route) use ($event) {
+                $comment = EntityManager::createQueryBuilder()
+                    ->select('c')
+                    ->from('App\Entities\Event','e')
+                    ->from('App\Entities\Comment','c')
+                    ->andwhere('c.id = :id')
+                    ->andwhere('e.id = :eventId')
+                    ->andwhere(EntityManager::getExpressionBuilder()->isMemberOf('c','e.comments'))
+                    ->setParameter('id', $id)
+                    ->setParameter('eventId', $event->getId())
+                    ->getQuery()
+                    ->getOneOrNullResult();
+                if (!$comment) throw new EntityNotFoundException();
+                return $comment;
             });
 
-            return Event::findOrFail($id);
+            return $this->findOrFail('App\Entities\Event', $id);
         });
 
         Route::bind('news', function($id){
+            /** @var $news News*/
+            $news = $this->findOrFail('App\Entities\News', $id);
 
-            Route::bind('comment', function($id, $route){
-                return $route->parameters()['news']->comments()->findOrFail($id);
+            //находим коммент новости. Если он не найден, выбрасываем исключение
+            Route::bind('comment', function($id, $route) use ($news) {
+                $comment = EntityManager::createQueryBuilder()
+                    ->select('c')
+                    ->from('App\Entities\News','n')
+                    ->from('App\Entities\Comment','c')
+                    ->andwhere('c.id = :id')
+                    ->andwhere('n.id = :newsId')
+                    ->andwhere(EntityManager::getExpressionBuilder()->isMemberOf('c','n.comments'))
+                    ->setParameter('id', $id)
+                    ->setParameter('newsId', $news->getId())
+                    ->getQuery()
+                    ->getOneOrNullResult();
+                if (!$comment) throw new EntityNotFoundException();
+                return $comment;
             });
 
-            return News::findOrFail($id);
+            return $news;
         });
 
-
+        Route::bind('client_version', function($id){
+            return $this->findOrFail('App\Entities\ClientVersion', $id);
+        });
 
         parent::boot();
+    }
+
+    /**
+     * @param $entityClass
+     * @param $id
+     * @return object|null
+     * @throws EntityNotFoundException
+     */
+    private function findOrFail($entityClass, $id)
+    {
+        $entity = EntityManager::find($entityClass, $id);
+        if (!$entity) throw new EntityNotFoundException();
+        return $entity;
     }
 
     /**

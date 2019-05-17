@@ -4,7 +4,8 @@
 namespace App\Rules;
 
 
-use App\Models\ClientVersion;
+use Doctrine\ORM\NonUniqueResultException;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 
 class UniqueVersion extends BusinessRule
 {
@@ -26,10 +27,21 @@ class UniqueVersion extends BusinessRule
      * Determine if the validation rule passes.
      *
      * @return bool
+     * @throws NonUniqueResultException
      */
     public function passes()
     {
-        return !ClientVersion::where('client_id', $this->clientId)->where('version', $this->version)->exists();
+        $versionExists = EntityManager::createQueryBuilder()
+            ->from('App\Entities\ClientVersion', 'cv')
+            ->where('cv.client_id = :clientId')
+            ->andWhere('cv.version = :version')
+            ->setParameter('clientId', $this->clientId)
+            ->setParameter('version', $this->version)
+            ->select('count(cv)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $versionExists === 0;
     }
 
     /**

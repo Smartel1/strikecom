@@ -32,8 +32,8 @@ class ClientVersionIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'current_version' => 'required|exists:client_versions,version',
-            'client_id'       => 'required|exists:client_versions,client_id',
+            'current_version' => 'required',
+            'client_id'       => 'required',
         ];
     }
 }

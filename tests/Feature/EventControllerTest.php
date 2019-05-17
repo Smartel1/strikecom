@@ -2,22 +2,34 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use App\Entities\Conflict;
+use App\Entities\Event;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class EventControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
-    private function clearConflictsAndAddOne()
+    /**
+     * Удалить все события из базы даннных
+     */
+    private function deleteAllEventsFromDB()
     {
-        DB::table('conflicts')->delete();
+        EntityManager::createQueryBuilder()->from(Event::class,'e')->delete()->getQuery()->getResult();
+    }
 
-        DB::table('conflicts')->insert([
-            'id'                 => 1,
+    /**
+     * @return int conflictId
+     */
+    private function clearConflictsAndAddOne() : int
+    {
+        EntityManager::createQueryBuilder()->from(Conflict::class,'c')->delete()->getQuery()->getResult();
+
+        $conflict = entity(Conflict::class)->create([
             'title_ru'           => 'Острый конфликт',
             'latitude'           => 1351315135.45,
             'longitude'          => 1256413515.45,
@@ -25,10 +37,12 @@ class EventControllerTest extends TestCase
             'conflict_reason_id' => 1,
             'conflict_result_id' => 3,
             'industry_id'        => 3,
-            'region_id'          => 5,
+            'region_id'          => 3,
             'date_from'          => 1544680093,
             'date_to'            => 1544690093,
         ]);
+
+        return $conflict->getId();
     }
 
     /**
@@ -36,11 +50,12 @@ class EventControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->clearConflictsAndAddOne();
+        $this->deleteAllEventsFromDB();
 
-        DB::table('events')->insert([
-            'id'              => 1,
-            'conflict_id'     => 1,
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        entity(Event::class)->create([
+            'conflict_id'     => $conflictId,
             'title_ru'        => 'Трудовой конфликт',
             'content_ru'      => 'Такие вот дела',
             'date'            => 1544680093,
@@ -58,11 +73,12 @@ class EventControllerTest extends TestCase
      */
     public function testIndexPostRequest()
     {
-        $this->clearConflictsAndAddOne();
+        $this->deleteAllEventsFromDB();
 
-        DB::table('events')->insert([
-            'id'              => 1,
-            'conflict_id'     => 1,
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        $event = entity(Event::class)->create([
+            'conflict_id'     => $conflictId,
             'title_ru'        => 'Трудовой конфликт',
             'content_ru'      => 'Такие вот дела',
             'date'            => 1544680093,
@@ -71,7 +87,10 @@ class EventControllerTest extends TestCase
             'event_type_id'   => '3',
         ]);
 
-        $this->post('/api/ru/event-list', ['filters' => ['conflict_ids' => [284, 299]]], ['content-type'=>'application/json'])
+        $this->post(
+            '/api/ru/event-list',
+            ['filters' => ['conflict_ids' => [$conflictId]]],
+            ['content-type'=>'application/json'])
             ->assertStatus(200);
     }
 
@@ -80,17 +99,16 @@ class EventControllerTest extends TestCase
      */
     public function testView()
     {
-        $this->clearConflictsAndAddOne();
+        $conflictId = $this->clearConflictsAndAddOne();
 
-        DB::table('events')->insert([
-            'id'          => 1,
-            'conflict_id' => 1,
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->get('/api/ru/event/1')
+        $this->get('/api/ru/event/' . $event->getId())
             ->assertStatus(200);
     }
 
@@ -99,7 +117,7 @@ class EventControllerTest extends TestCase
      */
     public function testViewWrong()
     {
-        $this->clearConflictsAndAddOne();
+        $this->deleteAllEventsFromDB();
 
         $this->get('/api/ru/event/1')
             ->assertStatus(404);
@@ -110,10 +128,10 @@ class EventControllerTest extends TestCase
      */
     public function testStore()
     {
-        $this->clearConflictsAndAddOne();
+        $conflictId = $this->clearConflictsAndAddOne();
 
         $this->post('/api/ru/event', [
-            'conflict_id'     => '1',
+            'conflict_id'     => $conflictId,
             'title'           => 'Беда в городе',
             'content'         => 'Рабы кричат и гневятся',
             'date'            => 1544680093,
@@ -126,7 +144,7 @@ class EventControllerTest extends TestCase
                 ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
             ],
         ])
-            ->assertStatus(201);
+            ->assertStatus(200);
     }
 
     /**
@@ -156,23 +174,22 @@ class EventControllerTest extends TestCase
      */
     public function testUpdate()
     {
-        $this->clearConflictsAndAddOne();
+        $conflictId = $this->clearConflictsAndAddOne();
 
-        DB::table('events')->insert([
-            'id'          => 1,
-            'conflict_id' => 1,
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->put('/api/ru/event/1', [
+        $this->put('/api/ru/event/' . $event->getId(), [
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,
             'source_link'     => 'https://domain.ru/img.png',
             'event_status_id' => '2',
-            'event_type_id'   => '5',
+            'event_type_id'   => '3',
             'tags'            => ['голод'],
             'photo_urls'      => ['images/ff.gif'],
             'videos'          => [
@@ -187,17 +204,16 @@ class EventControllerTest extends TestCase
      */
     public function testUpdateInvalid()
     {
-        $this->clearConflictsAndAddOne();
+        $conflictId = $this->clearConflictsAndAddOne();
 
-        DB::table('events')->insert([
-            'id'          => 1,
-            'conflict_id' => 1,
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->put('/api/ru/event/1', [
+        $this->put('/api/ru/event/' . $event->getId(), [
             'title'           => [],
             'content'         => [],
             'date'            => 15,
@@ -216,7 +232,7 @@ class EventControllerTest extends TestCase
      */
     public function testUpdateWrong()
     {
-        $this->clearConflictsAndAddOne();
+        $this->deleteAllEventsFromDB();
 
         $this->put('/api/ru/event/1', [
             'title'           => 'Беда в мегаполисе',
@@ -239,17 +255,16 @@ class EventControllerTest extends TestCase
      */
     public function testDelete()
     {
-        $this->clearConflictsAndAddOne();
+        $conflictId = $this->clearConflictsAndAddOne();
 
-        DB::table('events')->insert([
-            'id'          => 1,
-            'conflict_id' => 1,
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
             'date'        => 1544680093,
         ]);
 
-        $this->delete('/api/ru/event/1')
+        $this->delete('/api/ru/event/' . $event->getId())
             ->assertStatus(200);
     }
 
@@ -258,7 +273,7 @@ class EventControllerTest extends TestCase
      */
     public function testDeleteWrong()
     {
-        $this->clearConflictsAndAddOne();
+        $this->deleteAllEventsFromDB();
 
         $this->delete('/api/ru/event/1')
             ->assertStatus(404);

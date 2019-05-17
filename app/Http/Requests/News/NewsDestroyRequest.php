@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class NewsDestroyRequest
  * @description Запрос на удаление новости
- * @summary Удаление события
+ * @summary Удаление новости
  */
 class NewsDestroyRequest extends FormRequest
 {

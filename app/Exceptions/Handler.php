@@ -2,14 +2,14 @@
 
 namespace App\Exceptions;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Exception;
 use Firebase\Auth\Token\Exception\InvalidToken;
 use Firebase\Auth\Token\Exception\UnknownKey;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -19,7 +19,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        EntityNotFoundException::class,
     ];
 
     /**
@@ -58,6 +58,9 @@ class Handler extends ExceptionHandler
         if ($e instanceof AuthorizationException) {
             return response($e->getMessage(), 403);
         }
+        if ($e instanceof AuthenticationException) {
+            return response($e->getMessage(), 401);
+        }
         if ($e instanceof UnknownKey) {
             return response($e->getMessage(), 401);
         }
@@ -67,8 +70,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof ValidationException) {
             return response($e->errors(), 422);
         }
-
-        if ($e instanceof ModelNotFoundException) {
+        if ($e instanceof EntityNotFoundException) {
             return response('модель не найдена', 404);
         }
 

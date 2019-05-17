@@ -2,24 +2,24 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class ReferenceControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
     public function testReferences()
     {
-        DB::table('event_types')->where('id','>',3)->delete();
-        DB::table('event_statuses')->where('id','>',3)->delete();
-        DB::table('industries')->where('id','>',3)->delete();
-        DB::table('regions')->where('id','>',3)->delete();
-        DB::table('conflict_reasons')->where('id','>',3)->delete();
-        DB::table('conflict_results')->where('id','>',3)->delete();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\EventType t WHERE t.id > 3')->getResult();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\EventStatus t WHERE t.id > 3')->getResult();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\Industry t WHERE t.id > 3')->getResult();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\Region t WHERE t.id > 3')->getResult();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\ConflictReason t WHERE t.id > 3')->getResult();
+        EntityManager::createQuery('DELETE FROM App\Entities\References\ConflictResult t WHERE t.id > 3')->getResult();
 
         //запрос на список конфликтов
         $response = $this->get('/api/ru/reference');

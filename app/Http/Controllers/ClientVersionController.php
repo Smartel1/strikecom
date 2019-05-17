@@ -2,51 +2,74 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\ClientVersion;
+use App\Exceptions\BusinessRuleValidationException;
 use App\Http\Requests\ClientVersion\ClientVersionDestroyRequest;
 use App\Http\Requests\ClientVersion\ClientVersionIndexRequest;
 use App\Http\Requests\ClientVersion\ClientVersionStoreRequest;
 use App\Http\Resources\ClientVersion\ClientVersionResource;
-use App\Models\ClientVersion;
-use App\Rules\UniqueVersion;
-use App\Services\BusinessValidationService;
+use App\Services\ClientVersionService;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ClientVersionController extends Controller
 {
-    public function index(ClientVersionIndexRequest $request, $locale)
-    {
-        $currentVersion = ClientVersion::where('version', $request->current_version)
-            ->where('client_id', $request->client_id)
-            ->firstOrFail();
+    protected $service;
 
-        return ClientVersionResource::collection(
-            ClientVersion::where('id','>', $currentVersion->id)
-                ->orderBy('id','desc')
-                ->get()
-        );
+    /**
+     * ClientVersionController constructor.
+     * @param ClientVersionService $service
+     */
+    public function __construct(ClientVersionService $service)
+    {
+        $this->service = $service;
     }
 
-    public function store(ClientVersionStoreRequest $request, $locale, BusinessValidationService $businessValidationService)
+    /**
+     * @param ClientVersionIndexRequest $request
+     * @param $locale
+     * @return AnonymousResourceCollection
+     * @throws BusinessRuleValidationException
+     */
+    public function index(ClientVersionIndexRequest $request, $locale)
+    {
+        $newVersions = $this->service->getNewVersions($request->client_id, $request->current_version);
+
+        return ClientVersionResource::collection(collect($newVersions));
+    }
+
+    /**
+     * @param ClientVersionStoreRequest $request
+     * @param $locale
+     * @return ClientVersionResource
+     * @throws BusinessRuleValidationException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
+    public function store(ClientVersionStoreRequest $request, $locale)
     {
         $this->authorize('create', ClientVersion::class);
 
-        //Проверяем, что еще не существует такой версии
-        $businessValidationService->validate([
-            new UniqueVersion($request->version, $request->client_id)
-        ]);
-
-        $data = $request->validated();
-
-        $clientVersion = ClientVersion::create($data);
+        $clientVersion = $this->service->create($request->validated());
 
         return ClientVersionResource::make($clientVersion);
     }
 
+    /**
+     * @param ClientVersionDestroyRequest $request
+     * @param $locale
+     * @param ClientVersion $clientVersion
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws AuthorizationException
+     */
     public function destroy(ClientVersionDestroyRequest $request, $locale, ClientVersion $clientVersion)
     {
         $this->authorize('delete', $clientVersion);
 
-        $clientVersion->delete();
-
-        return $clientVersion->id;
+        $this->service->delete($clientVersion);
     }
 }

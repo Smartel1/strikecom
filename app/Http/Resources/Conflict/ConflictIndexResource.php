@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Conflict;
 
+use App\Entities\Conflict;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ConflictIndexResource extends Resource
@@ -14,27 +15,30 @@ class ConflictIndexResource extends Resource
      */
     public function toArray($request)
     {
+        /** @var $conflict Conflict */
+        $conflict = $this;
+
         $structure = [
-            'id'                    => $this->id,
-            'latitude'              => $this->latitude,
-            'longitude'             => $this->longitude,
-            'company_name'          => $this->company_name,
-            'date_from'             => $this->date_from,
-            'date_to'               => $this->date_to,
-            'conflict_reason_id'    => $this->conflict_reason_id,
-            'conflict_result_id'    => $this->conflict_result_id,
-            'industry_id'           => $this->industry_id,
-            'region_id'             => $this->region_id,
+            'id'                    => $conflict->getId(),
+            'latitude'              => $conflict->getLatitude(),
+            'longitude'             => $conflict->getLongitude(),
+            'company_name'          => $conflict->getCompanyName(),
+            'date_from'             => $conflict->getDateFrom(),
+            'date_to'               => $conflict->getDateTo(),
+            'conflict_reason_id'    => $conflict->getConflictReason() ? $conflict->getConflictReason()->getId() : null,
+            'conflict_result_id'    => $conflict->getConflictResult() ? $conflict->getConflictResult()->getId() : null,
+            'industry_id'           => $conflict->getIndustry() ? $conflict->getIndustry()->getId() : null,
+            'region_id'             => $conflict->getRegion() ? $conflict->getRegion()->getId() : null,
         ];
 
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['title'] = $this['title_'.$locale];
+            $structure['title'] = $conflict->getTitleByLocale($locale);
         } else {
-            $structure['title_ru'] = $this['title_ru'];
-            $structure['title_en'] = $this['title_en'];
-            $structure['title_es'] = $this['title_es'];
+            $structure['title_ru'] = $conflict->getTitleRu();
+            $structure['title_en'] = $conflict->getTitleEn();
+            $structure['title_es'] = $conflict->getTitleEs();
         }
 
         return $structure;

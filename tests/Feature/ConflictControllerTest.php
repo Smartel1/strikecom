@@ -2,21 +2,29 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use App\Entities\Conflict;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class ConflictControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
+    /**
+     * Удалить все конфликты из базы даннных
+     */
+    private function deleteAllConflictsFromDB()
+    {
+        EntityManager::createQueryBuilder()->from(Conflict::class,'c')->delete()->getQuery()->getResult();
+    }
 
     /**
      * запрос на список конфликтов с флагом brief
      */
-    public function testIndexBrief ()
+    public function testIndexBrief()
     {
         $this->get('/api/ru/conflict?brief=1')
             ->assertStatus(200);
@@ -25,22 +33,21 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на список конфликтов
      */
-    public function testIndex ()
+    public function testIndex()
     {
-        DB::table('conflicts')->delete();
+        $this->deleteAllConflictsFromDB();
 
-        DB::table('conflicts')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
-            'date_from'     => 1544680093,
-            'date_to'       => 1544690093,
-            'conflict_reason_id'     => 2,
-            'conflict_result_id'     => 3,
-            'industry_id'            => 2,
-            'region_id'              => 57
+        entity(Conflict::class)->create([
+            'title_ru'           => 'Трудовой конфликт',
+            'latitude'           => 54.5943,
+            'longitude'          => 57.1670,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544680093,
+            'date_to'            => 1544690093,
+            'conflict_reason_id' => 2,
+            'conflict_result_id' => 3,
+            'industry_id'        => 2,
+            'region_id'          => 3
         ]);
 
         $this->get('/api/ru/conflict')
@@ -50,7 +57,7 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на список конфликтов с неверным флагом brief
      */
-    public function testIndexInvalid ()
+    public function testIndexInvalid()
     {
         $this->get('/api/ru/conflict?brief=true')
             ->assertStatus(422);
@@ -59,34 +66,31 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос одного конфликта
      */
-    public function testView ()
+    public function testView()
     {
-        DB::table('conflicts')->where('id',1)->delete();
-
-        DB::table('conflicts')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
-            'date_from'     => 1544680093,
-            'date_to'       => 1544690093,
-            'conflict_reason_id'     => 2,
-            'conflict_result_id'     => 3,
-            'industry_id'            => 2,
-            'region_id'              => 57
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'           => 'Трудовой конфликт',
+            'latitude'           => 54.5943,
+            'longitude'          => 57.1670,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544680093,
+            'date_to'            => 1544690093,
+            'conflict_reason_id' => 2,
+            'conflict_result_id' => 3,
+            'industry_id'        => 2,
+            'region_id'          => 3
         ]);
 
-        $this->get('/api/ru/conflict/1')
+        $this->get('/api/ru/conflict/' . $conflict->getId())
             ->assertStatus(200);
     }
 
     /**
      * запрос несуществующего конфликта
      */
-    public function testViewWrong ()
+    public function testViewWrong()
     {
-        DB::table('conflicts')->where('id',1)->delete();
+        $this->deleteAllConflictsFromDB();
 
         $this->get('/api/ru/conflict/1')
             ->assertStatus(404);
@@ -95,27 +99,27 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на создание конфликта
      */
-    public function testStore ()
+    public function testStore()
     {
         $this->post('/api/ru/conflict', [
-            'title'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
-            'date_from'     => 1544690093,
-            'date_to'       => 1545680093,
-            'conflict_reason_id'     => 2,
-            'conflict_result_id'     => 3,
-            'industry_id'            => 2,
-            'region_id'              => 57
+            'title'              => 'Трудовой конфликт',
+            'latitude'           => 54.5943,
+            'longitude'          => 57.1670,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544690093,
+            'date_to'            => 1545680093,
+            'conflict_reason_id' => 2,
+            'conflict_result_id' => 3,
+            'industry_id'        => 2,
+            'region_id'          => 3
         ])
-            ->assertStatus(201);
+            ->assertStatus(200);
     }
 
     /**
      * некорректный запрос на создание конфликта
      */
-    public function testStoreInvalid ()
+    public function testStoreInvalid()
     {
         $this->post('/api/ru/conflict', [])
             ->assertStatus(422);
@@ -124,29 +128,26 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на обновление конфликта
      */
-    public function testUpdate ()
+    public function testUpdate()
     {
-        DB::table('conflicts')->where('id',1)->delete();
-
-        DB::table('conflicts')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Трудовой конфликт',
+            'latitude'     => 54.5943,
+            'longitude'    => 57.1670,
+            'company_name' => 'ПАО АМЗ',
         ]);
 
-        $this->put('/api/ru/conflict/1', [
-            'title'         => 'Трудовой конфликт',
-            'latitude'      => 54.5944,
-            'longitude'     => 57.1671,
-            'company_name'  => 'ПАО АМЗ',
-            'date_from'     => 1544680093,
-            'date_to'       => 1544780093,
-            'conflict_reason_id'     => 5,
-            'conflict_result_id'     => 2,
-            'industry_id'            => 1,
-            'region_id'              => 54
+        $this->put('/api/ru/conflict/' . $conflict->getId(), [
+            'title'              => 'Трудовой конфликт',
+            'latitude'           => 54.5944,
+            'longitude'          => 57.1671,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544680093,
+            'date_to'            => 1544780093,
+            'conflict_reason_id' => 3,
+            'conflict_result_id' => 2,
+            'industry_id'        => 1,
+            'region_id'          => 3
         ])
             ->assertStatus(200);
     }
@@ -154,29 +155,26 @@ class ConflictControllerTest extends TestCase
     /**
      * некорректный запрос на обновление конфликта
      */
-    public function testUpdateInvalid ()
+    public function testUpdateInvalid()
     {
-        DB::table('conflicts')->where('id',1)->delete();
-
-        DB::table('conflicts')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Трудовой конфликт',
+            'latitude'     => 54.5943,
+            'longitude'    => 57.1670,
+            'company_name' => 'ПАО АМЗ',
         ]);
 
-        $this->put('/api/ru/conflict/1', [
-            'title'         => [],
-            'latitude'      => [],
-            'longitude'     => [],
-            'company_name'  => [],
-            'date_from'     => [],
-            'date_to'       => 5,
-            'conflict_reason_id'     => [],
-            'conflict_result_id'     => [],
-            'industry_id'            => [],
-            'region_id'              => []
+        $this->put('/api/ru/conflict/' . $conflict->getId(), [
+            'title'              => [],
+            'latitude'           => [],
+            'longitude'          => [],
+            'company_name'       => [],
+            'date_from'          => [],
+            'date_to'            => 5,
+            'conflict_reason_id' => [],
+            'conflict_result_id' => [],
+            'industry_id'        => [],
+            'region_id'          => []
         ])
             ->assertStatus(422);
     }
@@ -184,21 +182,21 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на обновление несуществующего конфликта
      */
-    public function testUpdateWrong ()
+    public function testUpdateWrong()
     {
-        DB::table('conflicts')->where('id',1)->delete();
+        $this->deleteAllConflictsFromDB();
 
         $this->put('/api/ru/conflict/1', [
-            'title'         => 'Трудовой конфликт',
-            'latitude'      => 54.5944,
-            'longitude'     => 57.1671,
-            'company_name'  => 'ПАО АМЗ',
-            'date_from'     => 1544680093,
-            'date_to'       => 1544980093,
-            'conflict_reason_id'     => 5,
-            'conflict_result_id'     => 2,
-            'industry_id'            => 1,
-            'region_id'              => 54
+            'title'              => 'Трудовой конфликт',
+            'latitude'           => 54.5944,
+            'longitude'          => 57.1671,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544680093,
+            'date_to'            => 1544980093,
+            'conflict_reason_id' => 5,
+            'conflict_result_id' => 2,
+            'industry_id'        => 1,
+            'region_id'          => 3
         ])
             ->assertStatus(404);
     }
@@ -206,28 +204,25 @@ class ConflictControllerTest extends TestCase
     /**
      * запрос на удаление конфликта
      */
-    public function testDelete ()
+    public function testDelete()
     {
-        DB::table('conflicts')->where('id',1)->delete();
-
-        DB::table('conflicts')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Трудовой конфликт',
-            'latitude'      => 54.5943,
-            'longitude'     => 57.1670,
-            'company_name'  => 'ПАО АМЗ',
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Трудовой конфликт',
+            'latitude'     => 54.5943,
+            'longitude'    => 57.1670,
+            'company_name' => 'ПАО АМЗ',
         ]);
 
-        $this->delete('/api/ru/conflict/1')
+        $this->delete('/api/ru/conflict/' . $conflict->getId())
             ->assertStatus(200);
     }
 
     /**
      * запрос на удаление несуществующего конфликта
      */
-    public function testDeleteWrong ()
+    public function testDeleteWrong()
     {
-        DB::table('conflicts')->where('id',1)->delete();
+        $this->deleteAllConflictsFromDB();
 
         $this->delete('/api/ru/conflict/1')
             ->assertStatus(404);

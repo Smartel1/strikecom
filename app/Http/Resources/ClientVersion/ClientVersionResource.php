@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\ClientVersion;
 
+use App\Entities\ClientVersion;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ClientVersionResource extends Resource
@@ -9,25 +10,28 @@ class ClientVersionResource extends Resource
     /**
      * Структура ответа на запрос версии клиентского приложения
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        /** @var $version ClientVersion */
+        $version = $this;
+
         $structure = [
-            'id' => $this->id,
-            'version' => $this->version,
-            'required' => $this->required,
+            'id'       => $version->getId(),
+            'version'  => $version->getVersion(),
+            'required' => $version->isRequired(),
         ];
 
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['description'] = $this['description_'.$locale];
+            $structure['description'] = $version->getDescriptionByLocale($locale);
         } else {
-            $structure['description_ru'] = $this['description_ru'];
-            $structure['description_en'] = $this['description_en'];
-            $structure['description_es'] = $this['description_es'];
+            $structure['description_ru'] = $version->getDescriptionRu();
+            $structure['description_en'] = $version->getDescriptionEn();
+            $structure['description_es'] = $version->getDescriptionEs();
         }
 
         return $structure;
