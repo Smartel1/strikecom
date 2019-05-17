@@ -74,7 +74,7 @@ class ConflictController extends Controller
      * @param Conflict $conflict
      * @return ConflictDetailResource
      */
-    public function show(Conflict $conflict)
+    public function show(ConflictShowRequest $request, $locale, Conflict $conflict)
     {
         return ConflictDetailResource::make($conflict);
     }

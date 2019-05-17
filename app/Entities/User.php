@@ -64,6 +64,35 @@ class User implements Authenticatable
     protected $image_url;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Event")
+     * @ORM\JoinTable(name="favourite_events",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")}
+     *      )
+     * @var ArrayCollection|Event[]
+     */
+    protected $favouriteEvents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="News")
+     * @ORM\JoinTable(name="favourite_news",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")}
+     *      )
+     * @var ArrayCollection|News[]
+     */
+    protected $favouriteNews;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->favouriteEvents = new ArrayCollection();
+        $this->favouriteNews = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -272,4 +301,37 @@ class User implements Authenticatable
     {
         return '';
     }
+
+    /**
+     * @return Event[]|ArrayCollection
+     */
+    public function getFavouriteEvents()
+    {
+        return $this->favouriteEvents;
+    }
+
+    /**
+     * @param Event[]|ArrayCollection $favouriteEvents
+     */
+    public function setFavouriteEvents($favouriteEvents): void
+    {
+        $this->favouriteEvents = $favouriteEvents;
+    }
+
+    /**
+     * @return News[]|ArrayCollection
+     */
+    public function getFavouriteNews()
+    {
+        return $this->favouriteNews;
+    }
+
+    /**
+     * @param News[]|ArrayCollection $favouriteNews
+     */
+    public function setFavouriteNews($favouriteNews): void
+    {
+        $this->favouriteNews = $favouriteNews;
+    }
+
 }

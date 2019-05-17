@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,7 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     Route::apiResource('news.comment', 'NewsCommentController');
 
     Route::get('user', function(){
-        return Auth::user()->load('favouriteEvents', 'favouriteNews');
+        return UserResource::make(Auth::user())->toArray(null);
     });
 });
 

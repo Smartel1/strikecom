@@ -101,7 +101,7 @@ class ClientVersion
     /**
      * @return mixed
      */
-    public function getRequired()
+    public function isRequired()
     {
         return $this->required;
     }
@@ -160,6 +160,18 @@ class ClientVersion
     public function setDescriptionEs($description_es): void
     {
         $this->description_es = $description_es;
+    }
+
+    /**
+     * Вернуть локализованное описание
+     * @param string $locale
+     * @return string|null
+     */
+    public function getDescriptionByLocale(string $locale) : ?string
+    {
+        $getterName = 'getDescription' . $locale;
+
+        return $this->$getterName();
     }
 
 }

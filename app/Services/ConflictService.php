@@ -125,7 +125,6 @@ class ConflictService
      * @param string|null $conflictReasonId
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     private function setConflictReason(Conflict $conflict, ?string $conflictReasonId)
     {
@@ -135,7 +134,7 @@ class ConflictService
         }
 
         /** @var $reason ConflictReason */
-        $reason = $this->em->find('App\Entities\References\ConflictReason', $conflictReasonId);
+        $reason = $this->em->getReference('App\Entities\References\ConflictReason', $conflictReasonId);
 
         $conflict->setConflictReason($reason);
     }
@@ -145,7 +144,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $conflictResultId
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
     private function setConflictResult(Conflict $conflict, ?string $conflictResultId)
@@ -156,7 +154,7 @@ class ConflictService
         }
 
         /** @var $result ConflictResult */
-        $result = $this->em->find('App\Entities\References\ConflictResult', $conflictResultId);
+        $result = $this->em->getReference('App\Entities\References\ConflictResult', $conflictResultId);
 
         $conflict->setConflictResult($result);
     }
@@ -167,7 +165,6 @@ class ConflictService
      * @param string|null $industryId
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     private function setIndustry(Conflict $conflict, ?string $industryId)
     {
@@ -177,7 +174,7 @@ class ConflictService
         }
 
         /** @var $industry Industry */
-        $industry = $this->em->find('App\Entities\References\Industry', $industryId);
+        $industry = $this->em->getReference('App\Entities\References\Industry', $industryId);
 
         $conflict->setIndustry($industry);
     }
@@ -188,7 +185,6 @@ class ConflictService
      * @param string|null $regionId
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     private function setRegion(Conflict $conflict, ?string $regionId)
     {
@@ -198,7 +194,7 @@ class ConflictService
         }
 
         /** @var $region Region */
-        $region = $this->em->find('App\Entities\References\Region', $regionId);
+        $region = $this->em->getReference('App\Entities\References\Region', $regionId);
 
         $conflict->setRegion($region);
     }

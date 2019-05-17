@@ -2,109 +2,115 @@
 
 namespace Tests\Feature;
 
-use App\Models\News;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use App\Entities\Comment;
+use App\Entities\News;
+use App\Entities\User;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class NewsCommentControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
-
-    public function prepareDB()
+    /**
+     * Подготовить базу к тетсированию
+     * @return News тестовая новость
+     */
+    public function prepareDB(): News
     {
-        DB::table('news')->where('id',1)->delete();
+        EntityManager::createQueryBuilder()->from(News::class, 'n')->delete()->getQuery()->getResult();
 
-        DB::table('news')->insert([
-            'id'            => 1,
-            'title_ru'         => 'Новость из соседнего села',
-            'content_ru'       => 'Такие вот дела',
-            'date'          => 1544680093,
+        $news = entity(News::class)->create([
+            'title_ru'   => 'Новость из соседнего села',
+            'content_ru' => 'Такие вот дела',
+            'date'       => 1544680093,
         ]);
 
-        DB::table('users')->where('id',1)->delete();
+        $comment1 = new Comment();
+        $comment1->setContent('Вот это дела');
 
-        DB::table('users')->insert([
-            'id'            => 1,
-            'uuid'           => 'tasd446d6a4sd46as4d6',
-            'name'          => 'John Doe',
-            'email'         => 'jd@mail.ty',
-            'admin'         => true,
+        $comment2 = new Comment();
+        $comment2->setContent('Ну и дела');
+
+        $news->getComments()->add($comment1);
+        $news->getComments()->add($comment2);
+
+        EntityManager::persist($comment1);
+        EntityManager::persist($comment2);
+        EntityManager::persist($news);
+
+        EntityManager::createQueryBuilder()->from(User::class, 'u')->delete()->getQuery()->getResult();
+
+        entity(User::class)->create([
+            'uuid'  => '1',
+            'name'  => 'John Doe',
+            'email' => 'jd@mail.ty',
+            'admin' => true,
         ]);
+
+        return $news;
     }
 
     /**
      * запрос на список комментариев к новости
      */
-    public function testIndex ()
+    public function testIndex()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        News::find(1)->comments()->create([
-            'content'         => 'Вот это дела'
-        ]);
-
-        News::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->get('/api/ru/news/1/comment')
+        $this->get('/api/ru/news/' . $news->getId() . '/comment')
             ->assertStatus(200);
     }
 
     /**
      * запрос одного коммента
      */
-    public function testView ()
+    public function testView()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $comment = News::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->get("/api/ru/news/1/comment/$comment->id")
+        $this->get('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId())
             ->assertStatus(200);
     }
 
     /**
      * запрос несуществующего коммента события
      */
-    public function testViewWrong ()
+    public function testViewWrong()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $this->get('/api/ru/news/1/comment/2')
+        $this->get('/api/ru/news/' . $news->getId() . '/comment/' . -1)
             ->assertStatus(404);
     }
 
     /**
      * запрос на создание коммента новости
      */
-    public function testStore ()
+    public function testStore()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $this->post('/api/ru/news/1/comment', [
-                'content'       => 'Надо реагировать!',
-                'image_urls'    => ['https://heroku.com/image.png']
-            ])
-            ->assertStatus(201);
+        $this->post('/api/ru/news/' . $news->getId() . '/comment', [
+            'content'    => 'Надо реагировать!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(200);
     }
 
     /**
      * некорректный запрос на создание коммента новости
      */
-    public function testStoreInvalid ()
+    public function testStoreInvalid()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $this->post('/api/ru/news/1/comment', [
-            'content'       => 1,
-            'image_urls'    => 1
+        $this->post('/api/ru/news/' . $news->getId() . '/comment', [
+            'content'    => 1,
+            'image_urls' => 1
         ])
             ->assertStatus(422);
     }
@@ -112,17 +118,13 @@ class NewsCommentControllerTest extends TestCase
     /**
      * запрос на обновление коммента события
      */
-    public function testUpdate ()
+    public function testUpdate()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $comment = News::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->put("/api/ru/news/1/comment/$comment->id", [
-            'content'       => 'Надо что-то думать!',
-            'image_urls'    => ['https://heroku.com/image.png']
+        $this->put('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId(), [
+            'content'    => 'Надо что-то думать!',
+            'image_urls' => ['https://heroku.com/image.png']
         ])
             ->assertStatus(200);
     }
@@ -130,17 +132,13 @@ class NewsCommentControllerTest extends TestCase
     /**
      * некорректый запрос на обновление коммента новости
      */
-    public function testUpdateInvalid ()
+    public function testUpdateInvalid()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $comment = News::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->put("/api/ru/news/1/comment/$comment->id", [
-            'content'       => 1,
-            'image_urls'    => 1
+        $this->put('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId(), [
+            'content'    => 1,
+            'image_urls' => 1
         ])
             ->assertStatus(422);
     }
@@ -148,12 +146,12 @@ class NewsCommentControllerTest extends TestCase
     /**
      * запрос на обновление несуществующего комментария новости
      */
-    public function testUpdateWrong ()
+    public function testUpdateWrong()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $this->put('/api/ru/news/1/comment/1', [
-            'content'       => 'comment',
+        $this->put('/api/ru/news/' . $news->getId() . '/comment/-1', [
+            'content' => 'comment',
         ])
             ->assertStatus(404);
     }
@@ -161,26 +159,22 @@ class NewsCommentControllerTest extends TestCase
     /**
      * запрос на удаление комментария
      */
-    public function testDelete ()
+    public function testDelete()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $comment = News::find(1)->comments()->create([
-            'content'         => 'Ну и дела'
-        ]);
-
-        $this->delete("/api/ru/news/1/comment/$comment->id")
+        $this->delete('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId())
             ->assertStatus(200);
     }
 
     /**
-     * запрос на удаление несущесвующего комментария
+     * запрос на удаление несуществующего комментария
      */
-    public function testDeleteWrong ()
+    public function testDeleteWrong()
     {
-        $this->prepareDB();
+        $news = $this->prepareDB();
 
-        $this->delete('/api/ru/news/1/comment/1')
+        $this->delete('/api/ru/news/' . $news->getId() . '/comment/-1')
             ->assertStatus(404);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Rules;
 use Doctrine\ORM\NonUniqueResultException;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 
-class UniqueVersion extends BusinessRule
+class VersionExists extends BusinessRule
 {
     private $version;
     private $clientId;
@@ -41,7 +41,7 @@ class UniqueVersion extends BusinessRule
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $versionExists === 0;
+        return $versionExists > 0;
     }
 
     /**
@@ -51,6 +51,6 @@ class UniqueVersion extends BusinessRule
      */
     public function message()
     {
-        return 'Такая версия уже существует';
+        return 'Такой версии не существует';
     }
 }

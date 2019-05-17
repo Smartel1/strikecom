@@ -52,10 +52,10 @@ class ConflictStoreRequest extends FormRequest
             'company_name'       => 'nullable|string|min:3|max:500',
             'date_from'          => 'nullable|integer',
             'date_to'            => 'nullable|integer',
-            'conflict_reason_id' => 'required|exists:App\Entities\References\ConflictReason,id',
-            'conflict_result_id' => 'nullable|exists:App\Entities\References\ConflictResult,id',
-            'industry_id'        => 'nullable|exists:App\Entities\References\Industry,id',
-            'region_id'          => 'nullable|exists:App\Entities\References\Region,id',
+            'conflict_reason_id' => 'required|integer|exists:App\Entities\References\ConflictReason,id',
+            'conflict_result_id' => 'nullable|integer|exists:App\Entities\References\ConflictResult,id',
+            'industry_id'        => 'nullable|integer|exists:App\Entities\References\Industry,id',
+            'region_id'          => 'nullable|integer|exists:App\Entities\References\Region,id',
         ];
     }
 

@@ -246,12 +246,12 @@ class ClientVersion extends \App\Entities\ClientVersion implements \Doctrine\ORM
     /**
      * {@inheritDoc}
      */
-    public function getRequired()
+    public function isRequired()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRequired', []);
 
-        return parent::getRequired();
+        return parent::isRequired();
     }
 
     /**

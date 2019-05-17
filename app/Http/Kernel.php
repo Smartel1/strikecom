@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Middleware\DefineLocale;
-use App\Http\Middleware\SubstituteBindings;
 use App\Http\Middleware\TokenAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -39,7 +38,7 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-            SubstituteBindings::class,
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
@@ -59,7 +58,7 @@ class Kernel extends HttpKernel
         'tokenAuth' => TokenAuth::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => SubstituteBindings::class,
+        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,

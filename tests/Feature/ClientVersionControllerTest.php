@@ -2,41 +2,39 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
+use App\Entities\ClientVersion;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class ClientVersionControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
+    /**
+     * Удалить все версии из базы даннных
+     */
+    private function deleteAllVersionsFromDB()
+    {
+        EntityManager::createQueryBuilder()->from(ClientVersion::class,'c')->delete()->getQuery()->getResult();
+    }
     /**
      * запрос на список новых версий
      */
     public function testIndex()
     {
-        DB::table('client_versions')->delete();
+        $this->deleteAllVersionsFromDB();
 
-        DB::table('client_versions')->insert([
-            'id'             => 1,
-            'version'        => '1.2.0',
-            'client_id'      => 'org.nrstudio.strikecom',
-            'required'       => true,
-            'description_ru' => 'Добавлена возможность свергать деспотов',
-            'description_en' => 'Features added',
-            'description_es' => 'Smth',
+        entity(ClientVersion::class)->create([
+            'version'   => '1.2.0',
+            'client_id' => 'org.nrstudio.strikecom',
         ]);
 
-        DB::table('client_versions')->insert([
-            'id'             => 2,
-            'version'        => '1.2.1',
-            'client_id'      => 'org.nrstudio.strikecom',
-            'required'       => false,
-            'description_ru' => 'Исправление ошибок свержения',
-            'description_en' => 'Bugfixes',
-            'description_es' => 'Smth',
+        entity(ClientVersion::class)->create([
+            'version'   => '1.2.1',
+            'client_id' => 'org.nrstudio.strikecom',
         ]);
 
         $this->get('/api/ru/client-version?client_id=org.nrstudio.strikecom&current_version=1.2.0')
@@ -48,28 +46,6 @@ class ClientVersionControllerTest extends TestCase
      */
     public function testIndexInvalid()
     {
-        DB::table('client_versions')->delete();
-
-        DB::table('client_versions')->insert([
-            'id'             => 1,
-            'version'        => '1.2.0',
-            'client_id'      => 'org.nrstudio.strikecom',
-            'required'       => true,
-            'description_ru' => 'Добавлена возможность свергать деспотов',
-            'description_en' => 'Features added',
-            'description_es' => 'Smth',
-        ]);
-
-        DB::table('client_versions')->insert([
-            'id'             => 2,
-            'version'        => '1.2.1',
-            'client_id'      => 'org.nrstudio.strikecom',
-            'required'       => false,
-            'description_ru' => 'Исправление ошибок свержения',
-            'description_en' => 'Bugfixes',
-            'description_es' => 'Smth',
-        ]);
-
         $this->get('/api/ru/client-version?client_id=org.nrstudio.strikecom&current_version=1.2')
             ->assertStatus(422);
     }
@@ -87,7 +63,7 @@ class ClientVersionControllerTest extends TestCase
             'description_en' => 'Bugfixes',
             'description_es' => 'Smth',
         ])
-            ->assertStatus(201);
+            ->assertStatus(200);
     }
 
     /**
@@ -111,28 +87,21 @@ class ClientVersionControllerTest extends TestCase
      */
     public function testDelete()
     {
-        DB::table('client_versions')->where('id', 1)->delete();
-
-        DB::table('client_versions')->insert([
-            'id'             => 1,
-            'version'        => '1.2.0',
-            'client_id'      => 'org.nrstudio.strikecom',
-            'required'       => true,
-            'description_ru' => 'Добавлена возможность свергать деспотов',
-            'description_en' => 'Features added',
-            'description_es' => 'Smth',
+        $version = entity(ClientVersion::class)->create([
+            'version'   => '1.2.0',
+            'client_id' => 'org.nrstudio.strikecom',
         ]);
 
-        $this->delete('/api/ru/client-version/1')
+        $this->delete('/api/ru/client-version/' . $version->getId())
             ->assertStatus(200);
     }
 
     /**
-     * запрос на удаление несущесвующей версии
+     * запрос на удаление несуществующей версии
      */
     public function testDeleteWrong()
     {
-        DB::table('client_versions')->where('id', 1)->delete();
+        $this->deleteAllVersionsFromDB();
 
         $this->delete('/api/ru/client-version/1')
             ->assertStatus(404);
