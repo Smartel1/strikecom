@@ -37,6 +37,7 @@ class TokenAuth
                 $user->setUuid(1);
                 $user->setAdmin(true);
                 $em->persist($user);
+                $em->flush();
             }
             Auth::login($user);
             return $next($request);
@@ -68,7 +69,7 @@ class TokenAuth
             throw new AuthenticationException('Проблемы с аутентификацией');
         }
 
-        $user = $em->getRepository('App\Entities\User')->findOneBy(['uuid', $uuid]);
+        $user = $em->getRepository(User::class)->findOneBy(['uuid' => $uuid]);
 
         if (!$user) {
 
@@ -80,6 +81,7 @@ class TokenAuth
             $user->setName($userData->displayName);
 
             $em->persist($user);
+            $em->flush();
         }
 
         Auth::login($user);
