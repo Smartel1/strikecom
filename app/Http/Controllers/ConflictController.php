@@ -17,6 +17,7 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
 
 class ConflictController extends Controller
 {
@@ -41,7 +42,7 @@ class ConflictController extends Controller
      */
     public function index(ConflictIndexRequest $request, $locale)
     {
-        $conflictsCollection = $this->conflictService->index();
+        $conflictsCollection = $this->conflictService->index(Arr::get($request->validated(), 'filters',[]));
 
         if ($request->get('brief')) {
             return ConflictBriefIndexResource::collection($conflictsCollection);

@@ -33,12 +33,33 @@ class ConflictService
     }
 
     /**
-     * Вернуть все конфликты из бд
+     * Вернуть конфликты из бд
+     * @param array $filters
      * @return Collection
      */
-    public function index()
+    public function index(array $filters)
     {
-        $conflicts = $this->em->getRepository('App\Entities\Conflict')->findAll();
+        $expr = $this->em->getExpressionBuilder();
+
+        $queryBuilder = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(Conflict::class, 'c');
+
+        //Если передан фильтр по дате начала, добавляем условие
+        $dateFrom = Arr::get($filters, 'date_from');
+
+        if ($dateFrom) {
+            $queryBuilder->andWhere($expr->gte('c.date_from', $dateFrom));
+        }
+
+        //Если передан фильтр по дате окончания, добавляем условие
+        $dateTo = Arr::get($filters, 'date_to');
+
+        if ($dateTo) {
+            $queryBuilder->andWhere($expr->lte('c.date_to', $dateTo));
+        }
+
+        $conflicts = $queryBuilder->getQuery()->getResult();
 
         return collect($conflicts);
     }

@@ -20,6 +20,8 @@ class ConflictBriefIndexResource extends Resource
 
         $structure = [
             'id' => $conflict->getId(),
+            'latitude' => $conflict->getLatitude(),
+            'longitude' => $conflict->getLongitude(),
         ];
 
         $locale = app('locale');
