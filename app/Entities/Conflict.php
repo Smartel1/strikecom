@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="conflicts")
+ * @Gedmo\Mapping\Annotation\Tree(type="nested")
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
 class Conflict
 {
@@ -65,6 +67,31 @@ class Conflict
      * @ORM\Column(type="integer")
      */
     protected $date_to;
+
+    /**
+     * @Gedmo\Mapping\Annotation\TreeLeft
+     * @ORM\Column(type="integer")
+     */
+    protected $_lft;
+
+    /**
+     * @Gedmo\Mapping\Annotation\TreeRight
+     * @ORM\Column(type="integer")
+     */
+    protected $_rgt;
+
+    /**
+     * @Gedmo\Mapping\Annotation\TreeParent
+     * @ORM\ManyToOne(targetEntity="Conflict", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Conflict", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    protected $children;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entities\References\ConflictReason")
@@ -161,7 +188,7 @@ class Conflict
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getLatitude()
     {
@@ -171,13 +198,13 @@ class Conflict
     /**
      * @param mixed $latitude
      */
-    public function setLatitude($latitude): void
+    public function setLatitude(float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getLongitude()
     {
@@ -187,7 +214,7 @@ class Conflict
     /**
      * @param mixed $longitude
      */
-    public function setLongitude($longitude): void
+    public function setLongitude(float $longitude): void
     {
         $this->longitude = $longitude;
     }
@@ -238,6 +265,70 @@ class Conflict
     public function setDateTo($date_to): void
     {
         $this->date_to = $date_to;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLft()
+    {
+        return $this->_lft;
+    }
+
+    /**
+     * @param mixed $lft
+     */
+    public function setLft($lft): void
+    {
+        $this->_lft = $lft;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRgt()
+    {
+        return $this->_rgt;
+    }
+
+    /**
+     * @param int|null $rgt
+     */
+    public function setRgt($rgt): void
+    {
+        $this->_rgt = $rgt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param Conflict|null $parent
+     */
+    public function setParent(?Conflict $parent): void
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param mixed $children
+     */
+    public function setChildren($children): void
+    {
+        $this->children = $children;
     }
 
     /**

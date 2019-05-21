@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Entities\Conflict;
-use App\Entities\Event;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
@@ -13,7 +12,7 @@ use App\Entities\References\Region;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\TransactionRequiredException;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -80,7 +79,6 @@ class ConflictService
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function create($data)
     {
@@ -102,7 +100,6 @@ class ConflictService
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function update(Conflict $conflict, $data)
     {
@@ -121,8 +118,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param $data
      * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     private function fillConflictFields(Conflict $conflict, $data)
     {
@@ -140,6 +135,7 @@ class ConflictService
         $this->setConflictResult($conflict, Arr::get($data, 'conflict_result_id'));
         $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
         $this->setRegion($conflict, Arr::get($data, 'region_id'));
+        $this->setParent($conflict, Arr::get($data, 'parent_id'));
 
         $locale = app('locale');
 
@@ -156,7 +152,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $conflictReasonId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setConflictReason(Conflict $conflict, ?string $conflictReasonId)
     {
@@ -176,7 +171,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $conflictResultId
      * @throws ORMException
-     * @throws TransactionRequiredException
      */
     private function setConflictResult(Conflict $conflict, ?string $conflictResultId)
     {
@@ -196,7 +190,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $industryId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setIndustry(Conflict $conflict, ?string $industryId)
     {
@@ -216,7 +209,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $regionId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setRegion(Conflict $conflict, ?string $regionId)
     {
@@ -232,13 +224,35 @@ class ConflictService
     }
 
     /**
+     * Установить родительский конфликт
+     * @param Conflict $child
+     * @param int|null $parentId
+     * @throws ORMException
+     */
+    private function setParent(Conflict $child, ?int $parentId)
+    {
+        /** @var $parent Conflict*/
+        $parent = null;
+
+        if (!is_null($parentId)) {
+            $parent = $this->em->getReference(Conflict::class, $parentId);
+        }
+
+        $child->setParent($parent);
+    }
+
+    /**
+     * Удалить конфликт, а его детей привязать к его родителю
      * @param Conflict $conflict
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function delete(Conflict $conflict)
     {
-        $this->em->remove($conflict);
+        /** @var NestedTreeRepository $repo */
+        $repo = $this->em->getRepository(Conflict::class);
+
+        $repo->removeFromTree($conflict);
 
         $this->em->flush();
     }
