@@ -249,7 +249,7 @@ class ClientVersion extends \App\Entities\ClientVersion implements \Doctrine\ORM
     public function isRequired()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRequired', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isRequired', []);
 
         return parent::isRequired();
     }
@@ -329,6 +329,17 @@ class ClientVersion extends \App\Entities\ClientVersion implements \Doctrine\ORM
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDescriptionEs', [$description_es]);
 
         parent::setDescriptionEs($description_es);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDescriptionByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDescriptionByLocale', [$locale]);
+
+        return parent::getDescriptionByLocale($locale);
     }
 
     /**

@@ -64,10 +64,10 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflict_reason_id', 'conflict_result_id', 'industry_id', 'region_id', 'conflictReason', 'conflictResult', 'industry', 'region', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflict_reason_id', 'conflict_result_id', 'industry_id', 'region_id', 'conflictReason', 'conflictResult', 'industry', 'region', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -378,94 +378,6 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getConflictReasonId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getConflictReasonId', []);
-
-        return parent::getConflictReasonId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setConflictReasonId($conflict_reason_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setConflictReasonId', [$conflict_reason_id]);
-
-        parent::setConflictReasonId($conflict_reason_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getConflictResultId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getConflictResultId', []);
-
-        return parent::getConflictResultId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setConflictResultId($conflict_result_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setConflictResultId', [$conflict_result_id]);
-
-        parent::setConflictResultId($conflict_result_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getIndustryId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIndustryId', []);
-
-        return parent::getIndustryId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setIndustryId($industry_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIndustryId', [$industry_id]);
-
-        parent::setIndustryId($industry_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRegionId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRegionId', []);
-
-        return parent::getRegionId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRegionId($region_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRegionId', [$region_id]);
-
-        parent::setRegionId($region_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getConflictReason(): ?\App\Entities\References\ConflictReason
     {
 
@@ -549,6 +461,39 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRegion', [$region]);
 
         parent::setRegion($region);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEvents()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEvents', []);
+
+        return parent::getEvents();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEvents($events): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvents', [$events]);
+
+        parent::setEvents($events);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
     }
 
     /**

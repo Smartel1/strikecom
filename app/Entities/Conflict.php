@@ -8,6 +8,7 @@ use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
 use App\Entities\References\Region;
 use App\Entities\Traits\Timestamps;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
@@ -88,6 +89,12 @@ class Conflict
      * @var Region|null
      */
     protected $region;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="conflict")
+     * @var Event[]|ArrayCollection
+     */
+    protected $events;
 
     /**
      * @return mixed
@@ -295,6 +302,22 @@ class Conflict
     public function setRegion(?Region $region): void
     {
         $this->region = $region;
+    }
+
+    /**
+     * @return Event[]|ArrayCollection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param Event[]|ArrayCollection $events
+     */
+    public function setEvents($events): void
+    {
+        $this->events = $events;
     }
 
     /**

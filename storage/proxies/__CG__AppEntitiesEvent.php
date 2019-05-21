@@ -64,10 +64,10 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'conflict_id', 'event_status_id', 'event_type_id', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'conflict_id', 'event_status_id', 'event_type_id', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -193,72 +193,6 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVideos', [$videos]);
 
         return parent::setVideos($videos);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getConflictId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getConflictId', []);
-
-        return parent::getConflictId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setConflictId($conflict_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setConflictId', [$conflict_id]);
-
-        parent::setConflictId($conflict_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventStatusId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEventStatusId', []);
-
-        return parent::getEventStatusId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventStatusId($event_status_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEventStatusId', [$event_status_id]);
-
-        parent::setEventStatusId($event_status_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEventTypeId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEventTypeId', []);
-
-        return parent::getEventTypeId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEventTypeId($event_type_id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEventTypeId', [$event_type_id]);
-
-        parent::setEventTypeId($event_type_id);
     }
 
     /**
@@ -637,6 +571,28 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSourceLink', [$source_link]);
 
         return parent::setSourceLink($source_link);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+
+        return parent::getContentByLocale($locale);
     }
 
     /**

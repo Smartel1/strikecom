@@ -64,10 +64,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -450,6 +450,50 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRememberTokenName', []);
 
         return parent::getRememberTokenName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFavouriteEvents()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFavouriteEvents', []);
+
+        return parent::getFavouriteEvents();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFavouriteEvents($favouriteEvents): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFavouriteEvents', [$favouriteEvents]);
+
+        parent::setFavouriteEvents($favouriteEvents);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFavouriteNews()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFavouriteNews', []);
+
+        return parent::getFavouriteNews();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFavouriteNews($favouriteNews): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFavouriteNews', [$favouriteNews]);
+
+        parent::setFavouriteNews($favouriteNews);
     }
 
     /**

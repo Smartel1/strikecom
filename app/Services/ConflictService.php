@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Entities\Conflict;
+use App\Entities\Event;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
@@ -57,6 +58,16 @@ class ConflictService
 
         if ($dateTo) {
             $queryBuilder->andWhere($expr->lte('c.date_to', $dateTo));
+        }
+
+        //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
+        $locale = app('locale');
+
+        if ($locale !== 'all') {
+            $queryBuilder
+                ->innerJoin('c.events', 'e')
+                ->andWhere($expr->isNotNull('e.title_' . $locale))
+                ->andWhere($expr->isNotNull('e.content_' . $locale));
         }
 
         $conflicts = $queryBuilder->getQuery()->getResult();

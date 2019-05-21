@@ -64,10 +64,10 @@ class Comment extends \App\Entities\Comment implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'content', 'user_id', 'user', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'content', 'user_id', 'user', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -224,23 +224,23 @@ class Comment extends \App\Entities\Comment implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUserId()
+    public function getPhotos()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUserId', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPhotos', []);
 
-        return parent::getUserId();
+        return parent::getPhotos();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setUserId($user_id): void
+    public function setPhotos($photos): void
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUserId', [$user_id]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPhotos', [$photos]);
 
-        parent::setUserId($user_id);
+        parent::setPhotos($photos);
     }
 
     /**

@@ -253,7 +253,7 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setUser(\App\Entities\User $user)
+    public function setUser(?\App\Entities\User $user)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
@@ -505,6 +505,28 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSourceLink', [$source_link]);
 
         return parent::setSourceLink($source_link);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+
+        return parent::getContentByLocale($locale);
     }
 
     /**

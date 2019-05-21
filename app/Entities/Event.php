@@ -107,7 +107,8 @@ class Event implements Commentable
     protected $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entities\Conflict")
+     * @ORM\ManyToOne(targetEntity="App\Entities\Conflict", inversedBy="events")
+     * @ORM\JoinColumn(name="conflict_id", referencedColumnName="id")
      * @var Conflict|null
      */
     protected $conflict;
