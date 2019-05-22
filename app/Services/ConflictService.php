@@ -4,6 +4,11 @@
 namespace App\Services;
 
 
+use App\Criteria\AncestorsOfConflict;
+use App\Criteria\DateFromAfter;
+use App\Criteria\DateToBefore;
+use App\Criteria\HasLocalizedContent;
+use App\Criteria\HasLocalizedTitle;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\References\ConflictReason;
@@ -15,6 +20,7 @@ use App\Rules\NotAParentConflict;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -45,59 +51,20 @@ class ConflictService
      * Вернуть конфликты из бд
      * @param array $filters
      * @return Collection
-     * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws TransactionRequiredException
+     * @throws QueryException
      */
     public function index(array $filters)
     {
-        $expr = $this->em->getExpressionBuilder();
-
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
-            ->from(Conflict::class, 'c');
-
-        //Если передан фильтр по дате начала, добавляем условие
-        $dateFrom = Arr::get($filters, 'date_from');
-
-        if ($dateFrom) {
-            $queryBuilder->andWhere($expr->gte('c.date_from', $dateFrom));
-        }
-
-        //Если передан фильтр по дате окончания, добавляем условие
-        $dateTo = Arr::get($filters, 'date_to');
-
-        if ($dateTo) {
-            $queryBuilder->andWhere($expr->lte('c.date_to', $dateTo));
-        }
-
-        //Если передан фильтр "предки", добавляем условие
-        $subjectConflictId = Arr::get($filters, 'ancestors_of');
-
-        if ($subjectConflictId) {
-            $ancestorsIds = [];
-            /** @var Conflict $childConflict */
-            $childConflict = $this->em->find(Conflict::class, $subjectConflictId);
-
-            //Перебираем в цикле всех предков переданного конфликта (через привязку к событию)
-            while ($childConflict->getParentEvent()) {
-                $parentEvent = $childConflict->getParentEvent();
-                $ancestorsIds []= $parentEvent->getConflict()->getId();
-                $childConflict = $parentEvent->getConflict();
-            }
-
-            $queryBuilder->andWhere($expr->in('c.id', $ancestorsIds));
-        }
-
-        //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
-        $locale = app('locale');
-
-        if ($locale !== 'all') {
-            $queryBuilder
-                ->innerJoin('c.events', 'e')
-                ->andWhere($expr->isNotNull('e.title_' . $locale))
-                ->andWhere($expr->isNotNull('e.content_' . $locale));
-        }
+            ->from(Conflict::class, 'c')
+            ->addCriteria(DateFromAfter::make('c', Arr::get($filters, 'date_from')))
+            ->addCriteria(DateToBefore::make('c', Arr::get($filters, 'date_to')))
+            ->addCriteria(AncestorsOfConflict::make('c', Arr::get($filters, 'ancestors_of')))
+            //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
+            ->innerJoin('c.events', 'e')
+            ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
+            ->addCriteria(HasLocalizedContent::make('e', app('locale')));
 
         $conflicts = $queryBuilder->getQuery()->getResult();
 
@@ -180,10 +147,10 @@ class ConflictService
     /**
      * Установить для конфликта его причину или null
      * @param Conflict $conflict
-     * @param string|null $conflictReasonId
+     * @param int|null $conflictReasonId
      * @throws ORMException
      */
-    private function setConflictReason(Conflict $conflict, ?string $conflictReasonId)
+    private function setConflictReason(Conflict $conflict, ?int $conflictReasonId)
     {
         if (!$conflictReasonId) {
             $conflict->setConflictReason(null);
@@ -191,7 +158,7 @@ class ConflictService
         }
 
         /** @var $reason ConflictReason */
-        $reason = $this->em->getReference('App\Entities\References\ConflictReason', $conflictReasonId);
+        $reason = $this->em->getReference(ConflictReason::class, $conflictReasonId);
 
         $conflict->setConflictReason($reason);
     }
@@ -199,10 +166,10 @@ class ConflictService
     /**
      * Установить для конфликта его результат или null
      * @param Conflict $conflict
-     * @param string|null $conflictResultId
+     * @param int|null $conflictResultId
      * @throws ORMException
      */
-    private function setConflictResult(Conflict $conflict, ?string $conflictResultId)
+    private function setConflictResult(Conflict $conflict, ?int $conflictResultId)
     {
         if (!$conflictResultId) {
             $conflict->setConflictResult(null);
@@ -210,7 +177,7 @@ class ConflictService
         }
 
         /** @var $result ConflictResult */
-        $result = $this->em->getReference('App\Entities\References\ConflictResult', $conflictResultId);
+        $result = $this->em->getReference(ConflictResult::class, $conflictResultId);
 
         $conflict->setConflictResult($result);
     }
@@ -218,10 +185,10 @@ class ConflictService
     /**
      * Установить для конфликта его отрасль или null
      * @param Conflict $conflict
-     * @param string|null $industryId
+     * @param int|null $industryId
      * @throws ORMException
      */
-    private function setIndustry(Conflict $conflict, ?string $industryId)
+    private function setIndustry(Conflict $conflict, ?int $industryId)
     {
         if (!$industryId) {
             $conflict->setIndustry(null);
@@ -229,7 +196,7 @@ class ConflictService
         }
 
         /** @var $industry Industry */
-        $industry = $this->em->getReference('App\Entities\References\Industry', $industryId);
+        $industry = $this->em->getReference(Industry::class, $industryId);
 
         $conflict->setIndustry($industry);
     }
@@ -237,10 +204,10 @@ class ConflictService
     /**
      * Установить для конфликта его регион или null
      * @param Conflict $conflict
-     * @param string|null $regionId
+     * @param int|null $regionId
      * @throws ORMException
      */
-    private function setRegion(Conflict $conflict, ?string $regionId)
+    private function setRegion(Conflict $conflict, ?int $regionId)
     {
         if (!$regionId) {
             $conflict->setRegion(null);
@@ -248,7 +215,7 @@ class ConflictService
         }
 
         /** @var $region Region */
-        $region = $this->em->getReference('App\Entities\References\Region', $regionId);
+        $region = $this->em->getReference(Region::class, $regionId);
 
         $conflict->setRegion($region);
     }

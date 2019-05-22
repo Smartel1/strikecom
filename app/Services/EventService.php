@@ -3,6 +3,10 @@
 
 namespace App\Services;
 
+use App\Criteria\BelongsToConflicts;
+use App\Criteria\HasTag;
+use App\Criteria\HasLocalizedContent;
+use App\Criteria\HasLocalizedTitle;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
@@ -15,6 +19,7 @@ use App\Rules\NotAParentEvent;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -48,11 +53,10 @@ class EventService
      * @param $perPage int размер выборки
      * @param $page int номер страницы
      * @return LengthAwarePaginator
+     * @throws QueryException
      */
     public function index($filters, $perPage, $page)
     {
-        $expr = $this->em->getExpressionBuilder();
-
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('e, p, v, t, c, SIZE(e.comments) comments_count')
@@ -61,48 +65,11 @@ class EventService
             ->leftJoin('e.videos', 'v')
             ->leftJoin('e.tags', 't')
             ->leftJoin('e.conflict', 'c')
+            ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
+            ->addCriteria(BelongsToConflicts::make(Arr::get($filters, 'conflict_ids')))
+            ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
+            ->addCriteria(HasLocalizedContent::make('e', app('locale')))
             ->orderBy('e.date', 'desc');
-
-        //Если передан фильтр по тэгу, добавляем условие
-        $tagId = array_get($filters, 'tag_id');
-
-        if ($tagId) {
-            $queryBuilder->andWhere($expr->eq('t.id', $tagId));
-        }
-
-        //Если передан фильтр по конфликту, добавляем условие
-        $conflictIds = array_get($filters, 'conflict_ids');
-
-        //Получаем все события, которые являются родительскими для конфликтов из фильтра
-        $conflictParentEventsIds = $this->em->createQueryBuilder()
-            ->select('pe.id')
-            ->from(Conflict::class,'c')
-            ->join('c.parentEvent', 'pe')
-            ->where($expr->in('c.id',':conflictIds'))
-            ->setParameter('conflictIds', $conflictIds)
-            ->getQuery()
-            ->getResult();
-        //Преобразовываем результат в плоский массив
-        $conflictParentEventsIds = collect($conflictParentEventsIds)->pluck('id')->toArray();
-
-        //Находим события, которые принадлежат конфликтам напрямую, либо являются родительскими
-        if ($conflictIds) {
-            $queryBuilder->andWhere(
-                $expr->orX(
-                    $expr->in('c.id', $conflictIds),
-                    $expr->in('e.id', $conflictParentEventsIds)
-                )
-            );
-        }
-
-        //Если указана конкретная локаль, то выводим только локализованные записи
-        $locale = app('locale');
-
-        if ($locale !== 'all') {
-            $queryBuilder
-                ->andWhere($expr->isNotNull('e.title_' . $locale))
-                ->andWhere($expr->isNotNull('e.content_' . $locale));
-        }
 
         //Пагинируем результат
         $doctrinePaginator = new Paginator(

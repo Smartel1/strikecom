@@ -3,6 +3,9 @@
 
 namespace App\Services;
 
+use App\Criteria\HasTag;
+use App\Criteria\HasLocalizedContent;
+use App\Criteria\HasLocalizedTitle;
 use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\Tag;
@@ -10,6 +13,7 @@ use App\Entities\Video;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -37,11 +41,10 @@ class NewsService
      * @param $perPage int размер выборки
      * @param $page int номер страницы
      * @return LengthAwarePaginator
+     * @throws QueryException
      */
     public function index($filters, $perPage, $page)
     {
-        $expr = $this->em->getExpressionBuilder();
-
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('n, SIZE(n.comments) comments_count')
@@ -50,23 +53,10 @@ class NewsService
             ->leftJoin('n.photos', 'p')
             ->leftJoin('n.videos', 'v')
             ->leftJoin('n.tags', 't')
+            ->addCriteria(HasTag::make('n', Arr::get($filters, 'tag_id')))
+            ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
+            ->addCriteria(HasLocalizedContent::make('e', app('locale')))
             ->orderBy('n.date', 'desc');
-
-        //Если передан фильтр по тэгу, добавляем условие
-        $tagId = array_get($filters, 'tag_id');
-
-        if ($tagId) {
-            $queryBuilder->andWhere($expr->eq('t.id', $tagId));
-        }
-
-        //Если указана конкретная локаль, то выводим только локализованные записи
-        $locale = app('locale');
-
-        if ($locale !== 'all') {
-            $queryBuilder
-                ->andWhere($expr->isNotNull('n.title_' . $locale))
-                ->andWhere($expr->isNotNull('n.content_' . $locale));
-        }
 
         //Пагинируем результат
         $doctrinePaginator = new Paginator(

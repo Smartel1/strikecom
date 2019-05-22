@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Event;
+use App\Exceptions\BusinessRuleValidationException;
 use App\Http\Requests\Event\EventDestroyRequest;
 use App\Http\Requests\Event\EventIndexRequest;
 use App\Http\Requests\Event\EventStoreRequest;
@@ -13,6 +14,7 @@ use App\Http\Resources\Event\EventIndexResource;
 use App\Services\EventService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -35,6 +37,7 @@ class EventController extends Controller
      * @param EventIndexRequest $request
      * @param $locale
      * @return AnonymousResourceCollection
+     * @throws QueryException
      */
     public function index(EventIndexRequest $request, $locale)
     {
@@ -102,9 +105,10 @@ class EventController extends Controller
      * @param EventDestroyRequest $request
      * @param $locale
      * @param Event $event
+     * @throws AuthorizationException
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws AuthorizationException
+     * @throws BusinessRuleValidationException
      */
     public function destroy(EventDestroyRequest $request, $locale, Event $event)
     {

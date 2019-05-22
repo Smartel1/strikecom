@@ -13,6 +13,7 @@ use App\Http\Resources\News\NewsIndexResource;
 use App\Services\NewsService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -37,6 +38,7 @@ class NewsController extends Controller
      * @param NewsIndexRequest $request
      * @param $locale
      * @return AnonymousResourceCollection
+     * @throws QueryException
      */
     public function index(NewsIndexRequest $request, $locale)
     {

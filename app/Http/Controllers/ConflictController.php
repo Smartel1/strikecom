@@ -15,7 +15,7 @@ use App\Http\Resources\Conflict\ConflictIndexResource;
 use App\Services\ConflictService;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\TransactionRequiredException;
+use Doctrine\ORM\Query\QueryException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
@@ -40,6 +40,7 @@ class ConflictController extends Controller
      * @param ConflictIndexRequest $request
      * @param $locale
      * @return AnonymousResourceCollection
+     * @throws QueryException
      */
     public function index(ConflictIndexRequest $request, $locale)
     {
