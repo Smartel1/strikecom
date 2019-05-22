@@ -55,9 +55,8 @@ class EventService
 
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
-            ->select('e, SIZE(e.comments) comments_count')
+            ->select('e, p, v, t, c, SIZE(e.comments) comments_count')
             ->from('App\Entities\Event', 'e')
-            ->leftJoin('e.user', 'u')
             ->leftJoin('e.photos', 'p')
             ->leftJoin('e.videos', 'v')
             ->leftJoin('e.tags', 't')
@@ -74,8 +73,26 @@ class EventService
         //Если передан фильтр по конфликту, добавляем условие
         $conflictIds = array_get($filters, 'conflict_ids');
 
+        //Получаем все события, которые являются родительскими для конфликтов из фильтра
+        $conflictParentEventsIds = $this->em->createQueryBuilder()
+            ->select('pe.id')
+            ->from(Conflict::class,'c')
+            ->join('c.parentEvent', 'pe')
+            ->where($expr->in('c.id',':conflictIds'))
+            ->setParameter('conflictIds', $conflictIds)
+            ->getQuery()
+            ->getResult();
+        //Преобразовываем результат в плоский массив
+        $conflictParentEventsIds = collect($conflictParentEventsIds)->pluck('id')->toArray();
+
+        //Находим события, которые принадлежат конфликтам напрямую, либо являются родительскими
         if ($conflictIds) {
-            $queryBuilder->andWhere($expr->in('c.id', $conflictIds));
+            $queryBuilder->andWhere(
+                $expr->orX(
+                    $expr->in('c.id', $conflictIds),
+                    $expr->in('e.id', $conflictParentEventsIds)
+                )
+            );
         }
 
         //Если указана конкретная локаль, то выводим только локализованные записи

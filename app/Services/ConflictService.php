@@ -10,10 +10,12 @@ use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
 use App\Entities\References\Region;
+use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentConflict;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -43,6 +45,9 @@ class ConflictService
      * Вернуть конфликты из бд
      * @param array $filters
      * @return Collection
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
      */
     public function index(array $filters)
     {
@@ -64,6 +69,24 @@ class ConflictService
 
         if ($dateTo) {
             $queryBuilder->andWhere($expr->lte('c.date_to', $dateTo));
+        }
+
+        //Если передан фильтр "предки", добавляем условие
+        $subjectConflictId = Arr::get($filters, 'ancestors_of');
+
+        if ($subjectConflictId) {
+            $ancestorsIds = [];
+            /** @var Conflict $childConflict */
+            $childConflict = $this->em->find(Conflict::class, $subjectConflictId);
+
+            //Перебираем в цикле всех предков переданного конфликта (через привязку к событию)
+            while ($childConflict->getParentEvent()) {
+                $parentEvent = $childConflict->getParentEvent();
+                $ancestorsIds []= $parentEvent->getConflict()->getId();
+                $childConflict = $parentEvent->getConflict();
+            }
+
+            $queryBuilder->andWhere($expr->in('c.id', $ancestorsIds));
         }
 
         //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
@@ -252,7 +275,7 @@ class ConflictService
      * @param Conflict $conflict
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws \App\Exceptions\BusinessRuleValidationException
+     * @throws BusinessRuleValidationException
      */
     public function delete(Conflict $conflict)
     {

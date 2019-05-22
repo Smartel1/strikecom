@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Conflict;
 
 use App\Entities\Conflict;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ConflictBriefIndexResource extends Resource
@@ -10,7 +11,7 @@ class ConflictBriefIndexResource extends Resource
     /**
      * Структура ответа на краткий запрос списка конфликтов
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)
@@ -20,8 +21,6 @@ class ConflictBriefIndexResource extends Resource
 
         $structure = [
             'id' => $conflict->getId(),
-            'latitude' => $conflict->getLatitude(),
-            'longitude' => $conflict->getLongitude(),
         ];
 
         $locale = app('locale');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Conflict;
+use App\Exceptions\BusinessRuleValidationException;
 use App\Http\Requests\Conflict\ConflictDestroyRequest;
 use App\Http\Requests\Conflict\ConflictIndexRequest;
 use App\Http\Requests\Conflict\ConflictShowRequest;
@@ -58,7 +59,6 @@ class ConflictController extends Controller
      * @throws AuthorizationException
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function store(ConflictStoreRequest $request, $locale)
     {
@@ -88,7 +88,6 @@ class ConflictController extends Controller
      * @throws AuthorizationException
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function update(ConflictUpdateRequest $request, $locale, Conflict $conflict)
     {
@@ -106,6 +105,7 @@ class ConflictController extends Controller
      * @throws AuthorizationException
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws BusinessRuleValidationException
      */
     public function destroy(ConflictDestroyRequest $request, $locale, Conflict $conflict)
     {
