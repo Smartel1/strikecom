@@ -97,6 +97,14 @@ class Conflict
     protected $events;
 
     /**
+     * Связь с событием другого конфликта, от которого пошло ветвление
+     * @ORM\ManyToOne(targetEntity="App\Entities\Event")
+     * @ORM\JoinColumn(name="parent_event_id")
+     * @var Event|null
+     */
+    protected $parentEvent;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -318,6 +326,22 @@ class Conflict
     public function setEvents($events): void
     {
         $this->events = $events;
+    }
+
+    /**
+     * @return Event|null
+     */
+    public function getParentEvent(): ?Event
+    {
+        return $this->parentEvent;
+    }
+
+    /**
+     * @param Event|null $parentEvent
+     */
+    public function setParentEvent(?Event $parentEvent): void
+    {
+        $this->parentEvent = $parentEvent;
     }
 
     /**

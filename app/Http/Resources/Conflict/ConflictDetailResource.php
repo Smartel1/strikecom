@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Conflict;
 
 use App\Entities\Conflict;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
 
 class ConflictDetailResource extends Resource
@@ -10,7 +11,7 @@ class ConflictDetailResource extends Resource
     /**
      * Структура ответа на запрос деталки конфликта
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request)
@@ -29,6 +30,7 @@ class ConflictDetailResource extends Resource
             'conflict_result_id'    => $conflict->getConflictResult() ? $conflict->getConflictResult()->getId() : null,
             'industry_id'           => $conflict->getIndustry() ? $conflict->getIndustry()->getId() : null,
             'region_id'             => $conflict->getRegion() ? $conflict->getRegion()->getId() : null,
+            'parent_event_id'       => $conflict->getParentEvent() ? $conflict->getParentEvent()->getId() : null,
         ];
 
         $locale = app('locale');

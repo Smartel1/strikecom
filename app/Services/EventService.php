@@ -10,6 +10,8 @@ use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\Tag;
 use App\Entities\Video;
+use App\Exceptions\BusinessRuleValidationException;
+use App\Rules\NotAParentEvent;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -24,14 +26,20 @@ class EventService
      * @var EntityManager
      */
     protected $em;
+    /**
+     * @var BusinessValidationService
+     */
+    protected $businessValidationService;
 
     /**
      * NewsService constructor.
      * @param EntityManager $em
+     * @param BusinessValidationService $bvs
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, BusinessValidationService $bvs)
     {
         $this->em = $em;
+        $this->businessValidationService = $bvs;
     }
 
     /**
@@ -327,9 +335,14 @@ class EventService
      * @param Event $event
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws BusinessRuleValidationException
      */
     public function delete(Event $event)
     {
+        $this->businessValidationService->validate([
+            new NotAParentEvent($event)
+        ]);
+
         $this->em->remove($event);
 
         $this->em->flush();

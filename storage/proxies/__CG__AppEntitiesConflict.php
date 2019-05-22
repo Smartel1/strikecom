@@ -64,10 +64,10 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -279,7 +279,7 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setLatitude($latitude): void
+    public function setLatitude(float $latitude): void
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatitude', [$latitude]);
@@ -301,7 +301,7 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setLongitude($longitude): void
+    public function setLongitude(float $longitude): void
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLongitude', [$longitude]);
@@ -483,6 +483,28 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEvents', [$events]);
 
         parent::setEvents($events);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParentEvent(): ?\App\Entities\Event
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getParentEvent', []);
+
+        return parent::getParentEvent();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setParentEvent(?\App\Entities\Event $parentEvent): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setParentEvent', [$parentEvent]);
+
+        parent::setParentEvent($parentEvent);
     }
 
     /**

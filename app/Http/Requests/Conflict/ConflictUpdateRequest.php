@@ -21,6 +21,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @conflict_result_id Идентификатор результата конфликта
  * @industry_id Идентификатор отрасли
  * @region_id Идентификатор региона
+ * @parent_event_id Идентификатор родительского события
  * @package App\Http\Requests\Conflict
  */
 class ConflictUpdateRequest extends FormRequest
@@ -56,6 +57,7 @@ class ConflictUpdateRequest extends FormRequest
             'conflict_result_id' => 'nullable|integer|exists:App\Entities\References\ConflictResult,id',
             'industry_id'        => 'nullable|integer|exists:App\Entities\References\Industry,id',
             'region_id'          => 'nullable|integer|exists:App\Entities\References\Region,id',
+            'parent_event_id'    => 'nullable|integer|exists:App\Entities\Event,id',
         ];
     }
 
@@ -75,6 +77,7 @@ class ConflictUpdateRequest extends FormRequest
             'conflict_result_id' => 'идентификатор результата конфликта',
             'industry_id'        => 'идентификатор отрасли',
             'region_id'          => 'идентификатор региона',
+            'parent_event_id'    => 'идентификатор родительского события',
         ];
     }
 }

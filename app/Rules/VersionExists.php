@@ -13,7 +13,7 @@ class VersionExists extends BusinessRule
     private $clientId;
 
     /**
-     * UniqueVersion constructor.
+     * VersionExists constructor.
      * @param $version
      * @param $clientId
      */
@@ -31,7 +31,7 @@ class VersionExists extends BusinessRule
      */
     public function passes()
     {
-        $versionExists = EntityManager::createQueryBuilder()
+        $versionCount = EntityManager::createQueryBuilder()
             ->from('App\Entities\ClientVersion', 'cv')
             ->where('cv.client_id = :clientId')
             ->andWhere('cv.version = :version')
@@ -41,7 +41,7 @@ class VersionExists extends BusinessRule
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $versionExists > 0;
+        return $versionCount > 0;
     }
 
     /**

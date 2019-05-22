@@ -10,10 +10,10 @@ use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
 use App\Entities\References\Region;
+use App\Rules\NotAParentConflict;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -23,14 +23,20 @@ class ConflictService
      * @var EntityManager
      */
     protected $em;
+    /**
+     * @var BusinessValidationService
+     */
+    protected $bvs;
 
     /**
      * NewsService constructor.
      * @param EntityManager $em
+     * @param BusinessValidationService $bvs
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, BusinessValidationService $bvs)
     {
         $this->em = $em;
+        $this->bvs = $bvs;
     }
 
     /**
@@ -80,7 +86,6 @@ class ConflictService
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function create($data)
     {
@@ -102,7 +107,6 @@ class ConflictService
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     public function update(Conflict $conflict, $data)
     {
@@ -121,8 +125,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param $data
      * @throws ORMException
-     * @throws OptimisticLockException
-     * @throws TransactionRequiredException
      */
     private function fillConflictFields(Conflict $conflict, $data)
     {
@@ -140,6 +142,7 @@ class ConflictService
         $this->setConflictResult($conflict, Arr::get($data, 'conflict_result_id'));
         $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
         $this->setRegion($conflict, Arr::get($data, 'region_id'));
+        $this->setParentEvent($conflict, Arr::get($data, 'parent_event_id'));
 
         $locale = app('locale');
 
@@ -156,7 +159,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $conflictReasonId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setConflictReason(Conflict $conflict, ?string $conflictReasonId)
     {
@@ -176,7 +178,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $conflictResultId
      * @throws ORMException
-     * @throws TransactionRequiredException
      */
     private function setConflictResult(Conflict $conflict, ?string $conflictResultId)
     {
@@ -196,7 +197,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $industryId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setIndustry(Conflict $conflict, ?string $industryId)
     {
@@ -216,7 +216,6 @@ class ConflictService
      * @param Conflict $conflict
      * @param string|null $regionId
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     private function setRegion(Conflict $conflict, ?string $regionId)
     {
@@ -233,11 +232,34 @@ class ConflictService
 
     /**
      * @param Conflict $conflict
+     * @param int|null $parentEventId
+     * @throws ORMException
+     */
+    private function setParentEvent(Conflict $conflict, ?int $parentEventId)
+    {
+        if (!$parentEventId) {
+            $conflict->setParentEvent(null);
+            return;
+        }
+
+        /** @var $parentEvent Event */
+        $parentEvent = $this->em->getReference(Event::class, $parentEventId);
+
+        $conflict->setParentEvent($parentEvent);
+    }
+
+    /**
+     * @param Conflict $conflict
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws \App\Exceptions\BusinessRuleValidationException
      */
     public function delete(Conflict $conflict)
     {
+        $this->bvs->validate([
+            new NotAParentConflict($conflict)
+        ]);
+
         $this->em->remove($conflict);
 
         $this->em->flush();
