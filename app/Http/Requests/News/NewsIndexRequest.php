@@ -10,6 +10,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @summary Получить список новостей
  * @filters Необязательный массив фильтров. Может содержать ключ tag_id для вывода новостей с тегом
  * @filters.tag_id индентификатор тэга, который содержится в событиях
+ * @filters.date_from дата, начиная с которой выводить события
+ * @filters.date_to дата, до которой выводить события
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests\News
@@ -34,10 +36,12 @@ class NewsIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'filters'        => 'nullable|array',
-            'filters.tag_id' => 'nullable|integer',
-            'per_page'       => 'integer|min:1',
-            'page'           => 'integer',
+            'filters'           => 'nullable|array',
+            'filters.tag_id'    => 'nullable|integer',
+            'filters.date_from' => 'nullable|integer',
+            'filters.date_to'   => 'nullable|integer',
+            'per_page'          => 'integer|min:1',
+            'page'              => 'integer',
         ];
     }
 }

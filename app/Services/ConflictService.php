@@ -5,10 +5,11 @@ namespace App\Services;
 
 
 use App\Criteria\AncestorsOfConflict;
-use App\Criteria\DateFromAfter;
-use App\Criteria\DateToBefore;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
+use App\Criteria\SafeEq;
+use App\Criteria\SafeGTE;
+use App\Criteria\SafeLTE;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\References\ConflictReason;
@@ -21,7 +22,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\QueryException;
-use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -58,8 +58,10 @@ class ConflictService
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
             ->from(Conflict::class, 'c')
-            ->addCriteria(DateFromAfter::make('c', Arr::get($filters, 'date_from')))
-            ->addCriteria(DateToBefore::make('c', Arr::get($filters, 'date_to')))
+            ->addCriteria(SafeGTE::make('c.date_from', Arr::get($filters, 'date_from')))
+            ->addCriteria(SafeLTE::make('c.date_to', Arr::get($filters, 'date_to')))
+            ->addCriteria(SafeEq::make('c.conflictResult', Arr::get($filters, 'conflict_result_id')))
+            ->addCriteria(SafeEq::make('c.conflictReason', Arr::get($filters, 'conflict_reason_id')))
             ->addCriteria(AncestorsOfConflict::make('c', Arr::get($filters, 'ancestors_of')))
             //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
             ->innerJoin('c.events', 'e')

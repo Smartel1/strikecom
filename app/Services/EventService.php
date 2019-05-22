@@ -7,6 +7,9 @@ use App\Criteria\BelongsToConflicts;
 use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
+use App\Criteria\SafeEq;
+use App\Criteria\SafeGTE;
+use App\Criteria\SafeLTE;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
@@ -54,6 +57,7 @@ class EventService
      * @param $page int номер страницы
      * @return LengthAwarePaginator
      * @throws QueryException
+     * @throws ORMException
      */
     public function index($filters, $perPage, $page)
     {
@@ -65,6 +69,10 @@ class EventService
             ->leftJoin('e.videos', 'v')
             ->leftJoin('e.tags', 't')
             ->leftJoin('e.conflict', 'c')
+            ->addCriteria(SafeGTE::make('e.date', Arr::get($filters, 'date_from', 0)))
+            ->addCriteria(SafeLTE::make('e.date', Arr::get($filters, 'date_to')))
+            ->addCriteria(SafeEq::make('e.eventStatus', Arr::get($filters, 'event_status_id')))
+            ->addCriteria(SafeEq::make('e.eventType', Arr::get($filters, 'event_type_id')))
             ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
             ->addCriteria(BelongsToConflicts::make(Arr::get($filters, 'conflict_ids')))
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
