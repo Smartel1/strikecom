@@ -5,13 +5,17 @@ namespace App\Services;
 
 
 use App\Entities\Comment;
+use App\Entities\Event;
 use App\Entities\Interfaces\Commentable;
+use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
 class CommentService
@@ -32,11 +36,41 @@ class CommentService
 
     /**
      * @param Commentable $commentable
-     * @return Comment[]|ArrayCollection
+     * @param $perPage
+     * @param $page
+     * @return LengthAwarePaginator
+     * @throws \Exception
      */
-    public function getComments(Commentable $commentable)
+    public function index(Commentable $commentable, $perPage, $page)
     {
-        return $commentable->getComments();
+        switch(get_class($commentable)) {
+            case Event::class: $relationName = 'events'; break;
+            case News::class: $relationName = 'news'; break;
+            default: throw new \Exception('у комментариев нет связи с этой сущностью');
+        }
+
+        $queryBuilder = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(Comment::class, 'c')
+            ->where($this->em->getExpressionBuilder()->isMemberOf(':ca', 'c.'.$relationName))
+            ->setParameter('ca', $commentable)
+            ->orderBy('c.createdAt');
+
+        //Пагинируем результат
+        $doctrinePaginator = new Paginator(
+            $queryBuilder->setFirstResult($perPage * ($page - 1))->setMaxResults($perPage)->getQuery()
+        );
+
+        //Переводим в формат, понятный laravel
+        $laravelPaginator = new LengthAwarePaginator(
+            collect($doctrinePaginator),
+            $doctrinePaginator->count(),
+            (integer)$perPage,
+            $page,
+            ['path'=>request()->url()]
+        );
+
+        return $laravelPaginator;
     }
 
     /**

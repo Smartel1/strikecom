@@ -44,6 +44,18 @@ class Comment
     protected $photos;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Event")
+     * @var Event[]|ArrayCollection
+     */
+    protected $events;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="News")
+     * @var News[]|ArrayCollection
+     */
+    protected $news;
+
+    /**
      * Comment constructor.
      */
     public function __construct()
@@ -114,4 +126,37 @@ class Comment
     {
         $this->user = $user;
     }
+
+    /**
+     * @return Event[]|ArrayCollection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @param Event[]|ArrayCollection $events
+     */
+    public function setEvents($events): void
+    {
+        $this->events = $events;
+    }
+
+    /**
+     * @return News[]|ArrayCollection
+     */
+    public function getNews()
+    {
+        return $this->news;
+    }
+
+    /**
+     * @param News[]|ArrayCollection $news
+     */
+    public function setNews($news): void
+    {
+        $this->news = $news;
+    }
+
 }

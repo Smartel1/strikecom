@@ -18,6 +18,7 @@ use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
@@ -37,14 +38,15 @@ class EventController extends Controller
      * @param EventIndexRequest $request
      * @param $locale
      * @return AnonymousResourceCollection
+     * @throws ORMException
      * @throws QueryException
      */
     public function index(EventIndexRequest $request, $locale)
     {
         $events = $this->service->index(
-            array_get($request->validated(), 'filters',[]),
-            array_get($request, 'per_page', 20),
-            array_get($request, 'page', 1)
+            Arr::get($request->validated(), 'filters',[]),
+            Arr::get($request, 'per_page', 20),
+            Arr::get($request, 'page', 1)
         );
 
         return EventIndexResource::collection($events);

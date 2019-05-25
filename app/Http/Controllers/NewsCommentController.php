@@ -15,6 +15,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class NewsCommentController extends Controller
@@ -35,10 +36,15 @@ class NewsCommentController extends Controller
      * @param $locale
      * @param News $news
      * @return AnonymousResourceCollection
+     * @throws \Exception
      */
     public function index(CommentIndexRequest $request, $locale, News $news)
     {
-        $comments = collect($this->commentService->getComments($news));
+        $comments = $this->commentService->index(
+            $news,
+            Arr::get($request, 'per_page', 20),
+            Arr::get($request, 'page', 1)
+        );
 
         return CommentResource::collection($comments);
     }

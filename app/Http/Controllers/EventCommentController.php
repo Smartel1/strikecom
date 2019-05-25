@@ -15,6 +15,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class EventCommentController extends Controller
@@ -35,10 +36,15 @@ class EventCommentController extends Controller
      * @param $locale
      * @param Event $event
      * @return AnonymousResourceCollection
+     * @throws \Exception
      */
     public function index(CommentIndexRequest $request, $locale, Event $event)
     {
-        $comments = collect($this->commentService->getComments($event));
+        $comments = $this->commentService->index(
+            $event,
+            Arr::get($request, 'per_page', 20),
+            Arr::get($request, 'page', 1)
+        );
 
         return CommentResource::collection($comments);
     }
@@ -56,7 +62,7 @@ class EventCommentController extends Controller
     {
         $this->authorize('create', Comment::class);
 
-        $comment = $this->commentService->create($event,  $request->validated(), Auth::getUser());
+        $comment = $this->commentService->create($event, $request->validated(), Auth::getUser());
 
         return CommentResource::make($comment);
     }
