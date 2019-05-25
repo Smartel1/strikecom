@@ -66,7 +66,7 @@ class TokenAuth
 
             $uuid = $verifiedIdToken->getClaim('sub');
         } catch (\Throwable $e) {
-            throw new AuthenticationException('Проблемы с аутентификацией');
+            throw new AuthenticationException('Проблемы с аутентификацией: '. $e->getMessage());
         }
 
         $user = $em->getRepository(User::class)->findOneBy(['uuid' => $uuid]);
@@ -76,7 +76,7 @@ class TokenAuth
             $userData = $firebase->getAuth()->getUser($uuid);
 
             $user = new User;
-            $user->setUuid($userData->uuid);
+            $user->setUuid($userData->uid);
             $user->setEmail($userData->email);
             $user->setName($userData->displayName);
 
