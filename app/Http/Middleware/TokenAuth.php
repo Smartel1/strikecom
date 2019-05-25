@@ -81,6 +81,7 @@ class TokenAuth
             $user->setUuid($userData->uid);
             $user->setEmail($userData->email);
             $user->setName($userData->displayName);
+            $user->setImageUrl($userData->photoUrl);
 
             $em->persist($user);
             $em->flush();
