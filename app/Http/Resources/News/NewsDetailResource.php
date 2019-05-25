@@ -48,6 +48,7 @@ class NewsDetailResource extends Resource
                 'name'  => $news->getUser()->getName(),
                 'email' => $news->getUser()->getEmail()
             ] : null,
+            'comments_count'  => $news->getComments()->count(),
         ];
 
         $locale = app('locale');

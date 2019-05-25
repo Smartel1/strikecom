@@ -48,7 +48,7 @@ class EventDetailResource extends Resource
                 'name'  => $event->getUser()->getName(),
                 'email' => $event->getUser()->getEmail()
             ] : null,
-            'conflict'        => ConflictDetailResource::make($event->getConflict()),
+            'comments_count'  => $event->getComments()->count(),
         ];
 
         $locale = app('locale');
