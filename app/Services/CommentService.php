@@ -120,8 +120,8 @@ class CommentService
 
         $comment->setContent(Arr::get($data, 'content'));
 
-        foreach ($comment->getPhotos() as $oldPhoto) {
-            $this->em->remove($oldPhoto);
+        foreach ($comment->getPhotos() as $claim) {
+            $this->em->remove($claim);
         };
 
         foreach (Arr::get($data, 'photo_urls', []) as $photoUrl) {
@@ -130,6 +130,11 @@ class CommentService
             $comment->getPhotos()->add($photo);
             $this->em->persist($photo);
         }
+
+        //Очищаем жалобы при обновлении коммента
+        foreach ($comment->getClaims() as $claim) {
+            $this->em->remove($claim);
+        };
 
         $this->em->persist($comment);
         $this->em->flush();
