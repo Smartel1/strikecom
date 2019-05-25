@@ -26,32 +26,32 @@ class Event implements Commentable
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_ru;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_en;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_es;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_ru;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_en;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_es;
 
@@ -66,7 +66,7 @@ class Event implements Commentable
     protected $views = 0;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     protected $source_link;
 
@@ -108,7 +108,7 @@ class Event implements Commentable
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entities\Conflict", inversedBy="events")
-     * @ORM\JoinColumn(name="conflict_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="conflict_id", referencedColumnName="id", onDelete="cascade")
      * @var Conflict|null
      */
     protected $conflict;
@@ -126,7 +126,7 @@ class Event implements Commentable
     protected $eventType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment")
+     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="events")
      * @var ArrayCollection|Comment[]
      */
     protected $comments;

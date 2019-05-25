@@ -25,32 +25,32 @@ class News implements Commentable
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_ru;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_en;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $title_es;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_ru;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_en;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $content_es;
 
@@ -65,7 +65,7 @@ class News implements Commentable
     protected $views = 0;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     protected $source_link;
 
@@ -106,7 +106,7 @@ class News implements Commentable
     protected $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment")
+     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="news")
      * @var ArrayCollection|Comment[]
      */
     protected $comments;

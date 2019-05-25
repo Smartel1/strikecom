@@ -34,7 +34,7 @@ class Video
     protected $video_type_id;
 
     /**
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     protected $preview_url;
 

@@ -9,13 +9,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait Timestamps
 {
     /**
-     * @ORM\Column(name="created_at", type="integer", nullable=false)
+     * @ORM\Column(name="created_at", type="integer", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="integer", nullable=false)
+     * @ORM\Column(name="updated_at", type="integer", nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
     protected $updatedAt;

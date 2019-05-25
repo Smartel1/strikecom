@@ -14,6 +14,7 @@ class ReferenceControllerTest extends TestCase
 
     public function testReferences()
     {
+        EntityManager::createQuery('DELETE FROM App\Entities\References\ClaimType t WHERE t.id > 3')->getResult();
         EntityManager::createQuery('DELETE FROM App\Entities\References\EventType t WHERE t.id > 3')->getResult();
         EntityManager::createQuery('DELETE FROM App\Entities\References\EventStatus t WHERE t.id > 3')->getResult();
         EntityManager::createQuery('DELETE FROM App\Entities\References\Industry t WHERE t.id > 3')->getResult();

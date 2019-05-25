@@ -18,11 +18,13 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     Route::post('event-list', 'EventController@index'); //запрос списка с параметрами в теле
 
     Route::apiResource('event.comment', 'EventCommentController');
+    Route::resource('event.comment.claim', 'ClaimController', ['only' => 'store']);
 
     Route::apiResource('news', 'NewsController');
     Route::post('news-list', 'NewsController@index'); //запрос списка с параметрами в теле
 
     Route::apiResource('news.comment', 'NewsCommentController');
+    Route::resource('news.comment.claim', 'ClaimController', ['only' => 'store']);
 
     Route::get('user', function(){
         return UserResource::make(Auth::user())->toArray(null);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\References\ClaimType;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\EventStatus;
@@ -41,6 +42,7 @@ class RefController extends Controller
         $conflictReasons = $this->localizeReference($this->getReference(ConflictReason::class));
         $conflictResults = $this->localizeReference($this->getReference(ConflictResult::class));
         $eventStatuses = $this->localizeReference($this->getReference(EventStatus::class));
+        $claimTypes = $this->localizeReference($this->getReference(ClaimType::class));
         $eventTypes = $this->localizeReference($this->getReference(EventType::class));
         $industries = $this->localizeReference($this->getReference(Industry::class));
         $regions = $this->localizeReference($this->getReference(Region::class));
@@ -60,6 +62,7 @@ class RefController extends Controller
             'conflictReasons',
             'conflictResults',
             'eventStatuses',
+            'claimTypes',
             'eventTypes',
             'industries',
             'regions',
@@ -80,21 +83,23 @@ class RefController extends Controller
         $conflictReasonCheckSum = $this->getReference(ConflictReason::class)->reduce($reducerCallback);
         $conflictResultCheckSum = $this->getReference(ConflictResult::class)->reduce($reducerCallback);
         $eventStatusCheckSum = $this->getReference(EventStatus::class)->reduce($reducerCallback);
+        $claimTypeCheckSum = $this->getReference(ClaimType::class)->reduce($reducerCallback);
         $eventTypeCheckSum = $this->getReference(EventType::class)->reduce($reducerCallback);
         $industryCheckSum = $this->getReference(Industry::class)->reduce($reducerCallback);
         $regionCheckSum = $this->getReference(Region::class)->reduce($reducerCallback);
 
         //хэш типа видео вычисляется по полям id и code
-        $videoTypeCheckSum = $this->getReference(VideoType::class)->reduce(function ($carry, $item) {
+        $videoTypeCheckSum = $this->getReference(VideoType::class)->reduce(function ($carry, VideoType $item) {
             return md5($carry . $item->getId() . $item->getCode());
         });
 
         return [
             'checkSum' => md5(
-                $eventTypeCheckSum
-                . $conflictReasonCheckSum
+                $conflictReasonCheckSum
                 . $conflictResultCheckSum
                 . $eventStatusCheckSum
+                . $eventTypeCheckSum
+                . $claimTypeCheckSum
                 . $industryCheckSum
                 . $regionCheckSum
                 . $videoTypeCheckSum)
@@ -104,7 +109,7 @@ class RefController extends Controller
     /**
      * Получить справочник по типу сущности в виде массива
      * @param $class
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     private function getReference($class)
     {

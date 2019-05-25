@@ -29,6 +29,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="cascade")
      * @var User|null
      */
     protected $user;
@@ -44,16 +45,22 @@ class Comment
     protected $photos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Event")
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="comments", cascade={"remove"})
      * @var Event[]|ArrayCollection
      */
     protected $events;
 
     /**
-     * @ORM\ManyToMany(targetEntity="News")
+     * @ORM\ManyToMany(targetEntity="News", mappedBy="comments", cascade={"remove"})
      * @var News[]|ArrayCollection
      */
     protected $news;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Claim", mappedBy="comment")
+     * @var Claim[]|ArrayCollection
+     */
+    protected $claims;
 
     /**
      * Comment constructor.
@@ -61,6 +68,9 @@ class Comment
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->news = new ArrayCollection();
+        $this->claims = new ArrayCollection();
     }
 
     /**
@@ -159,4 +169,19 @@ class Comment
         $this->news = $news;
     }
 
+    /**
+     * @return Claim[]|ArrayCollection
+     */
+    public function getClaims()
+    {
+        return $this->claims;
+    }
+
+    /**
+     * @param Claim[]|ArrayCollection $claims
+     */
+    public function setClaims($claims): void
+    {
+        $this->claims = $claims;
+    }
 }
