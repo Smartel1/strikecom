@@ -43,6 +43,8 @@ class TokenAuth
             return $next($request);
         }
 
+        \Log::info(request()->bearerToken());
+
         $serviceAccount =  ServiceAccount::fromArray([
             "type" => "service_account",
             "project_id"=> "strikecom-7ad08",
