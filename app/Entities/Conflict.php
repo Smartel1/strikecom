@@ -8,6 +8,7 @@ use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
 use App\Entities\References\Region;
 use App\Entities\Traits\Timestamps;
+use App\Entities\Traits\TitlesTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
@@ -17,6 +18,7 @@ use Doctrine\ORM\Mapping AS ORM;
  */
 class Conflict
 {
+    use TitlesTrait;
     use Timestamps;
 
     /**
@@ -25,21 +27,6 @@ class Conflict
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_ru;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_en;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_es;
 
     /**
      * @ORM\Column(type="float")
@@ -118,54 +105,6 @@ class Conflict
     public function setId($id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleRu()
-    {
-        return $this->title_ru;
-    }
-
-    /**
-     * @param mixed $title_ru
-     */
-    public function setTitleRu($title_ru): void
-    {
-        $this->title_ru = $title_ru;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleEn()
-    {
-        return $this->title_en;
-    }
-
-    /**
-     * @param mixed $title_en
-     */
-    public function setTitleEn($title_en): void
-    {
-        $this->title_en = $title_en;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleEs()
-    {
-        return $this->title_es;
-    }
-
-    /**
-     * @param mixed $title_es
-     */
-    public function setTitleEs($title_es): void
-    {
-        $this->title_es = $title_es;
     }
 
     /**

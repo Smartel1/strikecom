@@ -6,6 +6,12 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+/**
+ * Trait Timestamps
+ * Добавляет в сущность поля createdAt и updatedAt,
+ * привязывает хуки к этим полям для автоматического обновления
+ * @package App\Entities\Traits
+ */
 trait Timestamps
 {
     /**

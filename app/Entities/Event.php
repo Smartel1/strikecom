@@ -6,7 +6,9 @@ namespace App\Entities;
 use App\Entities\Interfaces\Commentable;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
+use App\Entities\Traits\ContentsTrait;
 use App\Entities\Traits\Timestamps;
+use App\Entities\Traits\TitlesTrait;
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -16,6 +18,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Event implements Commentable
 {
+    use TitlesTrait;
+    use ContentsTrait;
     use Timestamps;
 
     /**
@@ -24,36 +28,6 @@ class Event implements Commentable
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_ru;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_en;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $title_es;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $content_ru;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $content_en;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $content_es;
 
     /**
      * @ORM\Column(type="integer")
@@ -284,102 +258,6 @@ class Event implements Commentable
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleRu()
-    {
-        return $this->title_ru;
-    }
-
-    /**
-     * @param mixed $title_ru
-     */
-    public function setTitleRu($title_ru)
-    {
-        $this->title_ru = $title_ru;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleEn()
-    {
-        return $this->title_en;
-    }
-
-    /**
-     * @param mixed $title_en
-     */
-    public function setTitleEn($title_en)
-    {
-        $this->title_en = $title_en;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitleEs()
-    {
-        return $this->title_es;
-    }
-
-    /**
-     * @param mixed $title_es
-     */
-    public function setTitleEs($title_es)
-    {
-        $this->title_es = $title_es;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContentRu()
-    {
-        return $this->content_ru;
-    }
-
-    /**
-     * @param mixed $content_ru
-     */
-    public function setContentRu($content_ru)
-    {
-        $this->content_ru = $content_ru;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContentEn()
-    {
-        return $this->content_en;
-    }
-
-    /**
-     * @param mixed $content_en
-     */
-    public function setContentEn($content_en)
-    {
-        $this->content_en = $content_en;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContentEs()
-    {
-        return $this->content_es;
-    }
-
-    /**
-     * @param mixed $content_es
-     */
-    public function setContentEs($content_es)
-    {
-        $this->content_es = $content_es;
     }
 
     /**
