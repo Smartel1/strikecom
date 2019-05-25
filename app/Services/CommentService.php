@@ -10,7 +10,6 @@ use App\Entities\Interfaces\Commentable;
 use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -54,7 +53,7 @@ class CommentService
             ->from(Comment::class, 'c')
             ->where($this->em->getExpressionBuilder()->isMemberOf(':ca', 'c.'.$relationName))
             ->setParameter('ca', $commentable)
-            ->orderBy('c.createdAt');
+            ->orderBy('c.createdAt', 'desc');
 
         //Пагинируем результат
         $doctrinePaginator = new Paginator(
