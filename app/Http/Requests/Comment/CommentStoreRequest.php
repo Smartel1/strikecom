@@ -32,7 +32,7 @@ class CommentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'content'      => 'required|min:3',
+            'content'      => 'required|string|min:1',
             'photo_urls'   => 'nullable|array',
             'photo_urls.*' => 'required|string|max:500',
         ];
