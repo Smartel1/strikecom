@@ -58,6 +58,24 @@ class NewsControllerTest extends TestCase
     }
 
     /**
+     * запрос на пометку события в избранное
+     */
+    public function testFavourite()
+    {
+        $this->deleteAllNewsFromDB();
+
+        $news = entity(News::class)->create([
+            'title_ru'    => 'Новости соседнего села',
+            'content_ru'  => 'Такие вот дела',
+            'date'        => 1544680093,
+            'source_link' => 'https://domain.ru/img.gif',
+        ]);
+
+        $this->post('/api/ru/news/' . $news->getId() . '/favourite', ['favourite' => 1])
+            ->assertStatus(200);
+    }
+
+    /**
      * запрос одной новости
      */
     public function testView()

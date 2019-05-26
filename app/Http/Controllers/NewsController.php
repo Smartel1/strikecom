@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\News;
+use App\Http\Requests\News\NewsSetFavouriteRequest;
 use App\Http\Requests\News\NewsDestroyRequest;
 use App\Http\Requests\News\NewsIndexRequest;
 use App\Http\Requests\News\NewsShowRequest;
@@ -97,6 +98,18 @@ class NewsController extends Controller
         $news = $this->service->update($news, $request->validated());
 
         return NewsDetailResource::make($news);
+    }
+
+    /**
+     * @param NewsSetFavouriteRequest $request
+     * @param $locale
+     * @param News $news
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function setFavourite(NewsSetFavouriteRequest $request, $locale, News $news)
+    {
+        $this->service->setFavourite($news, Auth::user(), $request->favourite);
     }
 
     /**

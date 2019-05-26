@@ -6,6 +6,7 @@ use App\Entities\Event;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Http\Requests\Event\EventDestroyRequest;
 use App\Http\Requests\Event\EventIndexRequest;
+use App\Http\Requests\Event\EventSetFavouriteRequest;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventShowRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
@@ -101,6 +102,18 @@ class EventController extends Controller
         $event = $this->service->update($event, $request->validated());
 
         return EventDetailResource::make($event);
+    }
+
+    /**
+     * @param EventSetFavouriteRequest $request
+     * @param $locale
+     * @param Event $event
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function setFavourite(EventSetFavouriteRequest $request, $locale, Event $event)
+    {
+        $this->service->setFavourite($event, Auth::user(), $request->favourite);
     }
 
     /**

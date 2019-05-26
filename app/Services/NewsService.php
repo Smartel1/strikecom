@@ -11,6 +11,7 @@ use App\Criteria\SafeLTE;
 use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\Tag;
+use App\Entities\User;
 use App\Entities\Video;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -73,7 +74,7 @@ class NewsService
             $doctrinePaginator->count(),
             (integer)$perPage,
             $page,
-            ['path'=>request()->url()]
+            ['path' => request()->url()]
         );
 
         return $laravelPaginator;
@@ -130,6 +131,31 @@ class NewsService
     }
 
     /**
+     * Пометить новость как избранное или снять отметку
+     * @param News $news
+     * @param User $user
+     * @param bool $isFavourite
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function setFavourite(News $news, User $user, bool $isFavourite)
+    {
+        $currentFavourites = $user->getFavouriteNews();
+
+        if ($isFavourite) {
+            //Добавим в избранное, если ещё не в избранном
+            if (!$currentFavourites->contains($news)) {
+                $currentFavourites->add($news);
+            }
+        } else {
+            $currentFavourites->removeElement($news);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    /**
      * @param News $news
      * @throws ORMException
      * @throws OptimisticLockException
@@ -180,7 +206,7 @@ class NewsService
      */
     private function syncPhotos(News $news, array $photoUrls)
     {
-        foreach ($news->getPhotos() as $oldPhoto){
+        foreach ($news->getPhotos() as $oldPhoto) {
             $this->em->remove($oldPhoto);
         };
 
@@ -202,7 +228,7 @@ class NewsService
      */
     private function syncVideos(News $news, array $receivedVideos)
     {
-        foreach ($news->getVideos() as $oldVideo){
+        foreach ($news->getVideos() as $oldVideo) {
             $this->em->remove($oldVideo);
         };
 

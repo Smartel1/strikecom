@@ -95,6 +95,24 @@ class EventControllerTest extends TestCase
     }
 
     /**
+     * запрос на пометку события в избранное
+     */
+    public function testFavourite()
+    {
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
+            'date'        => 1544680093,
+        ]);
+
+        $this->post('/api/ru/event/' . $event->getId() . '/favourite', ['favourite' => 1])
+            ->assertStatus(200);
+    }
+
+    /**
      * запрос одного события
      */
     public function testView()

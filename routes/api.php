@@ -16,12 +16,14 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
 
     Route::apiResource('event', 'EventController');
     Route::post('event-list', 'EventController@index'); //запрос списка с параметрами в теле
+    Route::post('event/{event}/favourite', 'EventController@setFavourite');
 
     Route::apiResource('event.comment', 'CommentController');
     Route::resource('event.comment.claim', 'ClaimController', ['only' => 'store']);
 
     Route::apiResource('news', 'NewsController');
     Route::post('news-list', 'NewsController@index'); //запрос списка с параметрами в теле
+    Route::post('news/{news}/favourite', 'NewsController@setFavourite');
 
     Route::apiResource('news.comment', 'CommentController');
     Route::resource('news.comment.claim', 'ClaimController', ['only' => 'store']);

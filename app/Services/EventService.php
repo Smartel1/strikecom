@@ -16,6 +16,7 @@ use App\Entities\Photo;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\Tag;
+use App\Entities\User;
 use App\Entities\Video;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentEvent;
@@ -145,6 +146,31 @@ class EventService
         $this->em->commit();
 
         return $event;
+    }
+
+    /**
+     * Пометить событие как избранное или снять отметку
+     * @param Event $event
+     * @param User $user
+     * @param bool $isFavourite
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function setFavourite(Event $event, User $user, bool $isFavourite)
+    {
+        $currentFavourites = $user->getFavouriteEvents();
+
+        if ($isFavourite) {
+            //Добавим в избранное, если ещё не в избранном
+            if (!$currentFavourites->contains($event)) {
+                $currentFavourites->add($event);
+            }
+        } else {
+            $currentFavourites->removeElement($event);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
     }
 
     /**
