@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Entities\Claim;
 use App\Entities\Comment;
 use App\Entities\Conflict;
 use App\Entities\Event;
+use App\Entities\Photo;
+use App\Entities\References\ClaimType;
 use App\Entities\User;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
@@ -22,6 +25,15 @@ class EventCommentControllerTest extends TestCase
      */
     private function prepareDB(): Event
     {
+        EntityManager::createQueryBuilder()->from(User::class, 'u')->delete()->getQuery()->getResult();
+
+        $user = entity(User::class)->create([
+            'uuid'  => '1',
+            'name'  => 'John Doe',
+            'email' => 'jd@mail.ty',
+            'admin' => true,
+        ]);
+
         EntityManager::createQueryBuilder()->from(Conflict::class, 'c')->delete()->getQuery()->getResult();
 
         $conflict = entity(Conflict::class)->create([
@@ -41,24 +53,30 @@ class EventCommentControllerTest extends TestCase
         $comment1 = new Comment();
         $comment1->setContent('Вот это дела');
 
+        //Создаём жалобу на первый комментарий
+        $claim = new Claim;
+        $claim->setClaimType(EntityManager::getReference(ClaimType::class, 1));
+        $claim->setComment($comment1);
+        $claim->setUser($user);
+
         $comment2 = new Comment();
         $comment2->setContent('Ну и дела');
+
+        $photo = new Photo;
+        $photo->setUrl('https://my.photo.com/thebestcom');
+        $comment2->setPhotos([$photo]);
 
         $event->getComments()->add($comment1);
         $event->getComments()->add($comment2);
 
         EntityManager::persist($comment1);
+        EntityManager::persist($claim);
         EntityManager::persist($comment2);
+        EntityManager::persist($photo);
         EntityManager::persist($event);
-
-        EntityManager::createQueryBuilder()->from(User::class, 'u')->delete()->getQuery()->getResult();
-
-        entity(User::class)->create([
-            'uuid'  => '1',
-            'name'  => 'John Doe',
-            'email' => 'jd@mail.ty',
-            'admin' => true,
-        ]);
+        EntityManager::flush();
+        //освобождаем память от уже загруженных моделей для чистоты экспериментов
+        EntityManager::clear();
 
         return $event;
     }
