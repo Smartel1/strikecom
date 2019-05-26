@@ -6,14 +6,14 @@ use App\Entities\Comment;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
+use Tests\Traits\DoctrineTransactions;
 
 class EventCommentControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DoctrineTransactions;
     use CreatesApplication;
 
     /**
