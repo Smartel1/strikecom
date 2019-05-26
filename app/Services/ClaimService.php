@@ -11,6 +11,7 @@ use App\Entities\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Illuminate\Support\Arr;
 
 class ClaimService
 {
@@ -45,5 +46,30 @@ class ClaimService
         $this->em->flush();
 
         return $claim;
+    }
+
+    /**
+     * Вывести массивом количества жалоб по типам
+     * @param Comment $comment
+     * @return array
+     */
+    public function getCommentClaimsCount(Comment $comment)
+    {
+        //массив, в которм ключ - id типа жалобы, а значение - количество жалоб этого типа
+        $claimCountsMap = [];
+
+        foreach ($comment->getClaims() as $claim) {
+            //В массив добавляем ключ, соответствующий id типа жалобы,
+            //значение (количество жалоб этого типа) инкрементится
+            $claimCountsMap[$claim->getClaimType()->getId()] = Arr::get($claimCountsMap, $claim->getClaimType()->getId(), 0) + 1;
+        }
+
+        $resultArray = [];
+
+        foreach ($claimCountsMap as $typeId => $claimsCount) {
+            $resultArray []= ['claim_type_id' => $typeId, 'claims_count' => $claimsCount];
+        }
+
+        return $resultArray;
     }
 }

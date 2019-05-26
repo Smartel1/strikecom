@@ -2,15 +2,11 @@
 
 namespace App\Http\Resources\Comment;
 
-use App\Entities\Claim;
 use App\Entities\Comment;
 use App\Entities\Photo;
-use App\Entities\References\ClaimType;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManager;
+use App\Services\ClaimService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Arr;
 
 class CommentResource extends Resource
 {
@@ -23,16 +19,7 @@ class CommentResource extends Resource
     public function toArray($request)
     {
         /** @var $comment Comment */
-        $comment = $this;
-
-        //В ответ добавляется количество жалоб по каждому типу
-        $claims = $comment->getClaims();
-        $claimInfo = [];
-        foreach ($claims as $claim) {
-            //В массив добавляем ключ, соответствующий id типа жалобы,
-            //значение (количество жалоб этого типа) инкрементится
-            $claimInfo[$claim->getClaimType()->getId()] = Arr::get($claimInfo, $claim->getClaimType()->getId(), 0) + 1;
-        }
+        $comment = $this->resource;
 
         return [
             'id'         => $comment->getId(),
@@ -49,7 +36,7 @@ class CommentResource extends Resource
                     return $photo->getUrl();
                 })
                 ->getValues(),
-            'claims'     => $claimInfo,
+            'claims'     => app(ClaimService::class)->getCommentClaimsCount($comment),
         ];
     }
 }
