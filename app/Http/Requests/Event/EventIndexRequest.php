@@ -16,6 +16,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.date_to дата, до которой выводить события
  * @filters.event_status_id ид. статуса события
  * @filters.event_type_id ид. типа события
+ * @filters.favourites только избранные
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests
@@ -48,6 +49,7 @@ class EventIndexRequest extends FormRequest
             'filters.date_to'         => 'integer',
             'filters.event_status_id' => 'integer',
             'filters.event_type_id'   => 'integer',
+            'filters.favourites'      => 'boolean',
             'per_page'                => 'integer|min:1',
             'page'                    => 'integer',
         ];

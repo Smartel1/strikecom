@@ -43,10 +43,11 @@ class NewsService
      * @param $filters array фильтры
      * @param $perPage int размер выборки
      * @param $page int номер страницы
+     * @param User|null $user
      * @return LengthAwarePaginator
      * @throws QueryException
      */
-    public function index($filters, $perPage, $page)
+    public function index($filters, $perPage, $page, ?User $user)
     {
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
@@ -62,6 +63,13 @@ class NewsService
             ->addCriteria(HasLocalizedTitle::make('n', app('locale')))
             ->addCriteria(HasLocalizedContent::make('n', app('locale')))
             ->orderBy('n.date', 'desc');
+
+        //Фильтр "только избранные" (criteria не получилось сделать)
+        if (Arr::get($filters, 'favourite')) {
+            $queryBuilder
+                ->andWhere(':user MEMBER OF e.likedUsers')
+                ->setParameter('user', $user);
+        }
 
         //Пагинируем результат
         $doctrinePaginator = new Paginator(

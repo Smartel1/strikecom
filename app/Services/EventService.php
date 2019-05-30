@@ -56,11 +56,11 @@ class EventService
      * @param $filters array фильтры
      * @param $perPage int размер выборки
      * @param $page int номер страницы
+     * @param User|null $user пользователь, запросивший ресурс
      * @return LengthAwarePaginator
      * @throws QueryException
-     * @throws ORMException
      */
-    public function index($filters, $perPage, $page)
+    public function index($filters, $perPage, $page, ?User $user)
     {
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
@@ -79,6 +79,13 @@ class EventService
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
             ->addCriteria(HasLocalizedContent::make('e', app('locale')))
             ->orderBy('e.date', 'desc');
+
+        //Фильтр "только избранные" (criteria не получилось сделать)
+        if (Arr::get($filters, 'favourite')) {
+            $queryBuilder
+                ->andWhere(':user MEMBER OF e.likedUsers')
+                ->setParameter('user', $user);
+        }
 
         //Пагинируем результат
         $doctrinePaginator = new Paginator(

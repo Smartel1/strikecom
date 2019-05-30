@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
+
     protected $service;
 
     /**
@@ -45,9 +46,10 @@ class EventController extends Controller
     public function index(EventIndexRequest $request, $locale)
     {
         $events = $this->service->index(
-            Arr::get($request->validated(), 'filters',[]),
+            Arr::get($request->validated(), 'filters', []),
             Arr::get($request, 'per_page', 20),
-            Arr::get($request, 'page', 1)
+            Arr::get($request, 'page', 1),
+            Auth::user()
         );
 
         return EventIndexResource::collection($events);

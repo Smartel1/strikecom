@@ -46,7 +46,8 @@ class NewsController extends Controller
         $news = $this->service->index(
             array_get($request->validated(), 'filters',[]),
             array_get($request, 'per_page', 20),
-            array_get($request, 'page', 1)
+            array_get($request, 'page', 1),
+            Auth::user()
         );
 
         return NewsIndexResource::collection($news);

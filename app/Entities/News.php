@@ -80,6 +80,17 @@ class News implements Commentable
     protected $user;
 
     /**
+     * Пользователи, которые отметили новость в избранное
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="favouriteNews")
+     * @ORM\JoinTable(name="favourite_news",
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     * @var ArrayCollection|User[]
+     */
+    protected $likedUsers;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Comment", inversedBy="news")
      * @var ArrayCollection|Comment[]
      */
@@ -158,6 +169,22 @@ class News implements Commentable
     public function setUser(?User $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return User[]|ArrayCollection
+     */
+    public function getLikedUsers()
+    {
+        return $this->likedUsers;
+    }
+
+    /**
+     * @param User[]|ArrayCollection $likedUsers
+     */
+    public function setLikedUsers($likedUsers): void
+    {
+        $this->likedUsers = $likedUsers;
     }
 
     /**
