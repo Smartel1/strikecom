@@ -81,7 +81,7 @@ class EventService
             ->orderBy('e.date', 'desc');
 
         //Фильтр "только избранные" (criteria не получилось сделать)
-        if (Arr::get($filters, 'favourite')) {
+        if (Arr::get($filters, 'favourites')) {
             $queryBuilder
                 ->andWhere(':user MEMBER OF e.likedUsers')
                 ->setParameter('user', $user);

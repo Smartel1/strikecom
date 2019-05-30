@@ -65,9 +65,9 @@ class NewsService
             ->orderBy('n.date', 'desc');
 
         //Фильтр "только избранные" (criteria не получилось сделать)
-        if (Arr::get($filters, 'favourite')) {
+        if (Arr::get($filters, 'favourites')) {
             $queryBuilder
-                ->andWhere(':user MEMBER OF e.likedUsers')
+                ->andWhere(':user MEMBER OF n.likedUsers')
                 ->setParameter('user', $user);
         }
 
