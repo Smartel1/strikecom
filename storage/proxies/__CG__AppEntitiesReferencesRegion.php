@@ -191,17 +191,6 @@ class Region extends \App\Entities\References\Region implements \Doctrine\ORM\Pr
     /**
      * {@inheritDoc}
      */
-    public function setId($id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
-
-        parent::setId($id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getNameRu()
     {
 

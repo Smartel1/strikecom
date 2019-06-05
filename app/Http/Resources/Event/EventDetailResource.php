@@ -43,10 +43,10 @@ class EventDetailResource extends Resource
             'tags'            => $event->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
             })->getValues(),
-            'user'            => $event->getUser() ? [
-                'id'    => $event->getUser()->getId(),
-                'name'  => $event->getUser()->getName(),
-                'email' => $event->getUser()->getEmail()
+            'author'            => $event->getAuthor() ? [
+                'id'    => $event->getAuthor()->getId(),
+                'name'  => $event->getAuthor()->getName(),
+                'email' => $event->getAuthor()->getEmail()
             ] : null,
             'comments_count'  => $event->getComments()->count(),
         ];

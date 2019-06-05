@@ -8,7 +8,6 @@ use App\Entities\Traits\ContentsTrait;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
 use Doctrine\ORM\Mapping AS ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -77,15 +76,11 @@ class News implements Commentable
      * @ORM\ManyToOne(targetEntity="User")
      * @var User|null
      */
-    protected $user;
+    protected $author;
 
     /**
      * Пользователи, которые отметили новость в избранное
      * @ORM\ManyToMany(targetEntity="User", inversedBy="favouriteNews")
-     * @ORM\JoinTable(name="favourite_news",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
      * @var ArrayCollection|User[]
      */
     protected $likedUsers;
@@ -158,17 +153,17 @@ class News implements Commentable
     /**
      * @return User|null
      */
-    public function getUser(): ?User
+    public function getAuthor(): ?User
     {
-        return $this->user;
+        return $this->author;
     }
 
     /**
-     * @param User|null $user
+     * @param User|null $author
      */
-    public function setUser(?User $user)
+    public function setAuthor(?User $author)
     {
-        $this->user = $user;
+        $this->author = $author;
     }
 
     /**

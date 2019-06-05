@@ -75,19 +75,14 @@ class Event implements Commentable
     protected $tags;
 
     /**
-     * @todo переименовать в author
      * @ORM\ManyToOne(targetEntity="User")
      * @var User|null
      */
-    protected $user;
+    protected $author;
 
     /**
      * Пользователи, которые отметили событие в избранное
      * @ORM\ManyToMany(targetEntity="User", inversedBy="favouriteEvents")
-     * @ORM\JoinTable(name="favourite_events",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
      * @var ArrayCollection|User[]
      */
     protected $likedUsers;
@@ -179,17 +174,17 @@ class Event implements Commentable
     /**
      * @return User|null
      */
-    public function getUser(): ?User
+    public function getAuthor(): ?User
     {
-        return $this->user;
+        return $this->author;
     }
 
     /**
-     * @param User|null $user
+     * @param User|null $author
      */
-    public function setUser(User $user)
+    public function setAuthor(User $author)
     {
-        $this->user = $user;
+        $this->author = $author;
     }
 
     /**

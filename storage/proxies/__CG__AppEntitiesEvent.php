@@ -64,10 +64,10 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'user', 'conflict', 'eventStatus', 'eventType', 'comments', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -242,23 +242,45 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getUser(): ?\App\Entities\User
+    public function getAuthor(): ?\App\Entities\User
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAuthor', []);
 
-        return parent::getUser();
+        return parent::getAuthor();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setUser(\App\Entities\User $user)
+    public function setAuthor(\App\Entities\User $author)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAuthor', [$author]);
 
-        return parent::setUser($user);
+        return parent::setAuthor($author);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLikedUsers()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLikedUsers', []);
+
+        return parent::getLikedUsers();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLikedUsers($likedUsers): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLikedUsers', [$likedUsers]);
+
+        parent::setLikedUsers($likedUsers);
     }
 
     /**
@@ -378,138 +400,6 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getTitleRu()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleRu', []);
-
-        return parent::getTitleRu();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleRu($title_ru)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleRu', [$title_ru]);
-
-        return parent::setTitleRu($title_ru);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleEn()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEn', []);
-
-        return parent::getTitleEn();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleEn($title_en)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEn', [$title_en]);
-
-        return parent::setTitleEn($title_en);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleEs()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEs', []);
-
-        return parent::getTitleEs();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleEs($title_es)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEs', [$title_es]);
-
-        return parent::setTitleEs($title_es);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getContentRu()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentRu', []);
-
-        return parent::getContentRu();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContentRu($content_ru)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentRu', [$content_ru]);
-
-        return parent::setContentRu($content_ru);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getContentEn()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentEn', []);
-
-        return parent::getContentEn();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContentEn($content_en)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentEn', [$content_en]);
-
-        return parent::setContentEn($content_en);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getContentEs()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentEs', []);
-
-        return parent::getContentEs();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setContentEs($content_es)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentEs', [$content_es]);
-
-        return parent::setContentEs($content_es);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getDate()
     {
 
@@ -593,6 +483,138 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
 
         return parent::getContentByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleRu()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleRu', []);
+
+        return parent::getTitleRu();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleRu($title_ru): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleRu', [$title_ru]);
+
+        parent::setTitleRu($title_ru);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleEn()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEn', []);
+
+        return parent::getTitleEn();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleEn($title_en): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEn', [$title_en]);
+
+        parent::setTitleEn($title_en);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleEs()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEs', []);
+
+        return parent::getTitleEs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleEs($title_es): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEs', [$title_es]);
+
+        parent::setTitleEs($title_es);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentRu()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentRu', []);
+
+        return parent::getContentRu();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContentRu($content_ru): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentRu', [$content_ru]);
+
+        parent::setContentRu($content_ru);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentEn()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentEn', []);
+
+        return parent::getContentEn();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContentEn($content_en): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentEn', [$content_en]);
+
+        parent::setContentEn($content_en);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentEs()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentEs', []);
+
+        return parent::getContentEs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContentEs($content_es): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentEs', [$content_es]);
+
+        parent::setContentEs($content_es);
     }
 
     /**

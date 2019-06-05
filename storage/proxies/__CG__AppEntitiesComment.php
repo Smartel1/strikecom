@@ -64,10 +64,10 @@ class Comment extends \App\Entities\Comment implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'events', 'news', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'events', 'news', 'claims', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'events', 'news', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'content', 'user', 'photos', 'events', 'news', 'claims', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -307,6 +307,28 @@ class Comment extends \App\Entities\Comment implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNews', [$news]);
 
         parent::setNews($news);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getClaims()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getClaims', []);
+
+        return parent::getClaims();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setClaims($claims): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClaims', [$claims]);
+
+        parent::setClaims($claims);
     }
 
     /**

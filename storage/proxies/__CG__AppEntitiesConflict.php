@@ -64,10 +64,10 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'title_ru', 'title_en', 'title_es', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -197,72 +197,6 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
         parent::setId($id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleRu()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleRu', []);
-
-        return parent::getTitleRu();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleRu($title_ru): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleRu', [$title_ru]);
-
-        parent::setTitleRu($title_ru);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleEn()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEn', []);
-
-        return parent::getTitleEn();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleEn($title_en): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEn', [$title_en]);
-
-        parent::setTitleEn($title_en);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleEs()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEs', []);
-
-        return parent::getTitleEs();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTitleEs($title_es): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEs', [$title_es]);
-
-        parent::setTitleEs($title_es);
     }
 
     /**
@@ -516,6 +450,72 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
 
         return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleRu()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleRu', []);
+
+        return parent::getTitleRu();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleRu($title_ru): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleRu', [$title_ru]);
+
+        parent::setTitleRu($title_ru);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleEn()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEn', []);
+
+        return parent::getTitleEn();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleEn($title_en): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEn', [$title_en]);
+
+        parent::setTitleEn($title_en);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTitleEs()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleEs', []);
+
+        return parent::getTitleEs();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTitleEs($title_es): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTitleEs', [$title_es]);
+
+        parent::setTitleEs($title_es);
     }
 
     /**

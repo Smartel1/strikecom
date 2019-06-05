@@ -119,7 +119,7 @@ class EventService
         $this->em->beginTransaction();
 
         $event = new Event;
-        $event->setUser($user);
+        $event->setAuthor($user);
         $this->attachConflict($event, Arr::get($data, 'conflict_id'));
         $this->fillNewsFields($event, $data);
         $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));

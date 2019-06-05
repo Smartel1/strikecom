@@ -191,17 +191,6 @@ class Industry extends \App\Entities\References\Industry implements \Doctrine\OR
     /**
      * {@inheritDoc}
      */
-    public function setId($id): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
-
-        parent::setId($id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getNameRu()
     {
 

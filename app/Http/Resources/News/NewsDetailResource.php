@@ -43,10 +43,10 @@ class NewsDetailResource extends Resource
                 ->map(function (Tag $tag) {
                     return $tag->getName();
                 })->getValues(),
-            'user'        => $news->getUser() ? [
-                'id'    => $news->getUser()->getId(),
-                'name'  => $news->getUser()->getName(),
-                'email' => $news->getUser()->getEmail()
+            'author'        => $news->getAuthor() ? [
+                'id'    => $news->getAuthor()->getId(),
+                'name'  => $news->getAuthor()->getName(),
+                'email' => $news->getAuthor()->getEmail()
             ] : null,
             'comments_count'  => $news->getComments()->count(),
         ];

@@ -52,7 +52,6 @@ class NewsService
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('n, SIZE(n.comments) comments_count')
             ->from('App\Entities\News', 'n')
-            ->leftJoin('n.user', 'u')
             ->leftJoin('n.photos', 'p')
             ->leftJoin('n.videos', 'v')
             ->leftJoin('n.tags', 't')
@@ -103,7 +102,7 @@ class NewsService
         $this->em->beginTransaction();
 
         $news = new News;
-        $news->setUser($user);
+        $news->setAuthor($user);
         $this->fillNewsFields($news, $data);
         $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($news, Arr::get($data, 'videos', []));
