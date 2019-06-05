@@ -43,6 +43,11 @@ class News implements Commentable
     protected $source_link;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $published = false;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Photo")
      * @ORM\JoinTable(name="news_photo",
      *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
@@ -260,6 +265,22 @@ class News implements Commentable
     public function setSourceLink($source_link)
     {
         $this->source_link = $source_link;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
     }
 
     /**

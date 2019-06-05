@@ -45,6 +45,11 @@ class Event implements Commentable
     protected $source_link;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $published = false;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Photo")
      * @ORM\JoinTable(name="event_photo",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
@@ -329,6 +334,22 @@ class Event implements Commentable
     public function setSourceLink($source_link)
     {
         $this->source_link = $source_link;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
     }
 
     /**
