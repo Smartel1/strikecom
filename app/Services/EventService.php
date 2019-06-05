@@ -7,9 +7,8 @@ use App\Criteria\BelongsToConflicts;
 use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
+use App\Criteria\SafeBetween;
 use App\Criteria\SafeEq;
-use App\Criteria\SafeGTE;
-use App\Criteria\SafeLTE;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
@@ -70,8 +69,11 @@ class EventService
             ->leftJoin('e.videos', 'v')
             ->leftJoin('e.tags', 't')
             ->leftJoin('e.conflict', 'c')
-            ->addCriteria(SafeGTE::make('e.date', Arr::get($filters, 'date_from', 0)))
-            ->addCriteria(SafeLTE::make('e.date', Arr::get($filters, 'date_to')))
+            ->addCriteria(SafeBetween::make(
+                'e.date',
+                Arr::get($filters, 'date_from'),
+                Arr::get($filters, 'date_to')
+            ))
             ->addCriteria(SafeEq::make('e.eventStatus', Arr::get($filters, 'event_status_id')))
             ->addCriteria(SafeEq::make('e.eventType', Arr::get($filters, 'event_type_id')))
             ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
