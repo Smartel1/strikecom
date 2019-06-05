@@ -8,7 +8,7 @@ use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
-use App\Criteria\SafeEq;
+use App\Criteria\SafeIn;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
@@ -74,8 +74,8 @@ class EventService
                 Arr::get($filters, 'date_from'),
                 Arr::get($filters, 'date_to')
             ))
-            ->addCriteria(SafeEq::make('e.eventStatus', Arr::get($filters, 'event_status_id')))
-            ->addCriteria(SafeEq::make('e.eventType', Arr::get($filters, 'event_type_id')))
+            ->addCriteria(SafeIn::make('e.eventStatus', Arr::get($filters, 'event_status_ids')))
+            ->addCriteria(SafeIn::make('e.eventType', Arr::get($filters, 'event_type_ids')))
             ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
             ->addCriteria(BelongsToConflicts::make(Arr::get($filters, 'conflict_ids')))
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
