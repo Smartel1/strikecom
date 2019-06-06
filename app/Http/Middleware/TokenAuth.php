@@ -5,10 +5,12 @@ namespace App\Http\Middleware;
 use App\Entities\User;
 use Closure;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use LaravelDoctrine\ORM\Facades\EntityManager;
+use Throwable;
 
 class TokenAuth
 {
@@ -17,8 +19,8 @@ class TokenAuth
      * Парсим токен, сверяем. Берем юзера из токена и записываем в базу если его там нет.
      * Аутентифицируем
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param Request $request
+     * @param Closure $next
      * @return mixed
      * @throws AuthenticationException
      */
@@ -29,17 +31,7 @@ class TokenAuth
          */
         $em = app('em');
 
-        //Заглушка на время разработки
         if (!request()->bearerToken()) {
-            $user = $em->getRepository('App\Entities\User')->findOneBy(['uuid'=>1, 'admin'=>true]);
-            if (!$user) {
-                $user = new User;
-                $user->setUuid(1);
-                $user->setAdmin(true);
-                $em->persist($user);
-                $em->flush();
-            }
-            Auth::login($user);
             return $next($request);
         }
 
@@ -56,7 +48,6 @@ class TokenAuth
             "token_uri"=> "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url"=> "https://www.googleapis.com/oauth2/v1/certs",
             "client_x509_cert_url"=> "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-gk3et%40strikecom-7ad08.iam.gserviceaccount.com"
-
         ]);
 
         try {
@@ -67,7 +58,7 @@ class TokenAuth
             $verifiedIdToken = $firebase->getAuth()->verifyIdToken(request()->bearerToken());
 
             $uuid = $verifiedIdToken->getClaim('sub');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new AuthenticationException('Проблемы с аутентификацией: '. $e->getMessage());
         }
 
