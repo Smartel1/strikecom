@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Criteria\ByPermission;
 use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
@@ -12,6 +13,8 @@ use App\Entities\Photo;
 use App\Entities\Tag;
 use App\Entities\User;
 use App\Entities\Video;
+use App\Exceptions\BusinessRuleValidationException;
+use App\Rules\UserCanModerate;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -23,18 +26,13 @@ use Illuminate\Support\Arr;
 
 class NewsService
 {
-    /**
-     * @var EntityManager
-     */
     protected $em;
+    private $businessValidationService;
 
-    /**
-     * NewsService constructor.
-     * @param EntityManager $em
-     */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, BusinessValidationService $businessValidationService)
     {
         $this->em = $em;
+        $this->businessValidationService = $businessValidationService;
     }
 
     /**
@@ -55,6 +53,7 @@ class NewsService
             ->leftJoin('n.photos', 'p')
             ->leftJoin('n.videos', 'v')
             ->leftJoin('n.tags', 't')
+            ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'n.date',
                 Arr::get($filters, 'date_from'),
@@ -96,9 +95,16 @@ class NewsService
      * @return News
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     * @throws BusinessRuleValidationException
      */
     public function create($data, $user)
     {
+        //Если пользователь хочет сразу опубликовать новость, он должен быть модератором
+        $this->businessValidationService->validate([
+            (new UserCanModerate($user))->when(Arr::get($data, 'published'))
+        ]);
+
         $this->em->beginTransaction();
 
         $news = new News;
@@ -118,13 +124,25 @@ class NewsService
     /**
      * @param News $news
      * @param $data
+     * @param $user
      * @return News
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
+     * @throws BusinessRuleValidationException
      */
-    public function update(News $news, $data)
+    public function update(News $news, $data, $user)
     {
+        $userChangesPublishStatus = (
+            Arr::has($data, 'published')
+            and
+            (bool) Arr::get($data, 'published') !== $news->isPublished()
+        );
+
+        $this->businessValidationService->validate([
+            (new UserCanModerate($user))->when($userChangesPublishStatus)
+        ]);
+
         $this->em->beginTransaction();
 
         $this->fillNewsFields($news, $data);
@@ -192,6 +210,10 @@ class NewsService
         $news->setContentRu(Arr::get($data, 'content_ru'));
         $news->setContentEn(Arr::get($data, 'content_en'));
         $news->setContentEs(Arr::get($data, 'content_es'));
+
+        if (Arr::has($data, 'published')) {
+            $news->setPublished(Arr::get($data, 'published'));
+        }
 
         $locale = app('locale');
 

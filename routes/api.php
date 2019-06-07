@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\User\UserResource;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     Route::resource('news.comment.claim', 'ClaimController', ['only' => 'store']);
 
     Route::get('user', function(){
+        if (!Auth::user()) throw new AuthenticationException();
         return UserResource::make(Auth::user())->toArray(null);
     });
 });

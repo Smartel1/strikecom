@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Entities\User;
 use Tests\CreatesApplication;
 use Tests\TestCase;
 use Tests\Traits\DoctrineTransactions;
@@ -16,8 +17,14 @@ class UserTest extends TestCase
      */
     public function test ()
     {
-        $this->get('/api/ru/user')
+        $user = entity(User::class)->make([
+            'name' => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->get('/api/ru/user')
             ->assertStatus(200);
+
     }
 
 }

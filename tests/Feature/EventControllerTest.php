@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entities\Conflict;
 use App\Entities\Event;
+use App\Entities\User;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -108,7 +109,12 @@ class EventControllerTest extends TestCase
             'date'        => 1544680093,
         ]);
 
-        $this->post('/api/ru/event/' . $event->getId() . '/favourite', ['favourite' => 1])
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/event/' . $event->getId() . '/favourite', ['favourite' => 1])
             ->assertStatus(200);
     }
 
@@ -148,7 +154,12 @@ class EventControllerTest extends TestCase
     {
         $conflictId = $this->clearConflictsAndAddOne();
 
-        $this->post('/api/ru/event', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/event', [
             'conflict_id'     => $conflictId,
             'title'           => 'Беда в городе',
             'content'         => 'Рабы кричат и гневятся',
@@ -163,6 +174,30 @@ class EventControllerTest extends TestCase
             ],
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на создание события неаутентифиц. пользователем
+     */
+    public function testStoreUnauth()
+    {
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        $this->post('/api/ru/event', [
+            'conflict_id'     => $conflictId,
+            'title'           => 'Беда в городе',
+            'content'         => 'Рабы кричат и гневятся',
+            'date'            => 1544680093,
+            'source_link'     => 'https://domain.ru/img.gif',
+            'event_status_id' => '1',
+            'event_type_id'   => '3',
+            'tags'            => ['нищета', 'голод'],
+            'photo_urls'      => ['images/ff.gif'],
+            'videos'          => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
+            ],
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -201,7 +236,12 @@ class EventControllerTest extends TestCase
             'date'        => 1544680093,
         ]);
 
-        $this->put('/api/ru/event/' . $event->getId(), [
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->put('/api/ru/event/' . $event->getId(), [
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,
@@ -215,6 +255,36 @@ class EventControllerTest extends TestCase
             ],
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на обновление события неаутентифицированным пользователем
+     */
+    public function testUpdateUnauth()
+    {
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
+            'date'        => 1544680093,
+        ]);
+
+        $this->put('/api/ru/event/' . $event->getId(), [
+            'title'           => 'Беда в мегаполисе',
+            'content'         => 'Рабы беснуются и гневятся',
+            'date'            => 1544690093,
+            'source_link'     => 'https://domain.ru/img.png',
+            'event_status_id' => '2',
+            'event_type_id'   => '3',
+            'tags'            => ['голод'],
+            'photo_urls'      => ['images/ff.gif'],
+            'videos'          => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
+            ],
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -282,12 +352,35 @@ class EventControllerTest extends TestCase
             'date'        => 1544680093,
         ]);
 
-        $this->delete('/api/ru/event/' . $event->getId())
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->delete('/api/ru/event/' . $event->getId())
             ->assertStatus(200);
     }
 
     /**
-     * запрос на удаление несущесвующего события
+     * запрос на удаление события неаутентифицированным пользователем
+     */
+    public function testDeleteUnauth()
+    {
+        $conflictId = $this->clearConflictsAndAddOne();
+
+        $event = entity(Event::class)->create([
+            'conflict_id' => $conflictId,
+            'title_ru'    => 'Трудовой конфликт',
+            'content_ru'  => 'Такие вот дела',
+            'date'        => 1544680093,
+        ]);
+
+        $this->delete('/api/ru/event/' . $event->getId())
+            ->assertStatus(403);
+    }
+
+    /**
+     * запрос на удаление несуществующего события
      */
     public function testDeleteWrong()
     {

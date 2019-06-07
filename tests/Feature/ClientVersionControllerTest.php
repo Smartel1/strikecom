@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\ClientVersion;
+use App\Entities\User;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -55,7 +56,13 @@ class ClientVersionControllerTest extends TestCase
      */
     public function testStore()
     {
-        $this->post('/api/ru/client-version', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/client-version', [
             'version'        => '1.2.1',
             'client_id'      => 'org.nrstudio.strikecom',
             'required'       => false,
@@ -64,6 +71,22 @@ class ClientVersionControllerTest extends TestCase
             'description_es' => 'Smth',
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на создание версии неаутентифиц. пользователем
+     */
+    public function testStoreUnauth()
+    {
+        $this->post('/api/ru/client-version', [
+            'version'        => '1.2.1',
+            'client_id'      => 'org.nrstudio.strikecom',
+            'required'       => false,
+            'description_ru' => 'Исправление ошибок свержения',
+            'description_en' => 'Bugfixes',
+            'description_es' => 'Smth',
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -92,8 +115,28 @@ class ClientVersionControllerTest extends TestCase
             'client_id' => 'org.nrstudio.strikecom',
         ]);
 
-        $this->delete('/api/ru/client-version/' . $version->getId())
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->delete('/api/ru/client-version/' . $version->getId())
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на удаление версии неаутентифиц. пользователем
+     */
+    public function testDeleteUnauth()
+    {
+        $version = entity(ClientVersion::class)->create([
+            'version'   => '1.2.0',
+            'client_id' => 'org.nrstudio.strikecom',
+        ]);
+
+        $this->delete('/api/ru/client-version/' . $version->getId())
+            ->assertStatus(403);
     }
 
     /**

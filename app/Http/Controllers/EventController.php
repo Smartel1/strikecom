@@ -62,6 +62,7 @@ class EventController extends Controller
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws AuthorizationException
+     * @throws BusinessRuleValidationException
      */
     public function store(EventStoreRequest $request, $locale)
     {
@@ -96,12 +97,13 @@ class EventController extends Controller
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      * @throws AuthorizationException
+     * @throws BusinessRuleValidationException
      */
     public function update(EventUpdateRequest $request, $locale, Event $event)
     {
         $this->authorize('update', $event);
 
-        $event = $this->service->update($event, $request->validated());
+        $event = $this->service->update($event, $request->validated(), Auth::user());
 
         return EventDetailResource::make($event);
     }
@@ -115,6 +117,8 @@ class EventController extends Controller
      */
     public function setFavourite(EventSetFavouriteRequest $request, $locale, Event $event)
     {
+        $this->authorize('setFavourite', Event::class);
+
         $this->service->setFavourite($event, Auth::user(), $request->favourite);
     }
 

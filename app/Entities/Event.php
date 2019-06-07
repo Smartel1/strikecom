@@ -81,6 +81,7 @@ class Event implements Commentable
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(onDelete="cascade")
      * @var User|null
      */
     protected $author;

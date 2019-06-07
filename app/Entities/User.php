@@ -66,8 +66,8 @@ class User implements Authenticatable
     /**
      * @ORM\ManyToMany(targetEntity="Event")
      * @ORM\JoinTable(name="favourite_events",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Event[]
      */
@@ -76,8 +76,8 @@ class User implements Authenticatable
     /**
      * @ORM\ManyToMany(targetEntity="News")
      * @ORM\JoinTable(name="favourite_news",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|News[]
      */

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\News;
+use App\Exceptions\BusinessRuleValidationException;
 use App\Http\Requests\News\NewsSetFavouriteRequest;
 use App\Http\Requests\News\NewsDestroyRequest;
 use App\Http\Requests\News\NewsIndexRequest;
@@ -59,6 +60,7 @@ class NewsController extends Controller
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws AuthorizationException
+     * @throws BusinessRuleValidationException
      */
     public function store(NewsStoreRequest $request, $locale)
     {
@@ -91,12 +93,13 @@ class NewsController extends Controller
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      * @throws AuthorizationException
+     * @throws BusinessRuleValidationException
      */
     public function update(NewsUpdateRequest $request, $locale, News $news)
     {
         $this->authorize('update', $news);
 
-        $news = $this->service->update($news, $request->validated());
+        $news = $this->service->update($news, $request->validated(), Auth::user());
 
         return NewsDetailResource::make($news);
     }
@@ -107,9 +110,12 @@ class NewsController extends Controller
      * @param News $news
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws AuthorizationException
      */
     public function setFavourite(NewsSetFavouriteRequest $request, $locale, News $news)
     {
+        $this->authorize('setFavourite', News::class);
+
         $this->service->setFavourite($news, Auth::user(), $request->favourite);
     }
 

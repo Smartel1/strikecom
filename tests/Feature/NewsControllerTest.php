@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\News;
+use App\Entities\User;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -64,6 +65,11 @@ class NewsControllerTest extends TestCase
     {
         $this->deleteAllNewsFromDB();
 
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
         $news = entity(News::class)->create([
             'title_ru'    => 'Новости соседнего села',
             'content_ru'  => 'Такие вот дела',
@@ -71,7 +77,7 @@ class NewsControllerTest extends TestCase
             'source_link' => 'https://domain.ru/img.gif',
         ]);
 
-        $this->post('/api/ru/news/' . $news->getId() . '/favourite', ['favourite' => 1])
+        $this->actingAs($user)->post('/api/ru/news/' . $news->getId() . '/favourite', ['favourite' => 1])
             ->assertStatus(200);
     }
 
@@ -107,7 +113,13 @@ class NewsControllerTest extends TestCase
      */
     public function testStore()
     {
-        $this->post('/api/ru/news', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/news', [
             'title'       => 'Беда в городе',
             'content'     => 'Рабы кричат и гневятся',
             'date'        => 1544680093,
@@ -122,11 +134,35 @@ class NewsControllerTest extends TestCase
     }
 
     /**
+     * запрос на создание новости неаутентифиц. пользователем
+     */
+    public function testStoreUnauth()
+    {
+        $this->post('/api/ru/news', [
+            'title'       => 'Беда в городе',
+            'content'     => 'Рабы кричат и гневятся',
+            'date'        => 1544680093,
+            'source_link' => 'https://domain.ru/img.gif',
+            'tags'        => ['нищета', 'голод'],
+            'photo_urls'  => ['images/ff.gif'],
+            'videos'      => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
+            ],
+        ])
+            ->assertStatus(403);
+    }
+
+    /**
      * некорректный запрос на создание новости
      */
     public function testStoreInvalid()
     {
-        $this->post('/api/ru/news', [
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/news', [
             'title'       => [],
             'content'     => [],
             'date'        => 15,
@@ -143,6 +179,37 @@ class NewsControllerTest extends TestCase
      */
     public function testUpdate()
     {
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $news = entity(News::class)->create([
+            'title_ru'   => 'Новости села',
+            'content_ru' => 'Такие вот дела',
+            'date'       => 1544680093,
+        ]);
+
+        $this->actingAs($user)->put('/api/ru/news/' . $news->getId(), [
+            'title'       => 'Беда в мегаполисе',
+            'content'     => 'Рабы беснуются и гневятся',
+            'date'        => 1544690093,
+            'source_link' => 'https://domain.ru/img.png',
+            'tags'        => ['голод'],
+            'photo_urls'  => ['images/ff.gif'],
+            'videos'      => [
+                ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
+            ],
+        ])
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на обновление новости неаутентифицированным пользователем
+     */
+    public function testUpdateUnauth()
+    {
+
         $news = entity(News::class)->create([
             'title_ru'   => 'Новости села',
             'content_ru' => 'Такие вот дела',
@@ -160,7 +227,7 @@ class NewsControllerTest extends TestCase
                 ['url' => 'http://videos.ru/1', 'video_type_id' => 1, 'preview_url' => 'http://a']
             ],
         ])
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**
@@ -168,13 +235,18 @@ class NewsControllerTest extends TestCase
      */
     public function testUpdateInvalid()
     {
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
         $news = entity(News::class)->create([
             'title_ru'   => 'Рабы захотели деньжат',
             'content_ru' => 'Богатые дяди визжат',
             'date'       => 1544680093,
         ]);
 
-        $this->put('/api/ru/news/' . $news->getId(), [
+        $this->actingAs($user)->put('/api/ru/news/' . $news->getId(), [
             'title'       => [],
             'content'     => [],
             'date'        => 15,
@@ -193,7 +265,12 @@ class NewsControllerTest extends TestCase
     {
         $this->deleteAllNewsFromDB();
 
-        $this->put('/api/ru/news/1', [
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $this->actingAs($user)->put('/api/ru/news/1', [
             'title'       => 'Беда в мегаполисе',
             'content'     => 'Рабы беснуются и гневятся',
             'date'        => '2018-10-02',
@@ -212,6 +289,27 @@ class NewsControllerTest extends TestCase
      */
     public function testDelete()
     {
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+        ]);
+
+        $news = entity(News::class)->create([
+            'title_ru'   => 'Трудовой заговор',
+            'content_ru' => 'Рабочие тайком сговорились работать на совесть',
+            'date'       => 1544680093,
+        ]);
+
+        $this->actingAs($user)->delete('/api/ru/news/' . $news->getId())
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на удаление новости неаутентифицированным пользователем
+     */
+    public function testDeleteUnauth()
+    {
+
         $news = entity(News::class)->create([
             'title_ru'   => 'Трудовой заговор',
             'content_ru' => 'Рабочие тайком сговорились работать на совесть',
@@ -219,11 +317,11 @@ class NewsControllerTest extends TestCase
         ]);
 
         $this->delete('/api/ru/news/' . $news->getId())
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**
-     * запрос на удаление несущесвующей новости
+     * запрос на удаление несуществующей новости
      */
     public function testDeleteWrong()
     {

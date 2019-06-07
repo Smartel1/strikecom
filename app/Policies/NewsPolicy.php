@@ -21,9 +21,15 @@ class NewsPolicy
         return true;
     }
 
+    //Пользователи могут менять новости, которые создали (но не могут менять статус публикации)
     public function update (User $user, News $news)
     {
-        return false;
+        return $news->getAuthor() and $news->getAuthor()->getId() === $user->getId();
+    }
+
+    public function setFavourite (User $user)
+    {
+        return true;
     }
 
     public function delete (User $user, News $news)

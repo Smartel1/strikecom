@@ -56,7 +56,13 @@ class NewsClaimTest extends TestCase
     {
         $ids = $this->prepareDB();
 
-        $this->post('/api/ru/news/' . $ids['news'] . '/comment/' . $ids['comment'] . '/claim', ['claim_type_id' => 1])
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/news/' . $ids['news'] . '/comment/' . $ids['comment'] . '/claim', ['claim_type_id' => 1])
             ->assertStatus(200);
     }
 

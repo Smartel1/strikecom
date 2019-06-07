@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Entities\Conflict;
+use App\Entities\User;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -101,7 +102,13 @@ class ConflictControllerTest extends TestCase
      */
     public function testStore()
     {
-        $this->post('/api/ru/conflict', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/conflict', [
             'title'              => 'Трудовой конфликт',
             'latitude'           => 54.5943,
             'longitude'          => 57.1670,
@@ -117,6 +124,26 @@ class ConflictControllerTest extends TestCase
     }
 
     /**
+     * запрос на создание конфликта неаутентифиц. пользователем
+     */
+    public function testStoreUnauth()
+    {
+        $this->post('/api/ru/conflict', [
+            'title'              => 'Трудовой конфликт',
+            'latitude'           => 54.5943,
+            'longitude'          => 57.1670,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544690093,
+            'date_to'            => 1545680093,
+            'conflict_reason_id' => 2,
+            'conflict_result_id' => 3,
+            'industry_id'        => 2,
+            'region_id'          => 3
+        ])
+            ->assertStatus(403);
+    }
+
+    /**
      * некорректный запрос на создание конфликта
      */
     public function testStoreInvalid()
@@ -129,6 +156,39 @@ class ConflictControllerTest extends TestCase
      * запрос на обновление конфликта
      */
     public function testUpdate()
+    {
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Трудовой конфликт',
+            'latitude'     => 54.5943,
+            'longitude'    => 57.1670,
+            'company_name' => 'ПАО АМЗ',
+        ]);
+
+        $this->actingAs($user)->put('/api/ru/conflict/' . $conflict->getId(), [
+            'title'              => 'Трудовой конфликт',
+            'latitude'           => 54.5944,
+            'longitude'          => 57.1671,
+            'company_name'       => 'ПАО АМЗ',
+            'date_from'          => 1544680093,
+            'date_to'            => 1544780093,
+            'conflict_reason_id' => 3,
+            'conflict_result_id' => 2,
+            'industry_id'        => 1,
+            'region_id'          => 3
+        ])
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на обновление конфликта неаутентфиц. пользователем
+     */
+    public function testUpdateUnauth()
     {
         $conflict = entity(Conflict::class)->create([
             'title_ru'     => 'Трудовой конфликт',
@@ -149,7 +209,7 @@ class ConflictControllerTest extends TestCase
             'industry_id'        => 1,
             'region_id'          => 3
         ])
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**
@@ -206,6 +266,28 @@ class ConflictControllerTest extends TestCase
      */
     public function testDelete()
     {
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $conflict = entity(Conflict::class)->create([
+            'title_ru'     => 'Трудовой конфликт',
+            'latitude'     => 54.5943,
+            'longitude'    => 57.1670,
+            'company_name' => 'ПАО АМЗ',
+        ]);
+
+        $this->actingAs($user)->delete('/api/ru/conflict/' . $conflict->getId())
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на удаление конфликта неаутентифиц. пользователем
+     */
+    public function testDeleteUnauth()
+    {
         $conflict = entity(Conflict::class)->create([
             'title_ru'     => 'Трудовой конфликт',
             'latitude'     => 54.5943,
@@ -214,7 +296,7 @@ class ConflictControllerTest extends TestCase
         ]);
 
         $this->delete('/api/ru/conflict/' . $conflict->getId())
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**

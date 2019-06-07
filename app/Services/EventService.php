@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use App\Criteria\BelongsToConflicts;
+use App\Criteria\ByPermission;
 use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
@@ -19,6 +20,7 @@ use App\Entities\User;
 use App\Entities\Video;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentEvent;
+use App\Rules\UserCanModerate;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -30,20 +32,10 @@ use Illuminate\Support\Arr;
 
 class EventService
 {
-    /**
-     * @var EntityManager
-     */
     protected $em;
-    /**
-     * @var BusinessValidationService
-     */
+
     protected $businessValidationService;
 
-    /**
-     * NewsService constructor.
-     * @param EntityManager $em
-     * @param BusinessValidationService $bvs
-     */
     public function __construct(EntityManager $em, BusinessValidationService $bvs)
     {
         $this->em = $em;
@@ -69,6 +61,7 @@ class EventService
             ->leftJoin('e.videos', 'v')
             ->leftJoin('e.tags', 't')
             ->leftJoin('e.conflict', 'c')
+            ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'e.date',
                 Arr::get($filters, 'date_from'),
@@ -113,15 +106,21 @@ class EventService
      * @return Event
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws BusinessRuleValidationException
      */
     public function create($data, $user)
     {
+        //Если пользователь хочет сразу опубликовать событие, он должен быть модератором
+        $this->businessValidationService->validate([
+            (new UserCanModerate($user))->when(Arr::get($data, 'published'))
+        ]);
+
         $this->em->beginTransaction();
 
         $event = new Event;
         $event->setAuthor($user);
         $this->attachConflict($event, Arr::get($data, 'conflict_id'));
-        $this->fillNewsFields($event, $data);
+        $this->fillEventFields($event, $data);
         $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($event, Arr::get($data, 'videos', []));
         $this->syncTags($event, Arr::get($data, 'tags', []));
@@ -136,16 +135,28 @@ class EventService
     /**
      * @param Event $event
      * @param $data
+     * @param $user
      * @return Event
+     * @throws BusinessRuleValidationException
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    public function update(Event $event, $data)
+    public function update(Event $event, $data, $user)
     {
+        $userChangesPublishStatus = (
+            Arr::has($data, 'published')
+            and
+            (bool) Arr::get($data, 'published') !== $event->isPublished()
+        );
+
+        $this->businessValidationService->validate([
+            (new UserCanModerate($user))->when($userChangesPublishStatus)
+        ]);
+
         $this->em->beginTransaction();
 
-        $this->fillNewsFields($event, $data);
+        $this->fillEventFields($event, $data);
         $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($event, Arr::get($data, 'videos', []));
         $this->syncTags($event, Arr::get($data, 'tags', []));
@@ -202,7 +213,7 @@ class EventService
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function fillNewsFields(Event $event, $data)
+    private function fillEventFields(Event $event, $data)
     {
         //todo use Builder pattern
         $event->setDate(Arr::get($data, 'date'));
@@ -217,6 +228,10 @@ class EventService
 
         $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
         $this->setEventType($event, Arr::get($data, 'event_type_id'));
+
+        if (Arr::has($data, 'published')) {
+            $event->setPublished(Arr::get($data, 'published'));
+        }
 
         $locale = app('locale');
 

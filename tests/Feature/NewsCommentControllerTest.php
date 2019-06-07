@@ -112,11 +112,31 @@ class NewsCommentControllerTest extends TestCase
     {
         $news = $this->prepareDB();
 
-        $this->post('/api/ru/news/' . $news->getId() . '/comment', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/news/' . $news->getId() . '/comment', [
             'content'    => 'Надо реагировать!',
             'image_urls' => ['https://heroku.com/image.png']
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на создание коммента новости
+     */
+    public function testStoreUnauth()
+    {
+        $news = $this->prepareDB();
+
+        $this->post('/api/ru/news/' . $news->getId() . '/comment', [
+            'content'    => 'Надо реагировать!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -140,11 +160,31 @@ class NewsCommentControllerTest extends TestCase
     {
         $news = $this->prepareDB();
 
-        $this->put('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId(), [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->put('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId(), [
             'content'    => 'Надо что-то думать!',
             'image_urls' => ['https://heroku.com/image.png']
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на обновление коммента события
+     */
+    public function testUpdateUnauth()
+    {
+        $news = $this->prepareDB();
+
+        $this->put('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId(), [
+            'content'    => 'Надо что-то думать!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -181,8 +221,25 @@ class NewsCommentControllerTest extends TestCase
     {
         $news = $this->prepareDB();
 
-        $this->delete('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId())
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->delete('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId())
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на удаление комментария неаутентифиц.
+     */
+    public function testDeleteUnauth()
+    {
+        $news = $this->prepareDB();
+
+        $this->delete('/api/ru/news/' . $news->getId() . '/comment/' . $news->getComments()->first()->getId())
+            ->assertStatus(403);
     }
 
     /**

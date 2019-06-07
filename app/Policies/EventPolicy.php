@@ -21,9 +21,15 @@ class EventPolicy
         return true;
     }
 
+    //Пользователи могут менять события, которые создали (но не могут менять статус публикации)
     public function update (User $user, Event $event)
     {
-        return false;
+        return $event->getAuthor() and $event->getAuthor()->getId() === $user->getId();
+    }
+
+    public function setFavourite (User $user)
+    {
+        return true;
     }
 
     public function delete (User $user, Event $event)

@@ -25,6 +25,7 @@ $factory->define(Event::class, function (Faker $faker, array $attributes) {
 
     return [
         'conflict'     => $conflict,
+        'published'    => Arr::get($attributes, 'published', true),
         'title_ru'     => Arr::get($attributes, 'title_ru', $faker->word),
         'title_en'     => Arr::get($attributes, 'title_en', $faker->word),
         'title_es'     => Arr::get($attributes, 'title_es', $faker->word),

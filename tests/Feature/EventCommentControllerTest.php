@@ -121,11 +121,31 @@ class EventCommentControllerTest extends TestCase
     {
         $event = $this->prepareDB();
 
-        $this->post('/api/ru/event/' . $event->getId() . '/comment', [
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/event/' . $event->getId() . '/comment', [
             'content'    => 'Надо что-то менять!',
             'image_urls' => ['https://heroku.com/image.png']
         ])
             ->assertStatus(200);
+    }
+
+    /**
+     * запрос на создание коммента события неаутентифиц.
+     */
+    public function testStoreUnauth()
+    {
+        $event = $this->prepareDB();
+
+        $this->post('/api/ru/event/' . $event->getId() . '/comment', [
+            'content'    => 'Надо что-то менять!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(403);
     }
 
     /**
@@ -147,13 +167,33 @@ class EventCommentControllerTest extends TestCase
      */
     public function testUpdate()
     {
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $event = $this->prepareDB();
+
+        $this->actingAs($user)->put('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId(), [
+            'content'    => 'Надо что-то менять!',
+            'image_urls' => ['https://heroku.com/image.png']
+        ])
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на обновление коммента события
+     */
+    public function testUpdateUnauth()
+    {
         $event = $this->prepareDB();
 
         $this->put('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId(), [
             'content'    => 'Надо что-то менять!',
             'image_urls' => ['https://heroku.com/image.png']
         ])
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**
@@ -188,10 +228,27 @@ class EventCommentControllerTest extends TestCase
      */
     public function testDelete()
     {
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $event = $this->prepareDB();
+
+        $this->actingAs($user)->delete('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId())
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос на удаление комментария неаутентифиц.
+     */
+    public function testDeleteUnauth()
+    {
         $event = $this->prepareDB();
 
         $this->delete('/api/ru/event/' . $event->getId() . '/comment/' . $event->getComments()->first()->getId())
-            ->assertStatus(200);
+            ->assertStatus(403);
     }
 
     /**

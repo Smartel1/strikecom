@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventStoreRequest
  * @description Запрос на создание события
  * @summary Создание события
+ * @published опубликована ли запись
  * @conflict_id ид. конфликта
  * @title заголовок
  * @title_ru Заголовок на русском
@@ -47,6 +48,7 @@ class EventStoreRequest extends FormRequest
     {
         return [
             'conflict_id'            => 'required|exists:App\Entities\Conflict,id',
+            'published'              => 'nullable|boolean',
             'title'                  => 'nullable|string|max:255',
             'title_ru'               => 'nullable|string|max:255',
             'title_en'               => 'nullable|string|max:255',

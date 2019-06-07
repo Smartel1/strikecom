@@ -77,7 +77,13 @@ class EventClaimTest extends TestCase
     {
         $ids = $this->prepareDB();
 
-        $this->post('/api/ru/event/' . $ids['event']
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->post('/api/ru/event/' . $ids['event']
             . '/comment/' . $ids['comment']
             . '/claim', ['claim_type_id' => 1])
             ->assertStatus(200);

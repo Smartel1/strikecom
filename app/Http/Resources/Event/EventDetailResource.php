@@ -24,6 +24,7 @@ class EventDetailResource extends Resource
 
         $structure = [
             'id'              => $event->getId(),
+            'published'       => $event->isPublished(),
             'date'            => $event->getDate(),
             'views'           => $event->getViews(),
             'source_link'     => $event->getSourceLink(),
