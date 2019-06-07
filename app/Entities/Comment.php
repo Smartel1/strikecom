@@ -37,8 +37,8 @@ class Comment
     /**
      * @ORM\ManyToMany(targetEntity="Photo")
      * @ORM\JoinTable(name="comment_photo",
-     *      joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id", unique=true)}
+     *      joinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id", unique=true, onDelete="cascade")}
      *      )
      * @var Photo[]|ArrayCollection
      */

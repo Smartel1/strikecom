@@ -81,7 +81,7 @@ class News implements Commentable
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\JoinColumn(onDelete="set null")
      * @var User|null
      */
     protected $author;
