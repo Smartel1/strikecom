@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entities\News;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -32,7 +33,7 @@ class NewsControllerTest extends TestCase
         entity(News::class)->create([
             'title_ru'    => 'Новости соседнего села',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
             'source_link' => 'https://domain.ru/img.gif',
         ]);
 
@@ -50,7 +51,7 @@ class NewsControllerTest extends TestCase
         entity(News::class)->create([
             'title_ru'    => 'Новости соседнего села',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
             'source_link' => 'https://domain.ru/img.gif',
         ]);
 
@@ -73,7 +74,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'    => 'Новости соседнего села',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
             'source_link' => 'https://domain.ru/img.gif',
         ]);
 
@@ -90,7 +91,7 @@ class NewsControllerTest extends TestCase
             'id'         => 1,
             'title_ru'   => 'Трудовой конфликт',
             'content_ru' => 'Такие вот дела',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->get('/api/ru/news/' . $news->getId())
@@ -187,7 +188,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Новости села',
             'content_ru' => 'Такие вот дела',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->actingAs($user)->put('/api/ru/news/' . $news->getId(), [
@@ -214,7 +215,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Новости села',
             'content_ru' => 'Такие вот дела',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->put('/api/ru/news/' . $news->getId(), [
@@ -244,7 +245,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Рабы захотели деньжат',
             'content_ru' => 'Богатые дяди визжат',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->actingAs($user)->put('/api/ru/news/' . $news->getId(), [
@@ -298,7 +299,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Трудовой заговор',
             'content_ru' => 'Рабочие тайком сговорились работать на совесть',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->actingAs($user)->delete('/api/ru/news/' . $news->getId())
@@ -314,7 +315,7 @@ class NewsControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Трудовой заговор',
             'content_ru' => 'Рабочие тайком сговорились работать на совесть',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->delete('/api/ru/news/' . $news->getId())

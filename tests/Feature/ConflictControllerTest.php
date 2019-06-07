@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Entities\Conflict;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -43,8 +44,8 @@ class ConflictControllerTest extends TestCase
             'latitude'           => 54.5943,
             'longitude'          => 57.1670,
             'company_name'       => 'ПАО АМЗ',
-            'date_from'          => 1544680093,
-            'date_to'            => 1544690093,
+            'date_from'          => DateTime::createFromFormat('U', 1544680093),
+            'date_to'            => DateTime::createFromFormat('U', 1544690093),
             'conflict_reason_id' => 2,
             'conflict_result_id' => 3,
             'industry_id'        => 2,

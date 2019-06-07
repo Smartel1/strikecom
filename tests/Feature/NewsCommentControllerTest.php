@@ -8,6 +8,7 @@ use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\References\ClaimType;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -38,7 +39,7 @@ class NewsCommentControllerTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Новость из соседнего села',
             'content_ru' => 'Такие вот дела',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $comment1 = new Comment();

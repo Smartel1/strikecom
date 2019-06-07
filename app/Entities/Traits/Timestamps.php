@@ -15,31 +15,33 @@ use Gedmo\Mapping\Annotation as Gedmo;
 trait Timestamps
 {
     /**
-     * @ORM\Column(name="created_at", type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
+     * @var DateTime
      */
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="update")
+     * @var DateTime
      */
     protected $updatedAt;
 
     /**
-     * @return DateTime
+     * @return int|null
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->createdAt ? $this->createdAt->getTimestamp() : null;
     }
 
     /**
-     * @return DateTime
+     * @return int|null
      */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updatedAt ? $this->updatedAt->getTimestamp() : null;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Entities\References\Industry;
 use App\Entities\References\Region;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
@@ -44,14 +45,16 @@ class Conflict
     protected $company_name;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
      */
-    protected $date_from;
+    protected $dateFrom;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
      */
-    protected $date_to;
+    protected $dateTo;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entities\References\ConflictReason")
@@ -160,15 +163,15 @@ class Conflict
      */
     public function getDateFrom()
     {
-        return is_null($this->date_from) ? null : (integer) $this->date_from;
+        return $this->dateFrom ? $this->dateFrom->getTimestamp() : null;
     }
 
     /**
-     * @param mixed $date_from
+     * @param int $dateFrom
      */
-    public function setDateFrom($date_from): void
+    public function setDateFrom(int $dateFrom): void
     {
-        $this->date_from = $date_from;
+        $this->dateFrom = DateTime::createFromFormat('U', $dateFrom);
     }
 
     /**
@@ -176,15 +179,15 @@ class Conflict
      */
     public function getDateTo()
     {
-        return is_null($this->date_to) ? null : (integer) $this->date_to;
+        return $this->dateTo ? $this->dateTo->getTimestamp() : null;
     }
 
     /**
-     * @param mixed $date_to
+     * @param int $dateTo
      */
-    public function setDateTo($date_to): void
+    public function setDateTo(int $dateTo): void
     {
-        $this->date_to = $date_to;
+        $this->dateTo = DateTime::createFromFormat('U', $dateTo);
     }
 
     /**

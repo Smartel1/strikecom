@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -39,8 +40,8 @@ class EventControllerTest extends TestCase
             'conflict_result_id' => 3,
             'industry_id'        => 3,
             'region_id'          => 3,
-            'date_from'          => 1544680093,
-            'date_to'            => 1544690093,
+            'date_from'          => DateTime::createFromFormat('U', 1544680093),
+            'date_to'            => DateTime::createFromFormat('U', 1544690093),
         ]);
 
         return $conflict->getId();
@@ -59,7 +60,7 @@ class EventControllerTest extends TestCase
             'conflict_id'     => $conflictId,
             'title_ru'        => 'Трудовой конфликт',
             'content_ru'      => 'Такие вот дела',
-            'date'            => 1544680093,
+            'date'            => DateTime::createFromFormat('U', 1544680093),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
@@ -82,7 +83,7 @@ class EventControllerTest extends TestCase
             'conflict_id'     => $conflictId,
             'title_ru'        => 'Трудовой конфликт',
             'content_ru'      => 'Такие вот дела',
-            'date'            => 1544680093,
+            'date'            => DateTime::createFromFormat('U', 1544680093),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
@@ -106,7 +107,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $user = entity(User::class)->make([
@@ -129,7 +130,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->get('/api/ru/event/' . $event->getId())
@@ -233,7 +234,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $user = entity(User::class)->make([
@@ -269,7 +270,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->put('/api/ru/event/' . $event->getId(), [
@@ -299,7 +300,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->put('/api/ru/event/' . $event->getId(), [
@@ -350,7 +351,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $user = entity(User::class)->make([
@@ -373,7 +374,7 @@ class EventControllerTest extends TestCase
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
-            'date'        => 1544680093,
+            'date'        => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $this->delete('/api/ru/event/' . $event->getId())

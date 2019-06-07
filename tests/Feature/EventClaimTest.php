@@ -6,6 +6,7 @@ use App\Entities\Comment;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -33,15 +34,15 @@ class EventClaimTest extends TestCase
             'conflict_result_id' => 3,
             'industry_id'        => 3,
             'region_id'          => 3,
-            'date_from'          => 1544680093,
-            'date_to'            => 1544690093,
+            'date_from'          => DateTime::createFromFormat('U', 1544680093),
+            'date_to'            => DateTime::createFromFormat('U', 1544690093),
         ]);
 
         $event = entity(Event::class)->create([
             'conflict_id'     => $conflict->getId(),
             'title_ru'        => 'Трудовой конфликт',
             'content_ru'      => 'Такие вот дела',
-            'date'            => 1544680093,
+            'date'            => DateTime::createFromFormat('U', 1544680093),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',

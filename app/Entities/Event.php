@@ -9,6 +9,7 @@ use App\Entities\References\EventType;
 use App\Entities\Traits\ContentsTrait;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
+use DateTime;
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -30,7 +31,8 @@ class Event implements Commentable
     protected $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime")
+     * @var DateTime
      */
     protected $date;
 
@@ -294,15 +296,15 @@ class Event implements Commentable
      */
     public function getDate()
     {
-        return is_null($this->date) ? null : (integer) $this->date;
+        return $this->date ? $this->date->getTimestamp() : null;
     }
 
     /**
-     * @param mixed $date
+     * @param int $date
      */
-    public function setDate($date)
+    public function setDate(int $date)
     {
-        $this->date = $date;
+        $this->date = DateTime::createFromFormat('U', $date);
     }
 
     /**

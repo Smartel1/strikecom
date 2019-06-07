@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Entities\Comment;
 use App\Entities\News;
 use App\Entities\User;
+use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Tests\CreatesApplication;
 use Tests\TestCase;
@@ -26,7 +27,7 @@ class NewsClaimTest extends TestCase
         $news = entity(News::class)->create([
             'title_ru'   => 'Новость из соседнего села',
             'content_ru' => 'Такие вот дела',
-            'date'       => 1544680093,
+            'date'       => DateTime::createFromFormat('U', 1544680093),
         ]);
 
         $comment = new Comment();
