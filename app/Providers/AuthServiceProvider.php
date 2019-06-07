@@ -7,12 +7,14 @@ use App\Entities\Comment;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\News;
+use App\Entities\User;
 use App\Policies\ClientVersionPolicy;
 use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\NewsPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('moderate', function (User $user){
+            return $user->isAdmin();
+        });
     }
 }

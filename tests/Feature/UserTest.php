@@ -18,7 +18,7 @@ class UserTest extends TestCase
     public function test ()
     {
         $user = entity(User::class)->make([
-            'name' => 'John Doe',
+            'name'  => 'John Doe',
             'email' => 'john@doe.com',
         ]);
 
