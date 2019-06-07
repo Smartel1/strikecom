@@ -85,7 +85,7 @@ class News implements Commentable
 
     /**
      * Пользователи, которые отметили новость в избранное
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="favouriteNews")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="favouriteNews")
      * @var ArrayCollection|User[]
      */
     protected $likedUsers;

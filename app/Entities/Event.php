@@ -87,7 +87,7 @@ class Event implements Commentable
 
     /**
      * Пользователи, которые отметили событие в избранное
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="favouriteEvents")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="favouriteEvents")
      * @var ArrayCollection|User[]
      */
     protected $likedUsers;
