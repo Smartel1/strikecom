@@ -242,6 +242,7 @@ class EventControllerTest extends TestCase
         ]);
 
         $this->actingAs($user)->put('/api/ru/event/' . $event->getId(), [
+            'published'       => false,
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,

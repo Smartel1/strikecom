@@ -13,6 +13,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.date_from дата, начиная с которой выводить события
  * @filters.date_to дата, до которой выводить события
  * @filters.favourites только избранные
+ * @filters.published только опубликованные (true), только неопубликованные (false), любые (если не передать)
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests\News
@@ -42,6 +43,7 @@ class NewsIndexRequest extends FormRequest
             'filters.date_from'  => 'nullable|integer',
             'filters.date_to'    => 'nullable|integer',
             'filters.favourites' => 'boolean',
+            'filters.published'  => 'boolean',
             'per_page'           => 'integer|min:1',
             'page'               => 'integer',
         ];

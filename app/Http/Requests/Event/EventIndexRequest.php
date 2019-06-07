@@ -16,6 +16,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.event_status_ids массив ид. статусов события
  * @filters.event_type_ids массив ид. типов события
  * @filters.favourites только избранные
+ * @filters.published только опубликованные (true), только неопубликованные (false), любые (если не передать)
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests
@@ -51,6 +52,7 @@ class EventIndexRequest extends FormRequest
             'filters.event_type_ids'      => 'array',
             'filters.event_type_ids.*'    => 'integer',
             'filters.favourites'          => 'boolean',
+            'filters.published'           => 'boolean',
             'per_page'                    => 'integer|min:1',
             'page'                        => 'integer',
         ];

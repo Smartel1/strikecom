@@ -8,6 +8,7 @@ use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
+use App\Criteria\SafeEq;
 use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\Tag;
@@ -59,6 +60,7 @@ class NewsService
                 Arr::get($filters, 'date_from'),
                 Arr::get($filters, 'date_to')
             ))
+            ->addCriteria(SafeEq::make('n.published', Arr::get($filters, 'published')))
             ->addCriteria(HasTag::make('n', Arr::get($filters, 'tag_id')))
             ->addCriteria(HasLocalizedTitle::make('n', app('locale')))
             ->addCriteria(HasLocalizedContent::make('n', app('locale')))
