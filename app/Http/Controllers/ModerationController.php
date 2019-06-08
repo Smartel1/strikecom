@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\Comment;
 use App\Entities\Event;
+use App\Entities\News;
 use App\Http\Requests\Moderation\DashboardRequest;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
@@ -53,7 +54,7 @@ class ModerationController extends Controller
 
         $nonpublishedNewsCount = $this->em->createQueryBuilder()
             ->select('count(e)')
-            ->from(Event::class, 'e')
+            ->from(News::class, 'e')
             ->where('e.published = false')
             ->getQuery()
             ->getSingleScalarResult();
