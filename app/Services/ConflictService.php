@@ -121,20 +121,20 @@ class ConflictService
     private function fillConflictFields(Conflict $conflict, $data)
     {
         //todo use Builder pattern
-        $conflict->setTitleRu(Arr::get($data, 'title_ru'));
-        $conflict->setTitleEn(Arr::get($data, 'title_en'));
-        $conflict->setTitleEs(Arr::get($data, 'title_es'));
-        $conflict->setLatitude(Arr::get($data, 'latitude'));
-        $conflict->setLongitude(Arr::get($data, 'longitude'));
-        $conflict->setCompanyName(Arr::get($data, 'company_name'));
-        $conflict->setDateFrom(Arr::get($data, 'date_from'));
-        $conflict->setDateTo(Arr::get($data, 'date_to'));
+        if (Arr::get($data, 'title_ru')) $conflict->setTitleRu(Arr::get($data, 'title_ru'));
+        if (Arr::get($data, 'title_en')) $conflict->setTitleEn(Arr::get($data, 'title_en'));
+        if (Arr::get($data, 'title_es')) $conflict->setTitleEs(Arr::get($data, 'title_es'));
+        if (Arr::get($data, 'latitude')) $conflict->setLatitude(Arr::get($data, 'latitude'));
+        if (Arr::get($data, 'longitude')) $conflict->setLongitude(Arr::get($data, 'longitude'));
+        if (Arr::get($data, 'company_name')) $conflict->setCompanyName(Arr::get($data, 'company_name'));
+        if (Arr::get($data, 'date_from')) $conflict->setDateFrom(Arr::get($data, 'date_from'));
+        if (Arr::get($data, 'date_to')) $conflict->setDateTo(Arr::get($data, 'date_to'));
 
-        $this->setConflictReason($conflict, Arr::get($data, 'conflict_reason_id'));
-        $this->setConflictResult($conflict, Arr::get($data, 'conflict_result_id'));
-        $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
-        $this->setRegion($conflict, Arr::get($data, 'region_id'));
-        $this->setParentEvent($conflict, Arr::get($data, 'parent_event_id'));
+        if (Arr::get($data, 'conflict_reason_id')) $this->setConflictReason($conflict, Arr::get($data, 'conflict_reason_id'));
+        if (Arr::get($data, 'conflict_result_id')) $this->setConflictResult($conflict, Arr::get($data, 'conflict_result_id'));
+        if (Arr::get($data, 'industry_id')) $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
+        if (Arr::get($data, 'region_id')) $this->setRegion($conflict, Arr::get($data, 'region_id'));
+        if (Arr::get($data, 'parent_event_id')) $this->setParentEvent($conflict, Arr::get($data, 'parent_event_id'));
 
         $locale = app('locale');
 

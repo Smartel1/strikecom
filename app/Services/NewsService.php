@@ -203,19 +203,16 @@ class NewsService
      */
     private function fillNewsFields(News $news, $data)
     {
-        $news->setDate(Arr::get($data, 'date'));
-        $news->setSourceLink(Arr::get($data, 'source_link'));
-        $news->setViews(0);
-        $news->setTitleRu(Arr::get($data, 'title_ru'));
-        $news->setTitleEn(Arr::get($data, 'title_en'));
-        $news->setTitleEs(Arr::get($data, 'title_es'));
-        $news->setContentRu(Arr::get($data, 'content_ru'));
-        $news->setContentEn(Arr::get($data, 'content_en'));
-        $news->setContentEs(Arr::get($data, 'content_es'));
-
-        if (Arr::has($data, 'published')) {
-            $news->setPublished(Arr::get($data, 'published'));
-        }
+        //Устанавливаем/обновляем только те поля, которые переданы
+        if (Arr::has($data, 'date')) $news->setDate(Arr::get($data, 'date'));
+        if (Arr::has($data, 'source_link')) $news->setSourceLink(Arr::get($data, 'source_link'));
+        if (Arr::has($data, 'title_ru')) $news->setTitleRu(Arr::get($data, 'title_ru'));
+        if (Arr::has($data, 'title_en')) $news->setTitleEn(Arr::get($data, 'title_en'));
+        if (Arr::has($data, 'title_es')) $news->setTitleEs(Arr::get($data, 'title_es'));
+        if (Arr::has($data, 'content_ru')) $news->setContentRu(Arr::get($data, 'content_ru'));
+        if (Arr::has($data, 'content_en')) $news->setContentEn(Arr::get($data, 'content_en'));
+        if (Arr::has($data, 'content_es')) $news->setContentEs(Arr::get($data, 'content_es'));
+        if (Arr::has($data, 'published'))  $news->setPublished(Arr::get($data, 'published'));
 
         $locale = app('locale');
 

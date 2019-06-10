@@ -46,13 +46,13 @@ class Conflict
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @var DateTime
+     * @var DateTime|null
      */
     protected $dateFrom;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @var DateTime
+     * @var DateTime|null
      */
     protected $dateTo;
 
@@ -167,11 +167,15 @@ class Conflict
     }
 
     /**
-     * @param int $dateFrom
+     * @param int|null $dateFrom
      */
-    public function setDateFrom(int $dateFrom): void
+    public function setDateFrom(?int $dateFrom): void
     {
-        $this->dateFrom = DateTime::createFromFormat('U', $dateFrom);
+        if (is_null($dateFrom)) {
+            $this->dateFrom = null;
+        } else {
+            $this->dateFrom = DateTime::createFromFormat('U', $dateFrom);
+        }
     }
 
     /**
@@ -183,11 +187,15 @@ class Conflict
     }
 
     /**
-     * @param int $dateTo
+     * @param int|null $dateTo
      */
-    public function setDateTo(int $dateTo): void
+    public function setDateTo(?int $dateTo): void
     {
-        $this->dateTo = DateTime::createFromFormat('U', $dateTo);
+        if (is_null($dateTo)) {
+            $this->dateTo = null;
+        } else {
+            $this->dateTo = DateTime::createFromFormat('U', $dateTo);
+        }
     }
 
     /**

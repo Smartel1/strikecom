@@ -23,6 +23,7 @@ class NewsDetailResource extends Resource
 
         $structure = [
             'id'          => $news->getId(),
+            'published'   => $news->isPublished(),
             'date'        => $news->getDate(),
             'views'       => $news->getViews(),
             'source_link' => $news->getSourceLink(),

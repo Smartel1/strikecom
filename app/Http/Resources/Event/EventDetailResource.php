@@ -49,6 +49,7 @@ class EventDetailResource extends Resource
                 'name'  => $event->getAuthor()->getName(),
                 'email' => $event->getAuthor()->getEmail()
             ] : null,
+            'conflict'        => ConflictDetailResource::make($event->getConflict()),
             'comments_count'  => $event->getComments()->count(),
         ];
 

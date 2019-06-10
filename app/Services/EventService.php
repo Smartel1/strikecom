@@ -217,23 +217,18 @@ class EventService
      */
     private function fillEventFields(Event $event, $data)
     {
-        //todo use Builder pattern
-        $event->setDate(Arr::get($data, 'date'));
-        $event->setSourceLink(Arr::get($data, 'source_link'));
-        $event->setViews(0);
-        $event->setTitleRu(Arr::get($data, 'title_ru'));
-        $event->setTitleEn(Arr::get($data, 'title_en'));
-        $event->setTitleEs(Arr::get($data, 'title_es'));
-        $event->setContentRu(Arr::get($data, 'content_ru'));
-        $event->setContentEn(Arr::get($data, 'content_en'));
-        $event->setContentEs(Arr::get($data, 'content_es'));
+        if (Arr::has($data, 'date')) $event->setDate(Arr::get($data, 'date'));
+        if (Arr::has($data, 'source_link')) $event->setSourceLink(Arr::get($data, 'source_link'));
+        if (Arr::has($data, 'title_ru')) $event->setTitleRu(Arr::get($data, 'title_ru'));
+        if (Arr::has($data, 'title_en')) $event->setTitleEn(Arr::get($data, 'title_en'));
+        if (Arr::has($data, 'title_es')) $event->setTitleEs(Arr::get($data, 'title_es'));
+        if (Arr::has($data, 'content_ru')) $event->setContentRu(Arr::get($data, 'content_ru'));
+        if (Arr::has($data, 'content_en')) $event->setContentEn(Arr::get($data, 'content_en'));
+        if (Arr::has($data, 'content_es')) $event->setContentEs(Arr::get($data, 'content_es'));
+        if (Arr::has($data, 'published')) $event->setPublished(Arr::get($data, 'published'));
 
-        $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
-        $this->setEventType($event, Arr::get($data, 'event_type_id'));
-
-        if (Arr::has($data, 'published')) {
-            $event->setPublished(Arr::get($data, 'published'));
-        }
+        if (Arr::has($data, 'event_status_id')) $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
+        if (Arr::has($data, 'event_type_id')) $this->setEventType($event, Arr::get($data, 'event_type_id'));
 
         $locale = app('locale');
 

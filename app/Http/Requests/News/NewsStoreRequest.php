@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class NewsStoreRequest
  * @description Запрос на создание новости
  * @summary Создание новости
+ * @published опубликована ли запись
  * @title заголовок
  * @title_ru Заголовок на русском
  * @title_en Заголовок на английском
@@ -43,6 +44,7 @@ class NewsStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'published'             => 'nullable|boolean',
             'title'                 => 'nullable|string|max:255',
             'title_ru'              => 'nullable|string|max:255',
             'title_en'              => 'nullable|string|max:255',
