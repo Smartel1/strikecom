@@ -62,7 +62,7 @@ class EventClaimTest extends TestCase
             'uuid'  => '1',
             'name'  => 'John Doe',
             'email' => 'jd@mail.ty',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         return [
@@ -81,7 +81,7 @@ class EventClaimTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->post('/api/ru/event/' . $ids['event']

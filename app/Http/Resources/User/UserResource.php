@@ -26,7 +26,7 @@ class UserResource extends Resource
             'uuid'             => $user->getUuid(),
             'email'            => $user->getEmail(),
             'fcm'              => $user->getFcm(),
-            'admin'            => $user->isAdmin(),
+            'roles'            => $user->getRoles(),
             'push'             => $user->getPush(),
             'reward'           => $user->getReward(),
             'image_url'        => $user->getImageUrl(),

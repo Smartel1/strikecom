@@ -32,7 +32,7 @@ class EventCommentControllerTest extends TestCase
             'uuid'  => '1',
             'name'  => 'John Doe',
             'email' => 'jd@mail.ty',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         EntityManager::createQueryBuilder()->from(Conflict::class, 'c')->delete()->getQuery()->getResult();
@@ -125,7 +125,7 @@ class EventCommentControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->post('/api/ru/event/' . $event->getId() . '/comment', [
@@ -171,7 +171,7 @@ class EventCommentControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $event = $this->prepareDB();
@@ -232,7 +232,7 @@ class EventCommentControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $event = $this->prepareDB();

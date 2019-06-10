@@ -16,6 +16,9 @@ class User implements Authenticatable
 {
     use Timestamps;
 
+    public static $ROLE_ADMIN = "ADMIN";
+    public static $ROLE_MODERATOR = "MODERATOR";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -39,14 +42,15 @@ class User implements Authenticatable
     protected $email;
 
     /**
+     * Роли хранятся как сериализованный неассоциативный массив
+     * @ORM\Column(type="array", options={"default"="a:0:{}"})
+     */
+    protected $roles = [];
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $fcm;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $admin = false;
 
     /**
      * @ORM\Column(type="boolean")
@@ -157,6 +161,22 @@ class User implements Authenticatable
     }
 
     /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    /**
      * @return mixed
      */
     public function getFcm()
@@ -170,30 +190,6 @@ class User implements Authenticatable
     public function setFcm($fcm)
     {
         $this->fcm = $fcm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAdmin()
-    {
-        return $this->admin;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return (bool) $this->admin;
-    }
-
-    /**
-     * @param mixed $admin
-     */
-    public function setAdmin($admin)
-    {
-        $this->admin = $admin;
     }
 
     /**

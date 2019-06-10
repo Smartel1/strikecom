@@ -117,7 +117,7 @@ class NewsControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->post('/api/ru/news', [
@@ -183,6 +183,7 @@ class NewsControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
+            'roles' => ['MODERATOR'],
         ]);
 
         $news = entity(News::class)->create([
@@ -294,6 +295,7 @@ class NewsControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
+            'roles' => ['MODERATOR'],
         ]);
 
         $news = entity(News::class)->create([

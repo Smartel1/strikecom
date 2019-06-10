@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Entities\Conflict;
+use App\Entities\User;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Illuminate\Console\Command;
 use LaravelDoctrine\ORM\Facades\EntityManager;
@@ -42,10 +43,10 @@ class tt extends Command
     {
         /** @var $em EntityManager*/
         $em = app('em');
+/** @var User $user */
+        $user = $em->find(User::class, 1636);
 
-        $conf = $em->find(Conflict::class, 889);
-
-        dd($conf->getParentEvent()->getConflict());
+        dd(in_array('MODERATOR', $user->getRoles()));
 
         $em->flush();
     }

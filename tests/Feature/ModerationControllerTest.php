@@ -20,7 +20,7 @@ class ModerationControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->get('/api/ru/moderation/dashboard/')
@@ -35,7 +35,7 @@ class ModerationControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => false,
+            'roles' => [],
         ]);
 
         $this->actingAs($user)->get('/api/ru/moderation/dashboard/')
@@ -51,7 +51,7 @@ class ModerationControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->get('/api/ru/moderation/claim-comment/')
@@ -66,7 +66,7 @@ class ModerationControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => false,
+            'roles' => [],
         ]);
 
         $this->actingAs($user)->get('/api/ru/moderation/claim-comment/')

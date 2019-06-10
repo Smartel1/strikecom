@@ -12,7 +12,8 @@ class CommentPolicy
 
     public function before (User $user, $action)
     {
-        if ($user->isAdmin()) return true;
+        if (in_array(User::$ROLE_MODERATOR, $user->getRoles())
+            or in_array(User::$ROLE_ADMIN, $user->getRoles())) return true;
     }
 
     public function create (User $user)

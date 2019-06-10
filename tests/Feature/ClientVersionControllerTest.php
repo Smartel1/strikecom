@@ -59,7 +59,7 @@ class ClientVersionControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->post('/api/ru/client-version', [
@@ -118,7 +118,7 @@ class ClientVersionControllerTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->delete('/api/ru/client-version/' . $version->getId())

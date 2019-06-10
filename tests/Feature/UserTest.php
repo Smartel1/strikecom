@@ -20,6 +20,7 @@ class UserTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->get('/api/ru/user')

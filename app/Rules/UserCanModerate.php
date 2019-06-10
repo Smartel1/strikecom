@@ -26,7 +26,8 @@ class UserCanModerate extends BusinessRule
      */
     public function passes()
     {
-        return $this->user->isAdmin();
+        return in_array('MODERATOR', $this->user->getRoles())
+            or in_array('ADMIN', $this->user->getRoles());
     }
 
     /**

@@ -41,7 +41,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('moderate', function (User $user){
-            return $user->isAdmin();
+            return in_array(User::$ROLE_MODERATOR, $user->getRoles())
+                or in_array(User::$ROLE_ADMIN, $user->getRoles());
         });
     }
 }

@@ -44,7 +44,7 @@ class NewsClaimTest extends TestCase
             'uuid'  => '1',
             'name'  => 'John Doe',
             'email' => 'jd@mail.ty',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         return ['news' => $news->getId(), 'comment' => $comment->getId()];
@@ -60,7 +60,7 @@ class NewsClaimTest extends TestCase
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'admin' => true,
+            'roles' => ['MODERATOR'],
         ]);
 
         $this->actingAs($user)->post('/api/ru/news/' . $ids['news'] . '/comment/' . $ids['comment'] . '/claim', ['claim_type_id' => 1])

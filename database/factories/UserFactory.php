@@ -9,7 +9,7 @@ $factory->define(User::class, function (Faker $faker, array $attributes) {
         'uuid'      => Arr::get($attributes, 'uuid', $faker->uuid),
         'name'      => Arr::get($attributes, 'name', $faker->name),
         'email'     => Arr::get($attributes, 'email', $faker->email),
-        'admin'     => Arr::get($attributes, 'admin', true),
+        'roles'     => Arr::get($attributes, 'roles', []),
         'fcm'       => Arr::get($attributes, 'admin', $faker->word),
         'push'      => Arr::get($attributes, 'admin', $faker->boolean),
         'reward'    => Arr::get($attributes, 'admin', $faker->boolean),
