@@ -13,7 +13,7 @@ class ModerationControllerTest extends TestCase
     use CreatesApplication;
 
     /**
-     * запрос пользователя
+     * запрос данных для панели модератора
      */
     public function testDashboard ()
     {
@@ -28,7 +28,7 @@ class ModerationControllerTest extends TestCase
     }
 
     /**
-     * запрос пользователя
+     * запрос данных для панели модератора немодератором
      */
     public function testDashboardNonModerator ()
     {
@@ -42,4 +42,34 @@ class ModerationControllerTest extends TestCase
             ->assertStatus(403);
     }
 
+    /**
+     * запрос комментариев с жалобами
+     */
+    public function testClaimComments ()
+    {
+        //todo создать комментарий
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => true,
+        ]);
+
+        $this->actingAs($user)->get('/api/ru/moderation/claim-comment/')
+            ->assertStatus(200);
+    }
+
+    /**
+     * запрос комментариев с жалобами
+     */
+    public function testClaimCommentsNonModerator ()
+    {
+        $user = entity(User::class)->make([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'admin' => false,
+        ]);
+
+        $this->actingAs($user)->get('/api/ru/moderation/claim-comment/')
+            ->assertStatus(403);
+    }
 }

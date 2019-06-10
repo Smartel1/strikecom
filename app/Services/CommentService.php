@@ -73,6 +73,38 @@ class CommentService
     }
 
     /**
+     * Получить комментарии с жалобами
+     * @param $perPage
+     * @param $page
+     * @return LengthAwarePaginator
+     * @throws \Exception
+     */
+    public function getComplainedComments($perPage, $page)
+    {
+        $queryBuilder = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(Comment::class, 'c')
+            ->where('c.claims is not empty')
+            ->orderBy('c.createdAt', 'desc');
+
+        //Пагинируем результат
+        $doctrinePaginator = new Paginator(
+            $queryBuilder->setFirstResult($perPage * ($page - 1))->setMaxResults($perPage)->getQuery()
+        );
+
+        //Переводим в формат, понятный laravel
+        $laravelPaginator = new LengthAwarePaginator(
+            collect($doctrinePaginator),
+            $doctrinePaginator->count(),
+            (integer)$perPage,
+            $page,
+            ['path'=>request()->url()]
+        );
+
+        return $laravelPaginator;
+    }
+
+    /**
      * Прокомментировать событие
      * @param Commentable $commentable
      * @param $data

@@ -29,7 +29,10 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     Route::apiResource('news.comment', 'CommentController');
     Route::resource('news.comment.claim', 'ClaimController', ['only' => 'store']);
 
-    Route::get('/moderation/dashboard', 'ModerationController@dashboard');
+    Route::group(['prefix' => 'moderation'], function (){
+        Route::get('dashboard', 'ModerationController@dashboard');
+        Route::get('claim-comment', 'ModerationController@getComplainComments');
+    });
 
     Route::get('user', function(){
         if (!Auth::user()) throw new AuthenticationException();

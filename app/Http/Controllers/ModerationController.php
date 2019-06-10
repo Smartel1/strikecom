@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Entities\Comment;
 use App\Entities\Event;
 use App\Entities\News;
+use App\Http\Requests\Moderation\ComplainedCommentsRequest;
 use App\Http\Requests\Moderation\DashboardRequest;
+use App\Http\Resources\Comment\CommentResource;
+use App\Services\CommentService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Arr;
 
 class ModerationController extends Controller
 {
@@ -27,7 +32,7 @@ class ModerationController extends Controller
     }
 
     /**
-     * Получить
+     * Получить цифры для отображения на панели администратора
      * @param DashboardRequest $request
      * @param $locale
      * @return array
@@ -64,5 +69,26 @@ class ModerationController extends Controller
             'nonpublished_events_count' => $nonpublishedEventsCount,
             'nonpublished_news_count'   => $nonpublishedNewsCount,
         ];
+    }
+
+    /**
+     * Получить все комментарии, на которые жаловались
+     * @param ComplainedCommentsRequest $request
+     * @param $locale
+     * @param CommentService $service
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
+     * @throws \Exception
+     */
+    public function getComplainComments(ComplainedCommentsRequest $request, $locale, CommentService $service)
+    {
+        $this->authorize('moderate');
+
+        $comments = $service->getComplainedComments(
+            Arr::get($request, 'per_page', 20),
+            Arr::get($request, 'page', 1)
+        );
+
+        return CommentResource::collection($comments);
     }
 }
