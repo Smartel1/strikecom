@@ -8,6 +8,7 @@ use App\Entities\News;
 use App\Http\Requests\Moderation\ComplainedCommentsRequest;
 use App\Http\Requests\Moderation\DashboardRequest;
 use App\Http\Resources\Comment\CommentResource;
+use App\Http\Resources\Comment\ModerationCommentResource;
 use App\Services\CommentService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
@@ -89,6 +90,6 @@ class ModerationController extends Controller
             Arr::get($request, 'page', 1)
         );
 
-        return CommentResource::collection($comments);
+        return ModerationCommentResource::collection($comments);
     }
 }
