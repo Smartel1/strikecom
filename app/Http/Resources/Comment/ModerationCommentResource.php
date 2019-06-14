@@ -21,14 +21,14 @@ class ModerationCommentResource extends Resource
         /** @var $comment Comment */
         $comment = $this->resource;
 
-        //Сущности, к которым прикреплён комментарий
-        $context = [];
+        //Сущность, к которой прикреплён комментарий
+        $owner = null;
         //Технически можно прикрепить один коммент одновременно к нескольким сущностям.
         //Но на практике мы этого не ожидаем и выводим первую встретившуюся
         if ($comment->getEvents()->count() > 0) {
-            $context = ['entity' => 'event', 'id' => $comment->getEvents()->first()->getId()];
+            $owner = ['entity' => 'event', 'id' => $comment->getEvents()->first()->getId()];
         } elseif ($comment->getNews()->count() > 0) {
-            $context = ['entity' => 'news', 'id' => $comment->getNews()->first()->getId()];
+            $owner = ['entity' => 'news', 'id' => $comment->getNews()->first()->getId()];
         }
 
         return [
@@ -47,7 +47,7 @@ class ModerationCommentResource extends Resource
                 })
                 ->getValues(),
             'claims'     => app(ClaimService::class)->getCommentClaimsCount($comment),
-            'context'    => $context
+            'owner'    => $owner
         ];
     }
 }
