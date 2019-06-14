@@ -45,13 +45,13 @@ class Comment
     protected $photos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Event", mappedBy="comments", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="Event", mappedBy="comments")
      * @var Event[]|ArrayCollection
      */
     protected $events;
 
     /**
-     * @ORM\ManyToMany(targetEntity="News", mappedBy="comments", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="News", mappedBy="comments")
      * @var News[]|ArrayCollection
      */
     protected $news;

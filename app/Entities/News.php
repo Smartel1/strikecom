@@ -50,20 +50,20 @@ class News implements Commentable
     protected $published = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Photo")
+     * @ORM\ManyToMany(targetEntity="Photo", cascade={"remove"})
      * @ORM\JoinTable(name="news_photo",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Photo[]
      */
     protected $photos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Video")
+     * @ORM\ManyToMany(targetEntity="Video", cascade={"remove"})
      * @ORM\JoinTable(name="news_video",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Video[]
      */
@@ -94,7 +94,7 @@ class News implements Commentable
     protected $likedUsers;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="news")
+     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="news", cascade={"remove"})
      * @var ArrayCollection|Comment[]
      */
     protected $comments;

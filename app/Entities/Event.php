@@ -52,20 +52,20 @@ class Event implements Commentable
     protected $published = false;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Photo")
+     * @ORM\ManyToMany(targetEntity="Photo", cascade={"remove"})
      * @ORM\JoinTable(name="event_photo",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="photo_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Photo[]
      */
     protected $photos;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Video")
+     * @ORM\ManyToMany(targetEntity="Video", cascade={"remove"})
      * @ORM\JoinTable(name="event_video",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="video_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Video[]
      */
@@ -115,7 +115,7 @@ class Event implements Commentable
     protected $eventType;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="events")
+     * @ORM\ManyToMany(targetEntity="Comment", inversedBy="events", cascade={"remove"})
      * @var ArrayCollection|Comment[]
      */
     protected $comments;

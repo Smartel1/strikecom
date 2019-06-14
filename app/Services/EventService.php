@@ -354,7 +354,7 @@ class EventService
      */
     private function syncTags(Event $event, array $receivedTags)
     {
-        //Не удаляем старые теги из таблицы, они могут быть привязаны к дургим новостям
+        //Не удаляем старые теги из таблицы, они могут быть привязаны к другим событиям
         $event->getTags()->clear();
 
         //сохраняем тэги

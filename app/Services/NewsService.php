@@ -284,7 +284,7 @@ class NewsService
      */
     private function syncTags(News $news, array $receivedTags)
     {
-        //Не удаляем старые теги из таблицы, они могут быть привязаны к дургим новостям
+        //Не удаляем старые теги из таблицы, они могут быть привязаны к другим новостям
         $news->getTags()->clear();
 
         //сохраняем тэги
