@@ -47,7 +47,7 @@ class ModerationCommentResource extends Resource
                 })
                 ->getValues(),
             'claims'     => app(ClaimService::class)->getCommentClaimsCount($comment),
-            'owner'    => $owner
+            'owner'      => $owner
         ];
     }
 }

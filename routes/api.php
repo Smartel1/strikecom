@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Resources\User\UserResource;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
@@ -34,10 +31,8 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
         Route::get('claim-comment', 'ModerationController@getComplainComments');
     });
 
-    Route::get('user', function(){
-        if (!Auth::user()) throw new AuthenticationException();
-        return UserResource::make(Auth::user())->toArray(null);
-    });
+    Route::get('user', 'UserController@show');
+    Route::post('subscribe', 'UserController@subscribe');
 });
 
 

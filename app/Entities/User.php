@@ -65,7 +65,7 @@ class User implements Authenticatable
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
-    protected $image_url;
+    protected $imageUrl;
 
     /**
      * @ORM\ManyToMany(targetEntity="Event")
@@ -229,15 +229,15 @@ class User implements Authenticatable
      */
     public function getImageUrl()
     {
-        return $this->image_url;
+        return $this->imageUrl;
     }
 
     /**
-     * @param mixed $image_url
+     * @param mixed $imageUrl
      */
-    public function setImageUrl($image_url)
+    public function setImageUrl($imageUrl)
     {
-        $this->image_url = $image_url;
+        $this->imageUrl = $imageUrl;
     }
 
     /**

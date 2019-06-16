@@ -53,6 +53,7 @@ class EventCommentControllerTest extends TestCase
 
         $comment1 = new Comment();
         $comment1->setContent('Вот это дела');
+        $comment1->setUser($user);
 
         //Создаём жалобу на первый комментарий
         $claim = new Claim;
@@ -62,6 +63,7 @@ class EventCommentControllerTest extends TestCase
 
         $comment2 = new Comment();
         $comment2->setContent('Ну и дела');
+        $comment2->setUser($user);
 
         $photo = new Photo;
         $photo->setUrl('https://my.photo.com/thebestcom');

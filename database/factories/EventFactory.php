@@ -32,7 +32,7 @@ $factory->define(Event::class, function (Faker $faker, array $attributes) {
         'content_ru'   => Arr::get($attributes, 'content_ru', $faker->word),
         'content_en'   => Arr::get($attributes, 'content_en', $faker->word),
         'content_es'   => Arr::get($attributes, 'content_es', $faker->word),
-        'date'         => Arr::get($attributes, 'date', $faker->randomNumber(5)),
+        'date'         => Arr::get($attributes, 'date', $faker->dateTime()),
         'source_link'  => Arr::get($attributes, 'source_link', $faker->url),
         'event_status' => $eventStatus,
         'event_type'   => $eventType,
