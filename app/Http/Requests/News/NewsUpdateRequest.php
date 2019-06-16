@@ -52,7 +52,7 @@ class NewsUpdateRequest extends FormRequest
             'content_ru'            => 'nullable|string|min:3',
             'content_en'            => 'nullable|string|min:3',
             'content_es'            => 'nullable|string|min:3',
-            'date'                  => 'nullable|integer',
+            'date'                  => 'integer',
             'source_link'           => 'nullable|string|max:500',
             'tags'                  => 'nullable|array',
             'tags.*'                => 'string|min:2|max:20',
