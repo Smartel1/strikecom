@@ -68,6 +68,15 @@ class ConflictService
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
             ->addCriteria(HasLocalizedContent::make('e', app('locale')));
 
+        //Если передан фильтр "вблизи точки", то применяем ограничение по формуле гаверсинуса
+        //https://stackoverflow.com/questions/21084886/how-to-calculate-distance-using-latitude-and-longitude
+        if (Arr::has($filters, 'near')) {
+            $queryBuilder->andWhere('6371 * acos(cos(radians(:lat)) * cos(radians(c.latitude)) * cos(radians(c.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(c.latitude))) <= :radius')
+                ->setParameter('lat', Arr::get($filters, 'near.lat'))
+                ->setParameter('lng', Arr::get($filters, 'near.lng'))
+                ->setParameter('radius', Arr::get($filters, 'near.radius'));
+        }
+
         $conflicts = $queryBuilder->getQuery()->getResult();
 
         return collect($conflicts);

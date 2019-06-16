@@ -14,6 +14,10 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.conflict_reason_ids массив ид. причин
  * @filters.date_from дата, начиная с которой выводить события
  * @filters.date_to дата, до которой выводить события
+ * @filters.near массив, содержащий обязательные ключи: lat, lng, radius (в километрах)
+ * @filters.near.lat широта точки (в градусах)
+ * @filters.near.lng долгота точки (в градусах)
+ * @filters.near.radius радиус поиска в километрах
  * @package App\Http\Requests\Conflict
  */
 class ConflictIndexRequest extends FormRequest
@@ -45,6 +49,10 @@ class ConflictIndexRequest extends FormRequest
             'filters.conflict_reason_ids'   => 'array',
             'filters.conflict_reason_ids.*' => 'integer',
             'filters.ancestors_of'          => 'nullable|integer|exists:App\Entities\Conflict,id',
+            'filters.near'                  => 'array',
+            'filters.near.lat'              => 'numeric|required_with:filters.near',
+            'filters.near.lng'              => 'numeric|required_with:filters.near',
+            'filters.near.radius'           => 'integer|required_with:filters.near',
         ];
     }
 }
