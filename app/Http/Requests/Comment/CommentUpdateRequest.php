@@ -33,7 +33,7 @@ class CommentUpdateRequest extends FormRequest
     {
         return [
             'content'      => 'required|string|min:1',
-            'photo_urls'   => 'nullable|array',
+            'photo_urls'   => 'array',
             'photo_urls.*' => 'required|string|max:500',
         ];
     }
