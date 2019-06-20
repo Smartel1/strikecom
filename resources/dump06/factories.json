@@ -1,0 +1,182 @@
+[
+{ 
+    "_id" : "5b864b808210824e008b4567", 
+    "name" : "ООО \"ЯНДЕКС\"", 
+    "date" : 1535527808, 
+    "lat" : 55.734125, 
+    "lng" : 37.588644, 
+    "images" : [
+        "http://cdn.marketplaceimages.windowsphone.com/v8/images/fd6fda55-a836-41bd-8f9e-527fdc10fa22"
+    ], 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "inn" : "7736207543", 
+    "country" : "Россия", 
+    "np" : "Москва"
+},
+{ 
+    "_id" : "5b86435df2b3b650008b4567", 
+    "name" : "ГБУ \"Автомобильные дороги\"", 
+    "date" : 1535525725, 
+    "lat" : 55.76507, 
+    "lng" : 37.566859, 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "inn" : "7727656790", 
+    "country" : "россия", 
+    "np" : "Москва", 
+    "images" : [
+        "http://gbuador.ru/assets/images/about/gl.jpg"
+    ]
+},
+{ 
+    "_id" : "5b961e7049170b4e008b4567", 
+    "name" : "ОАО \"Мурманское морское пароходство\"", 
+    "date" : 1536564848, 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "lat" : 68.984216, 
+    "lng" : 33.07674, 
+    "inn" : "5190400250", 
+    "country" : "Россия", 
+    "np" : "Мурманск", 
+    "images" : [
+        "https://i.imgur.com/Joqlgpn.jpg"
+    ]
+},
+{ 
+    "_id" : "5b9a002c33976d4e008b4567", 
+    "name" : "Завод 'Красный Октябрь'", 
+    "date" : 1536819244, 
+    "industry" : "5b4f4e26376b784f008b4567", 
+    "lat" : 48.763703, 
+    "lng" : 44.562645, 
+    "country" : "Россия", 
+    "np" : "Волгоград", 
+    "images" : [
+        "https://i.imgur.com/oVKUKmg.png"
+    ]
+},
+{ 
+    "_id" : "5ba2a4ccef82c84f008b4567", 
+    "name" : "Мосгортранс", 
+    "date" : 1537385675, 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "images" : [
+        "https://i.imgur.com/BWI0PTC.jpg"
+    ], 
+    "country" : "Россия", 
+    "lat" : 55.75896768044181, 
+    "lng" : 37.62706607580185, 
+    "region" : "Московская область"
+},
+{ 
+    "_id" : "5ba682bb2ff7d64d008b4567", 
+    "name" : "АвтоВаз", 
+    "date" : 1537639099, 
+    "industry" : "5b4f4e26376b784f008b4567", 
+    "images" : [
+        "https://i.imgur.com/OA7LIpt.jpg"
+    ], 
+    "lat" : 53.5485922, 
+    "lng" : 49.2461693
+},
+{ 
+    "_id" : "5ba6850d2ff7d64e008b4567", 
+    "name" : " ОАО ССЗ \"Красные баррикады\"", 
+    "date" : 1537639693, 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "images" : [
+        "https://i.imgur.com/bfNbujb.jpg"
+    ], 
+    "owner" : "Ильичев Александр Сергеевич", 
+    "lat" : 46.206175, 
+    "lng" : 47.8305248
+},
+{ 
+    "_id" : "5baa0cf8d377494d008b4569", 
+    "name" : "ГКНПЦ имени Хруничева", 
+    "date" : 1537871096, 
+    "industry" : "5b4f4e26376b784f008b456e", 
+    "images" : [
+        "https://i.imgur.com/L80KQKN.png"
+    ], 
+    "lat" : 55.7530905, 
+    "lng" : 37.4976463
+},
+{ 
+    "_id" : "5baa0d64d3774950008b4567", 
+    "name" : "НПО автоматики", 
+    "date" : 1537871204, 
+    "industry" : "5b4f4e26376b784f008b456e", 
+    "images" : [
+        "https://i.imgur.com/QghhTM3.jpg"
+    ], 
+    "lat" : 56.8370229, 
+    "lng" : 60.6189237
+},
+{ 
+    "_id" : "5baa111ed3774950008b4568", 
+    "name" : "Уфимский фанерно-плитный комбинат", 
+    "date" : 1537872158, 
+    "lat" : 54.745477, 
+    "lng" : 55.8993145, 
+    "industry" : "5b4f4e26376b784f008b4567", 
+    "images" : [
+        "https://i.imgur.com/GPd4bDr.png"
+    ]
+},
+{ 
+    "_id" : "5bb30e7f1e0f324e008b4568", 
+    "name" : "Воронежский стеклотарный завод", 
+    "date" : 1538461311, 
+    "industry" : "5b4f4e26376b784f008b4567", 
+    "images" : [
+        "https://i.imgur.com/83pjTGv.jpg"
+    ], 
+    "lat" : 51.6946856, 
+    "lng" : 39.2707894, 
+    "inn" : null, 
+    "owner" : null
+},
+{ 
+    "_id" : "5c163b3f867eb26a008b4568", 
+    "name" : "ПАО 'Группа 'Черкизово''", 
+    "date" : 1544960826, 
+    "industry" : "5bc884c4d1e1a44f008b4567", 
+    "images" : [
+        "https://www.timacad.ru/uploads/media/cache/full_image/uploads/images/20181206/1544105012_Cherkizovo_Logo.jpg", 
+        "http://cherkizovo.com/upload/images/%D0%9B%D0%B8%D0%BF%D0%B5%D1%86%D0%BA%D0%B8%D0%B9%20%D0%BA%D0%BE%D0%B1%D0%B8%D0%BA%D0%BE%D1%80%D0%BC%D0%BE%D0%B2%D1%8B%D0%B9-1.jpg", 
+        "https://vashkaznachei.ru/wp-content/uploads/2018/12/Cherkizovo.jpg"
+    ], 
+    "lng" : 36.3065636, 
+    "lat" : 55.7970869, 
+    "owner" : " Сергей Михайлов", 
+    "inn" : null
+},
+{ 
+    "_id" : "5b96bde598ce5350008b4567", 
+    "name" : "ОАО «Шекснинская птицефабрика»", 
+    "date" : 1536605668, 
+    "industry" : "5b4f4e26376b784f008b4571", 
+    "lat" : 59.21182, 
+    "lng" : 38.464682, 
+    "inn" : "3524001230", 
+    "country" : "Россия", 
+    "np" : "Череповец", 
+    "images" : [
+        "https://i.imgur.com/h5Y2wg1.jpg"
+    ]
+},
+{ 
+    "_id" : "5b8e87b29271504f008b4567", 
+    "name" : "ГУП ЧР 'Чувашавтотранс'", 
+    "date" : 1536067506, 
+    "industry" : "5b4f4e26376b784f008b4569", 
+    "lat" : 56.07686, 
+    "lng" : 47.271559, 
+    "inn" : "2128004517", 
+    "country" : "Россия", 
+    "np" : "Чебоксары", 
+    "images" : [
+        "https://i.imgur.com/Mg9qVkL.jpg"
+    ]
+}
+]

@@ -8,7 +8,6 @@ use App\Entities\References\ConflictResult;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\References\Industry;
-use App\Entities\References\Region;
 use App\Entities\References\VideoType;
 use App\Http\Resources\Reference\DoctrineReferenceResource;
 use App\Http\Requests\Reference\ReferenceIndexRequest;
@@ -45,7 +44,6 @@ class RefController extends Controller
         $claimTypes = $this->localizeReference($this->getReference(ClaimType::class));
         $eventTypes = $this->localizeReference($this->getReference(EventType::class));
         $industries = $this->localizeReference($this->getReference(Industry::class));
-        $regions = $this->localizeReference($this->getReference(Region::class));
 
         $videoTypes = $this->em
             ->createQuery('SELECT ref FROM App\Entities\References\VideoType ref')
@@ -65,7 +63,6 @@ class RefController extends Controller
             'claimTypes',
             'eventTypes',
             'industries',
-            'regions',
             'videoTypes');
     }
 
@@ -86,7 +83,6 @@ class RefController extends Controller
         $claimTypeCheckSum = $this->getReference(ClaimType::class)->reduce($reducerCallback);
         $eventTypeCheckSum = $this->getReference(EventType::class)->reduce($reducerCallback);
         $industryCheckSum = $this->getReference(Industry::class)->reduce($reducerCallback);
-        $regionCheckSum = $this->getReference(Region::class)->reduce($reducerCallback);
 
         //хэш типа видео вычисляется по полям id и code
         $videoTypeCheckSum = $this->getReference(VideoType::class)->reduce(function ($carry, VideoType $item) {
@@ -101,7 +97,6 @@ class RefController extends Controller
                 . $eventTypeCheckSum
                 . $claimTypeCheckSum
                 . $industryCheckSum
-                . $regionCheckSum
                 . $videoTypeCheckSum)
         ];
     }

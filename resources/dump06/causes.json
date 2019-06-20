@@ -1,0 +1,62 @@
+[
+{ 
+    "_id" : "5bc62fadd1d1fa4d008b456b", 
+    "name" : "Оплата труда", 
+    "name_en" : "Salary", 
+    "name_es" : "remuneración"
+},
+{ 
+    "_id" : "5b4f490aa9783a1f80ebf878", 
+    "name" : "Задержка ЗП", 
+    "name_en" : "Delay salary", 
+    "name_es" : "Salarios Atrasados"
+},
+{ 
+    "_id" : "5b4f4947a9783a1f80ebf879", 
+    "name" : "Сокращения", 
+    "name_en" : "Contraction", 
+    "name_es" : "Contracción"
+},
+{ 
+    "_id" : "5bc62fadd1d1fa4d008b4569", 
+    "name" : "Ликвидация предприятия", 
+    "name_en" : "Liquidation of an enterprise", 
+    "name_es" : "Liquidación de la empresa"
+},
+{ 
+    "_id" : "5bc62fbbd1d1fa4e008b4568", 
+    "name" : "Прочее", 
+    "name_en" : "Other", 
+    "name_es" : "Otros"
+},
+{ 
+    "_id" : "5c18e5957307936b008b4567", 
+    "name" : "Увольнение", 
+    "name_en" : "Dismissal", 
+    "name_es" : "Despido"
+},
+{ 
+    "_id" : "5c18e5957307936b008b4568", 
+    "name" : "Политика руководства", 
+    "name_en" : "Management course", 
+    "name_es" : "Política de liderazgo"
+},
+{ 
+    "_id" : "5bc62fadd1d1fa4d008b456a", 
+    "name" : "Условия труда", 
+    "name_en" : "Working conditions", 
+    "name_es" : "Condiciones de trabajo"
+},
+{ 
+    "_id" : "5bc62fadd1d1fa4d008b456c", 
+    "name" : "Рабочее время", 
+    "name_en" : "Working time", 
+    "name_es" : "Horas de trabajo"
+},
+{ 
+    "_id" : "5b51ab8ca9783a0fb40a0cc2", 
+    "name" : "Коллективный договор", 
+    "name_en" : "Collective agreement", 
+    "name_es" : "Convenio colectivo"
+}
+]

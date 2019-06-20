@@ -25,12 +25,6 @@ $factory->define(\App\Entities\Conflict::class, function (Faker $faker, array $a
             $attributes['industry_id']
         ) : null;
 
-    $region = Arr::has($attributes, 'region_id')
-        ? EntityManager::getReference(
-            'App\Entities\References\Region',
-            $attributes['region_id']
-        ) : null;
-
     return [
         'title_ru'       => Arr::get($attributes, 'title_ru', $faker->word),
         'title_en'       => Arr::get($attributes, 'title_en', $faker->word),
@@ -43,6 +37,5 @@ $factory->define(\App\Entities\Conflict::class, function (Faker $faker, array $a
         'conflictReason' => $conflictReason,
         'conflictResult' => $conflictResult,
         'industry'       => $industry,
-        'region'         => $region,
     ];
 });

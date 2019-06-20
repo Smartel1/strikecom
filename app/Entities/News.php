@@ -108,6 +108,7 @@ class News implements Commentable
         $this->photos = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likedUsers = new ArrayCollection();
     }
 
     /**

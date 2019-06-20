@@ -15,7 +15,6 @@ use App\Entities\Event;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
-use App\Entities\References\Region;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentConflict;
 use Doctrine\ORM\EntityManager;
@@ -142,7 +141,6 @@ class ConflictService
         if (Arr::get($data, 'conflict_reason_id')) $this->setConflictReason($conflict, Arr::get($data, 'conflict_reason_id'));
         if (Arr::get($data, 'conflict_result_id')) $this->setConflictResult($conflict, Arr::get($data, 'conflict_result_id'));
         if (Arr::get($data, 'industry_id')) $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
-        if (Arr::get($data, 'region_id')) $this->setRegion($conflict, Arr::get($data, 'region_id'));
         if (Arr::get($data, 'parent_event_id')) $this->setParentEvent($conflict, Arr::get($data, 'parent_event_id'));
 
         $locale = app('locale');
@@ -210,25 +208,6 @@ class ConflictService
         $industry = $this->em->getReference(Industry::class, $industryId);
 
         $conflict->setIndustry($industry);
-    }
-
-    /**
-     * Установить для конфликта его регион или null
-     * @param Conflict $conflict
-     * @param int|null $regionId
-     * @throws ORMException
-     */
-    private function setRegion(Conflict $conflict, ?int $regionId)
-    {
-        if (!$regionId) {
-            $conflict->setRegion(null);
-            return;
-        }
-
-        /** @var $region Region */
-        $region = $this->em->getReference(Region::class, $regionId);
-
-        $conflict->setRegion($region);
     }
 
     /**

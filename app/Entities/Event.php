@@ -129,6 +129,7 @@ class Event implements Commentable
         $this->photos = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->likedUsers = new ArrayCollection();
     }
 
     /**
@@ -190,7 +191,7 @@ class Event implements Commentable
     /**
      * @param User|null $author
      */
-    public function setAuthor(User $author)
+    public function setAuthor(?User $author)
     {
         $this->author = $author;
     }

@@ -1,0 +1,74 @@
+[
+{ 
+    "_id" : "5b4f4e26376b784f008b4568", 
+    "name" : "Строительство", 
+    "name_en" : "Building", 
+    "name_es" : "Edificio"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4569", 
+    "name" : "Транспорт", 
+    "name_en" : "Transport", 
+    "name_es" : "Transporte"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456d", 
+    "name" : "Торговля", 
+    "name_en" : "Trading", 
+    "name_es" : "Comercio"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4567", 
+    "name" : "Обрабатывающие производства", 
+    "name_en" : "Manufacturing industries", 
+    "name_es" : "Industrias manufactureras"
+},
+{ 
+    "_id" : "5c9efb36d80a706b008b4567", 
+    "name" : "Госслужба", 
+    "name_en" : "State service", 
+    "name_es" : "Servicio estatal"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456c", 
+    "name" : "ЖКХ", 
+    "name_en" : "Housing and communal services", 
+    "name_es" : "Vivienda y servicios comunitarios."
+},
+{ 
+    "_id" : "5b853bda3d11d11136f36ea3", 
+    "name" : "Культура и спорт", 
+    "name_en" : "Culture and sport", 
+    "name_es" : "Cultura y deporte"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4571", 
+    "name" : "Сельское хозяйство", 
+    "name_en" : "Agriculture", 
+    "name_es" : "Agricultura"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b4570", 
+    "name" : "Добывающая промышленность", 
+    "name_en" : "Mining industry", 
+    "name_es" : "Industria minera"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456f", 
+    "name" : "Электроэнергетика", 
+    "name_en" : "Power industry", 
+    "name_es" : "Industria de la energía"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456b", 
+    "name" : "Здравоохранение", 
+    "name_en" : "Health care", 
+    "name_es" : "Cuidado de la salud"
+},
+{ 
+    "_id" : "5b4f4e26376b784f008b456a", 
+    "name" : "Образование и наука", 
+    "name_en" : "Education and science", 
+    "name_es" : "Educación y ciencia"
+}
+]

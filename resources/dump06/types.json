@@ -1,0 +1,86 @@
+[
+{ 
+    "_id" : "5b4f449f92d3ef4e008b4567", 
+    "name" : "Обращение", 
+    "name_en" : "Appeal", 
+    "name_es" : "Reclamación"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b4569", 
+    "name" : "Демонстрация", 
+    "name_en" : "Demonstration", 
+    "name_es" : "Demostración"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456b", 
+    "name" : "Голодовка", 
+    "name_en" : "Hunger strike", 
+    "name_es" : "Huelga de hambre"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456d", 
+    "name" : "Забастовка", 
+    "name_en" : "Strike", 
+    "name_es" : "Huelga"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456f", 
+    "name" : "Столкновение", 
+    "name_en" : "Clash", 
+    "name_es" : "Choque"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b4568", 
+    "name" : "Угроза", 
+    "name_en" : "Threat", 
+    "name_es" : "Amenaza"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456a", 
+    "name" : "ст. 142 ТК РФ", 
+    "name_en" : "st. 142", 
+    "name_es" : "Art.142"
+},
+{ 
+    "_id" : "5bdb5f89baa5eb4e008b4567", 
+    "name" : "Переговоры", 
+    "name_en" : "Conversation", 
+    "name_es" : "Negociación"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456c", 
+    "name" : "Забастовка частичная", 
+    "name_en" : "Partial strike", 
+    "name_es" : "Huelga parcial"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b456e", 
+    "name" : "Перекрытие магистралей", 
+    "name_en" : "Highway overlap", 
+    "name_es" : "Vía solapada"
+},
+{ 
+    "_id" : "5b5057a8a9783a1aa08400e8", 
+    "name" : "Суд", 
+    "name_en" : "Court", 
+    "name_es" : "La corte"
+},
+{ 
+    "_id" : "5b5057a8a9783a1aa08400e1", 
+    "name" : "Расследование", 
+    "name_en" : "Investigation", 
+    "name_es" : "Investigación"
+},
+{ 
+    "_id" : "5c9efb6cd80a706c008b4567", 
+    "name" : "Отказ от переработок", 
+    "name_en" : "Refusal of processing", 
+    "name_es" : "Negativa de tramitación"
+},
+{ 
+    "_id" : "5b4f449f92d3ef4e008b4561", 
+    "name" : "Массовое увольнение", 
+    "name_en" : "Mass layoff", 
+    "name_es" : "Despido masivo"
+}
+]

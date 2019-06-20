@@ -1,0 +1,20 @@
+[
+{ 
+    "_id" : "5b4f403a92d3ef50008b4568", 
+    "name" : "Развитие", 
+    "name_en" : "Development", 
+    "name_es" : "Desarrollo"
+},
+{ 
+    "_id" : "5b4f403a92d3ef50008b4569", 
+    "name" : "Завершение", 
+    "name_en" : "Completion", 
+    "name_es" : "Finalización"
+},
+{ 
+    "_id" : "5b4f403a92d3ef50008b4567", 
+    "name" : "Новый", 
+    "name_en" : "New", 
+    "name_es" : "Nuevo"
+}
+]

@@ -29,7 +29,6 @@ class ConflictDetailResource extends Resource
             'conflict_reason_id'    => $conflict->getConflictReason() ? $conflict->getConflictReason()->getId() : null,
             'conflict_result_id'    => $conflict->getConflictResult() ? $conflict->getConflictResult()->getId() : null,
             'industry_id'           => $conflict->getIndustry() ? $conflict->getIndustry()->getId() : null,
-            'region_id'             => $conflict->getRegion() ? $conflict->getRegion()->getId() : null,
             'parent_event_id'       => $conflict->getParentEvent() ? $conflict->getParentEvent()->getId() : null,
         ];
 

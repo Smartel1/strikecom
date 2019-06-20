@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ConflictReason;
 use App\Services\ImportService;
 use Illuminate\Console\Command;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 
 class FillDBFromDump extends Command
 {
@@ -20,8 +20,7 @@ class FillDBFromDump extends Command
      *
      * @var string
      */
-    protected $description = 'Загрузить в БД записи, хранящиеся в папке resources/dump. 
-    Обязательно привести эти данные в корректный json';
+    protected $description = 'Загрузить в БД записи, хранящиеся в папке resources/dump06';
 
     /**
      * Create a new command instance.
@@ -41,10 +40,25 @@ class FillDBFromDump extends Command
     public function handle(ImportService $service)
     {
         $this->info('Зародилась цивилизации');
-        
+
+        $service->truncateTable('comments');
+        $service->truncateTable('conflicts');
+        $service->truncateTable('conflict_reasons');
+        $service->truncateTable('conflict_results');
+        $service->truncateTable('events');
+        $service->truncateTable('event_statuses');
+        $service->truncateTable('event_types');
+        $service->truncateTable('news');
+        $service->truncateTable('industries');
+        $service->truncateTable('regions');
+        $service->truncateTable('users');
+        $service->truncateTable('photos');
+        $service->truncateTable('videos');
+
+        $this->info('Очищены пустоши');
 
         $conflictReasons = $service->fetchConflictReasons(
-            file_get_contents(resource_path('dump/causes.json'))
+            file_get_contents(resource_path('dump06/causes.json'))
         );
 
         $this->info('Придуманы причины конфликтов');
@@ -52,56 +66,56 @@ class FillDBFromDump extends Command
 
         //не сохраняются как сунщость
         $factories = collect(json_decode(
-            file_get_contents(resource_path('dump/factories.json')), true
+            file_get_contents(resource_path('dump06/factories.json')), true
         ));
 
         $this->info('Построены заводы');
         
 
         $industries = $service->fetchIndustries(
-            file_get_contents(resource_path('dump/inndystries.json'))
+            file_get_contents(resource_path('dump06/inndystries.json'))
         );
 
         $this->info('Определены отрасли');
         
 
         $conflictResults = $service->fetchConflictResults(
-            file_get_contents(resource_path('dump/results.json'))
+            file_get_contents(resource_path('dump06/results.json'))
         );
 
         $this->info('Запланированы результаты конфликтов');
         
 
         $eventStatuses = $service->fetchEventStatuses(
-            file_get_contents(resource_path('dump/statuses.json'))
+            file_get_contents(resource_path('dump06/statuses.json'))
         );
 
         $this->info('Объявлены статусы событий');
         
 
         $eventTypes = $service->fetchEventTypes(
-            file_get_contents(resource_path('dump/types.json'))
+            file_get_contents(resource_path('dump06/types.json'))
         );
 
         $this->info('Распределены типы событий');
         
 
         $users = $service->fetchUsers(
-            file_get_contents(resource_path('dump/users.json'))
+            file_get_contents(resource_path('dump06/users.json'))
         );
 
         $this->info('Рождены пользователи');
         
 
         $conflicts = $service->fetchConflicts(
-            file_get_contents(resource_path('dump/disputs.json'))
+            file_get_contents(resource_path('dump06/disputs.json'))
         );
 
         $this->info('Разгорелись конфликты');
         
 
         $events = $service->fetchEvents(
-            file_get_contents(resource_path('dump/posts.json')),
+            file_get_contents(resource_path('dump06/posts.json')),
             $users,
             $conflicts,
             $eventStatuses,
@@ -116,7 +130,7 @@ class FillDBFromDump extends Command
         
 
         $news = $service->fetchNews(
-            file_get_contents(resource_path('dump/posts.json')),
+            file_get_contents(resource_path('dump06/posts.json')),
             $users
         );
 
@@ -125,6 +139,19 @@ class FillDBFromDump extends Command
         $service->fetchFavourites($users, $events, $news);
 
         $this->info('Народ оценил');
+
+        $service->fetchComments(
+            file_get_contents(resource_path('dump06/messages.json')),
+            $users,
+            $events,
+            $news
+        );
+
+        $this->info('Запущены слухи');
+
+        EntityManager::flush();
+
+        $this->info('Зафиксировано');
 
         $this->warn('ошибки выведены в лог');
     }

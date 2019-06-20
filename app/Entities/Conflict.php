@@ -6,7 +6,6 @@ namespace App\Entities;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
-use App\Entities\References\Region;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
 use DateTime;
@@ -73,12 +72,6 @@ class Conflict
      * @var Industry|null
      */
     protected $industry;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entities\References\Region")
-     * @var Region|null
-     */
-    protected $region;
 
     /**
      * @ORM\OneToMany(targetEntity="Event", mappedBy="conflict")
@@ -244,22 +237,6 @@ class Conflict
     public function setIndustry(?Industry $industry): void
     {
         $this->industry = $industry;
-    }
-
-    /**
-     * @return Region|null
-     */
-    public function getRegion(): ?Region
-    {
-        return $this->region;
-    }
-
-    /**
-     * @param Region|null $region
-     */
-    public function setRegion(?Region $region): void
-    {
-        $this->region = $region;
     }
 
     /**
