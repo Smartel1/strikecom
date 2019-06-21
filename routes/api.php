@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
 
     Route::get('reference', 'RefController@index');
+    Route::get('country-search', 'RefController@searchCountry');
+    Route::get('region-search', 'RefController@searchRegion');
+    Route::get('locality-search', 'RefController@searchLocality');
 
     Route::get('reference-checksum', 'RefController@checkSum');
 

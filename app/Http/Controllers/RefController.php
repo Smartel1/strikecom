@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\Entities\References\ClaimType;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
+use App\Entities\References\Country;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\References\Industry;
+use App\Entities\References\Locality;
+use App\Entities\References\Region;
 use App\Entities\References\VideoType;
-use App\Http\Resources\Reference\DoctrineReferenceResource;
+use App\Http\Requests\Reference\CountrySearchRequest;
+use App\Http\Requests\Reference\LocalitySearchRequest;
+use App\Http\Requests\Reference\RegionSearchRequest;
+use App\Http\Resources\Reference\LocalityResource;
+use App\Http\Resources\Reference\ReferenceResource;
 use App\Http\Requests\Reference\ReferenceIndexRequest;
+use App\Http\Resources\Reference\RegionResource;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
 
@@ -102,6 +110,84 @@ class RefController extends Controller
     }
 
     /**
+     * Вернуть список стран, попадающих под поисковую фразу
+     * @param CountrySearchRequest $request
+     * @return mixed
+     */
+    public function searchCountry(CountrySearchRequest $request, $locale)
+    {
+        $countries = $this->em->createQueryBuilder()
+            ->select('c')
+            ->from(Country::class, 'c')
+            ->where('lower(c.name_ru) LIKE :name')
+            ->orWhere('lower(c.name_en) LIKE :name')
+            ->orWhere('lower(c.name_es) LIKE :name')
+            ->setParameter('name', '%'.mb_strtolower($request->name).'%')
+            ->getQuery()
+            ->getResult();
+
+        return ReferenceResource::collection(collect($countries));
+    }
+
+    /**
+     * Вернуть список стран, попадающих под поисковую фразу
+     * @param RegionSearchRequest $request
+     * @return mixed
+     */
+    public function searchRegion(RegionSearchRequest $request, $locale)
+    {
+        $queryBuilder = $this->em->createQueryBuilder()
+            ->select('r')
+            ->from(Region::class, 'r')
+            ->where($this->em->getExpressionBuilder()->orX(
+                'lower(r.name_ru) LIKE :name',
+                'lower(r.name_en) LIKE :name',
+                'lower(r.name_es) LIKE :name'
+            ))
+            ->setParameter('name', '%'.mb_strtolower($request->name).'%');
+
+        //Если передали country_id, ищем регионы в рамках страны
+        if ($request->has('country_id')) {
+            $queryBuilder->andWhere('r.country = :countryId')
+                ->setParameter('countryId', $request->country_id);
+        }
+
+        $regions = $queryBuilder->getQuery()
+            ->getResult();
+
+        return RegionResource::collection(collect($regions));
+    }
+
+    /**
+     * Вернуть список населенных пунктов, попадающих под поисковую фразу
+     * @param LocalitySearchRequest $request
+     * @return mixed
+     */
+    public function searchLocality(LocalitySearchRequest $request, $locale)
+    {
+        $queryBuilder = $this->em->createQueryBuilder()
+            ->select('l')
+            ->from(Locality::class, 'l')
+            ->where($this->em->getExpressionBuilder()->orX(
+                'lower(l.name_ru) LIKE :name',
+                'lower(l.name_en) LIKE :name',
+                'lower(l.name_es) LIKE :name'
+            ))
+            ->setParameter('name', '%'.mb_strtolower($request->name).'%');
+
+        //Если передали region_id, ищем нас. пункты в рамках региона
+        if ($request->has('region_id')) {
+            $queryBuilder->andWhere('l.region = :regionId')
+                ->setParameter('regionId', $request->region_id);
+        }
+
+        $localities = $queryBuilder->getQuery()
+            ->getResult();
+
+        return LocalityResource::collection(collect($localities));
+    }
+
+    /**
      * Получить справочник по типу сущности в виде массива
      * @param $class
      * @return Collection
@@ -122,6 +208,6 @@ class RefController extends Controller
      */
     private function localizeReference(Collection $referenceCollection)
     {
-        return DoctrineReferenceResource::collection($referenceCollection)->toArray(null);
+        return ReferenceResource::collection($referenceCollection)->toArray(null);
     }
 }

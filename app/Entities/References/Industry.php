@@ -3,6 +3,7 @@
 
 namespace App\Entities\References;
 
+use App\Entities\Interfaces\Reference;
 use App\Entities\Traits\NamesTrait;
 use Doctrine\ORM\Mapping AS ORM;
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping AS ORM;
  * @ORM\Entity
  * @ORM\Table(name="industries")
  */
-class Industry
+class Industry implements Reference
 {
     use NamesTrait;
 

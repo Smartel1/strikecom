@@ -2,6 +2,7 @@
 
 namespace App\Entities\References;
 
+use App\Entities\Interfaces\Reference;
 use App\Entities\Traits\NamesTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping AS ORM;
 /**
  * @ORM\Entity
  */
-class Country
+class Country implements Reference
 {
     use NamesTrait;
 
