@@ -64,10 +64,10 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'published', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'locality', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
         }
 
-        return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'published', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'conflict', 'eventStatus', 'eventType', 'locality', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
     }
 
     /**
@@ -253,7 +253,7 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setAuthor(\App\Entities\User $author)
+    public function setAuthor(?\App\Entities\User $author)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAuthor', [$author]);
@@ -374,6 +374,28 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getLocality(): ?\App\Entities\References\Locality
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLocality', []);
+
+        return parent::getLocality();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLocality(?\App\Entities\References\Locality $locality): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLocality', [$locality]);
+
+        parent::setLocality($locality);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         if ($this->__isInitialized__ === false) {
@@ -411,7 +433,7 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setDate($date)
+    public function setDate(int $date)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDate', [$date]);
@@ -466,23 +488,23 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getTitleByLocale(string $locale): ?string
+    public function isPublished()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublished', []);
 
-        return parent::getTitleByLocale($locale);
+        return parent::isPublished();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getContentByLocale(string $locale): ?string
+    public function setPublished(bool $published): void
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublished', [$published]);
 
-        return parent::getContentByLocale($locale);
+        parent::setPublished($published);
     }
 
     /**
@@ -554,6 +576,17 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getContentRu()
     {
 
@@ -620,6 +653,17 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getContentByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+
+        return parent::getContentByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getCreatedAt()
     {
 
@@ -659,6 +703,50 @@ class Event extends \App\Entities\Event implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
 
         return parent::setUpdatedAt($updatedAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatitude()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatitude', []);
+
+        return parent::getLatitude();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatitude(float $latitude): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatitude', [$latitude]);
+
+        parent::setLatitude($latitude);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLongitude()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLongitude', []);
+
+        return parent::getLongitude();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLongitude(float $longitude): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLongitude', [$longitude]);
+
+        parent::setLongitude($longitude);
     }
 
 }

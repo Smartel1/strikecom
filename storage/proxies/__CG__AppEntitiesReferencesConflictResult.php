@@ -254,4 +254,15 @@ class ConflictResult extends \App\Entities\References\ConflictResult implements 
         parent::setNameEs($name_es);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getNameByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNameByLocale', [$locale]);
+
+        return parent::getNameByLocale($locale);
+    }
+
 }

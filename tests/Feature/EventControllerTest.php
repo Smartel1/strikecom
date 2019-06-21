@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use App\Entities\Conflict;
 use App\Entities\Event;
+use App\Entities\References\Country;
+use App\Entities\References\Locality;
+use App\Entities\References\Region;
 use App\Entities\User;
 use DateTime;
 use LaravelDoctrine\ORM\Facades\EntityManager;
@@ -21,15 +24,15 @@ class EventControllerTest extends TestCase
      */
     private function deleteAllEventsFromDB()
     {
-        EntityManager::createQueryBuilder()->from(Event::class,'e')->delete()->getQuery()->getResult();
+        EntityManager::createQueryBuilder()->from(Event::class, 'e')->delete()->getQuery()->getResult();
     }
 
     /**
      * @return int conflictId
      */
-    private function clearConflictsAndAddOne() : int
+    private function clearConflictsAndAddOne(): int
     {
-        EntityManager::createQueryBuilder()->from(Conflict::class,'c')->delete()->getQuery()->getResult();
+        EntityManager::createQueryBuilder()->from(Conflict::class, 'c')->delete()->getQuery()->getResult();
 
         $conflict = entity(Conflict::class)->create([
             'title_ru'           => 'Острый конфликт',
@@ -45,6 +48,24 @@ class EventControllerTest extends TestCase
         ]);
 
         return $conflict->getId();
+    }
+
+    private function createLocality()
+    {
+        $country = new Country;
+        $country->setNameRu('Роиccя');
+        $region = new Region;
+        $region->setCountry($country);
+        $region->setNameRu('Придумская область');
+        $locality = new Locality;
+        $locality->setRegion($region);
+        $locality->setNameRu('село Выдумно');
+        EntityManager::persist($country);
+        EntityManager::persist($region);
+        EntityManager::persist($locality);
+        EntityManager::flush();
+
+        return $locality;
     }
 
     /**
@@ -92,7 +113,7 @@ class EventControllerTest extends TestCase
         $this->post(
             '/api/ru/event-list',
             ['filters' => ['conflict_ids' => [$conflictId]]],
-            ['content-type'=>'application/json'])
+            ['content-type' => 'application/json'])
             ->assertStatus(200);
     }
 
@@ -125,12 +146,14 @@ class EventControllerTest extends TestCase
     public function testView()
     {
         $conflictId = $this->clearConflictsAndAddOne();
+        $locality = $this->createLocality();
 
         $event = entity(Event::class)->create([
             'conflict_id' => $conflictId,
             'title_ru'    => 'Трудовой конфликт',
             'content_ru'  => 'Такие вот дела',
             'date'        => DateTime::createFromFormat('U', 1544680093),
+            'locality_id' => $locality->getId(),
         ]);
 
         $this->get('/api/ru/event/' . $event->getId())
@@ -154,6 +177,7 @@ class EventControllerTest extends TestCase
     public function testStore()
     {
         $conflictId = $this->clearConflictsAndAddOne();
+        $locality = $this->createLocality();
 
         $user = entity(User::class)->create([
             'name'  => 'John Doe',
@@ -165,6 +189,9 @@ class EventControllerTest extends TestCase
             'title'           => 'Беда в городе',
             'content'         => 'Рабы кричат и гневятся',
             'date'            => 1544680093,
+            'latitude'        => 54.5943,
+            'longitude'       => 57.1670,
+            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
@@ -183,12 +210,16 @@ class EventControllerTest extends TestCase
     public function testStoreUnauth()
     {
         $conflictId = $this->clearConflictsAndAddOne();
+        $locality = $this->createLocality();
 
         $this->post('/api/ru/event', [
             'conflict_id'     => $conflictId,
             'title'           => 'Беда в городе',
             'content'         => 'Рабы кричат и гневятся',
             'date'            => 1544680093,
+            'latitude'        => 54.5943,
+            'longitude'       => 57.1670,
+            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
@@ -213,6 +244,9 @@ class EventControllerTest extends TestCase
             'title'           => [],
             'content'         => [],
             'date'            => 15,
+            'latitude'        => 'bar',
+            'longitude'       => 'foo',
+            'locality_id'     => -1,
             'source_link'     => [],
             'event_status_id' => -1,
             'event_type_id'   => -1,
@@ -229,6 +263,7 @@ class EventControllerTest extends TestCase
     public function testUpdate()
     {
         $conflictId = $this->clearConflictsAndAddOne();
+        $locality = $this->createLocality();
 
         $event = entity(Event::class)->create([
             'conflict_id' => $conflictId,
@@ -248,6 +283,9 @@ class EventControllerTest extends TestCase
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,
+            'latitude'        => 54.5943,
+            'longitude'       => 57.1670,
+            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.png',
             'event_status_id' => '2',
             'event_type_id'   => '3',
@@ -266,6 +304,7 @@ class EventControllerTest extends TestCase
     public function testUpdateUnauth()
     {
         $conflictId = $this->clearConflictsAndAddOne();
+        $locality = $this->createLocality();
 
         $event = entity(Event::class)->create([
             'conflict_id' => $conflictId,
@@ -278,6 +317,9 @@ class EventControllerTest extends TestCase
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => 1544690093,
+            'latitude'        => 54.5943,
+            'longitude'       => 57.1670,
+            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.png',
             'event_status_id' => '2',
             'event_type_id'   => '3',
@@ -308,6 +350,9 @@ class EventControllerTest extends TestCase
             'title'           => [],
             'content'         => [],
             'date'            => 15,
+            'latitude'        => 'boo',
+            'longitude'       => 'baz',
+            'locality_id'     => -1,
             'source_link'     => [],
             'event_status_id' => -1,
             'event_type_id'   => -1,
@@ -324,11 +369,15 @@ class EventControllerTest extends TestCase
     public function testUpdateWrong()
     {
         $this->deleteAllEventsFromDB();
+        $locality = $this->createLocality();
 
         $this->put('/api/ru/event/1', [
             'title'           => 'Беда в мегаполисе',
             'content'         => 'Рабы беснуются и гневятся',
             'date'            => '2018-10-02',
+            'latitude'        => 54.5943,
+            'longitude'       => 57.1670,
+            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.png',
             'event_status_id' => '2',
             'event_type_id'   => '5',

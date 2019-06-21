@@ -16,6 +16,7 @@ use App\Entities\Event;
 use App\Entities\Photo;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
+use App\Entities\References\Locality;
 use App\Entities\Tag;
 use App\Entities\User;
 use App\Entities\Video;
@@ -226,7 +227,10 @@ class EventService
         if (Arr::has($data, 'content_en')) $event->setContentEn(Arr::get($data, 'content_en'));
         if (Arr::has($data, 'content_es')) $event->setContentEs(Arr::get($data, 'content_es'));
         if (Arr::has($data, 'published')) $event->setPublished(Arr::get($data, 'published'));
+        if (Arr::has($data, 'latitude')) $event->setLatitude(Arr::get($data, 'latitude'));
+        if (Arr::has($data, 'longitude')) $event->setLongitude(Arr::get($data, 'longitude'));
 
+        if (Arr::has($data, 'locality_id')) $this->setLocality($event, Arr::get($data, 'locality_id'));
         if (Arr::has($data, 'event_status_id')) $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
         if (Arr::has($data, 'event_type_id')) $this->setEventType($event, Arr::get($data, 'event_type_id'));
 
@@ -243,6 +247,26 @@ class EventService
             $contentSetterName = 'setContent' . $locale;
             $event->$contentSetterName(Arr::get($data, 'content'));
         }
+    }
+
+    /**
+     * @param Event $event
+     * @param string|null $localityId
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
+     */
+    private function setLocality(Event $event, ?string $localityId)
+    {
+        if (!$localityId) {
+            $event->setLocality(null);
+            return;
+        }
+
+        /** @var Locality $locality */
+        $locality = $this->em->find('App\Entities\References\Locality', $localityId);
+
+        $event->setLocality($locality);
     }
 
     /**

@@ -64,10 +64,10 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
         }
 
-        return ['__isInitialized__', 'id', 'latitude', 'longitude', 'company_name', 'date_from', 'date_to', 'conflictReason', 'conflictResult', 'industry', 'region', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
     }
 
     /**
@@ -202,50 +202,6 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getLatitude()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatitude', []);
-
-        return parent::getLatitude();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setLatitude(float $latitude): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatitude', [$latitude]);
-
-        parent::setLatitude($latitude);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getLongitude()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLongitude', []);
-
-        return parent::getLongitude();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setLongitude(float $longitude): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLongitude', [$longitude]);
-
-        parent::setLongitude($longitude);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getCompanyName()
     {
 
@@ -279,12 +235,12 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setDateFrom($date_from): void
+    public function setDateFrom(?int $dateFrom): void
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateFrom', [$date_from]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateFrom', [$dateFrom]);
 
-        parent::setDateFrom($date_from);
+        parent::setDateFrom($dateFrom);
     }
 
     /**
@@ -301,12 +257,12 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function setDateTo($date_to): void
+    public function setDateTo(?int $dateTo): void
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateTo', [$date_to]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateTo', [$dateTo]);
 
-        parent::setDateTo($date_to);
+        parent::setDateTo($dateTo);
     }
 
     /**
@@ -378,28 +334,6 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
-    public function getRegion(): ?\App\Entities\References\Region
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRegion', []);
-
-        return parent::getRegion();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setRegion(?\App\Entities\References\Region $region): void
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRegion', [$region]);
-
-        parent::setRegion($region);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getEvents()
     {
 
@@ -439,17 +373,6 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setParentEvent', [$parentEvent]);
 
         parent::setParentEvent($parentEvent);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getTitleByLocale(string $locale): ?string
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
-
-        return parent::getTitleByLocale($locale);
     }
 
     /**
@@ -521,6 +444,17 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     /**
      * {@inheritDoc}
      */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getCreatedAt()
     {
 
@@ -560,6 +494,50 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', [$updatedAt]);
 
         return parent::setUpdatedAt($updatedAt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLatitude()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLatitude', []);
+
+        return parent::getLatitude();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLatitude(float $latitude): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLatitude', [$latitude]);
+
+        parent::setLatitude($latitude);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLongitude()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLongitude', []);
+
+        return parent::getLongitude();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLongitude(float $longitude): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLongitude', [$longitude]);
+
+        parent::setLongitude($longitude);
     }
 
 }

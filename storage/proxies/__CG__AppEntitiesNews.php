@@ -64,10 +64,10 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'published', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'date', 'views', 'source_link', 'published', 'photos', 'videos', 'tags', 'author', 'likedUsers', 'comments', 'title_ru', 'title_en', 'title_es', 'content_ru', 'content_en', 'content_es', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -345,7 +345,7 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setDate($date)
+    public function setDate(int $date)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDate', [$date]);
@@ -400,23 +400,23 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getTitleByLocale(string $locale): ?string
+    public function isPublished()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isPublished', []);
 
-        return parent::getTitleByLocale($locale);
+        return parent::isPublished();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getContentByLocale(string $locale): ?string
+    public function setPublished(bool $published): void
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPublished', [$published]);
 
-        return parent::getContentByLocale($locale);
+        parent::setPublished($published);
     }
 
     /**
@@ -488,6 +488,17 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getTitleByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTitleByLocale', [$locale]);
+
+        return parent::getTitleByLocale($locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getContentRu()
     {
 
@@ -549,6 +560,17 @@ class News extends \App\Entities\News implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setContentEs', [$content_es]);
 
         parent::setContentEs($content_es);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContentByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getContentByLocale', [$locale]);
+
+        return parent::getContentByLocale($locale);
     }
 
     /**

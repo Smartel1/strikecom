@@ -286,28 +286,4 @@ class News implements Commentable
     {
         $this->published = $published;
     }
-
-    /**
-     * Получить локализованный заголовок
-     * @param string $locale
-     * @return string|null
-     */
-    public function getTitleByLocale(string $locale) : ?string
-    {
-        $getterName = 'getTitle' . $locale;
-
-        return $this->$getterName();
-    }
-
-    /**
-     * Получить локализованное содержимое
-     * @param string $locale
-     * @return string|null
-     */
-    public function getContentByLocale(string $locale) : ?string
-    {
-        $getterName = 'getContent' . $locale;
-
-        return $this->$getterName();
-    }
 }

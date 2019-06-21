@@ -72,4 +72,16 @@ trait TitlesTrait
     {
         $this->title_es = $title_es;
     }
+
+    /**
+     * Получить локализованный заголовок
+     * @param string $locale
+     * @return string
+     */
+    public function getTitleByLocale(string $locale) : ?string
+    {
+        $getterName = 'getTitle' . $locale;
+
+        return $this->$getterName();
+    }
 }

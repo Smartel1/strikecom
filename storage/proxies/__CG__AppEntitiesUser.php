@@ -64,10 +64,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'reward', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'fcm', 'admin', 'push', 'reward', 'image_url', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'reward', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -268,6 +268,28 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getRoles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRoles', []);
+
+        return parent::getRoles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRoles(array $roles): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRoles', [$roles]);
+
+        parent::setRoles($roles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getFcm()
     {
 
@@ -285,39 +307,6 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFcm', [$fcm]);
 
         return parent::setFcm($fcm);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAdmin()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAdmin', []);
-
-        return parent::getAdmin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isAdmin()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAdmin', []);
-
-        return parent::isAdmin();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setAdmin($admin)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAdmin', [$admin]);
-
-        return parent::setAdmin($admin);
     }
 
     /**
@@ -378,12 +367,12 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setImageUrl($image_url)
+    public function setImageUrl($imageUrl)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImageUrl', [$image_url]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImageUrl', [$imageUrl]);
 
-        return parent::setImageUrl($image_url);
+        return parent::setImageUrl($imageUrl);
     }
 
     /**

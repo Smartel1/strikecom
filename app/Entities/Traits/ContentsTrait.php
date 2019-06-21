@@ -72,4 +72,16 @@ trait ContentsTrait
     {
         $this->content_es = $content_es;
     }
+
+    /**
+     * Получить локализованное содержимое
+     * @param string $locale
+     * @return string
+     */
+    public function getContentByLocale(string $locale) : ?string
+    {
+        $getterName = 'getContent' . $locale;
+
+        return $this->$getterName();
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Entities;
 use App\Entities\References\ConflictReason;
 use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
+use App\Entities\Traits\CoordinatesTrait;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
 use DateTime;
@@ -20,6 +21,7 @@ class Conflict
 {
     use TitlesTrait;
     use Timestamps;
+    use CoordinatesTrait;
 
     /**
      * @ORM\Id
@@ -27,16 +29,6 @@ class Conflict
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    protected $latitude;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    protected $longitude;
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
@@ -101,38 +93,6 @@ class Conflict
     public function setId($id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @param float $latitude
-     */
-    public function setLatitude(float $latitude): void
-    {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * @param float $longitude
-     */
-    public function setLongitude(float $longitude): void
-    {
-        $this->longitude = $longitude;
     }
 
     /**
@@ -269,17 +229,5 @@ class Conflict
     public function setParentEvent(?Event $parentEvent): void
     {
         $this->parentEvent = $parentEvent;
-    }
-
-    /**
-     * Получить локализованный заголовок
-     * @param string $locale
-     * @return string|null
-     */
-    public function getTitleByLocale(string $locale) : ?string
-    {
-        $getterName = 'getTitle' . $locale;
-
-        return $this->$getterName();
     }
 }

@@ -44,7 +44,7 @@ class EventDetailResource extends Resource
             'tags'            => $event->getTags()->map(function (Tag $tag) {
                 return $tag->getName();
             })->getValues(),
-            'author'            => $event->getAuthor() ? [
+            'author'          => $event->getAuthor() ? [
                 'id'    => $event->getAuthor()->getId(),
                 'name'  => $event->getAuthor()->getName(),
                 'email' => $event->getAuthor()->getEmail()
@@ -54,6 +54,7 @@ class EventDetailResource extends Resource
         ];
 
         $locale = app('locale');
+        $eventLocality = $event->getLocality();
         /**
          * Если передана конкретная локаль, то возвращаем поля title и content на нужном языке
          * Иначе возвращаем title_ru, title_en, title_es и content_ru, content_es, content_es
@@ -61,6 +62,14 @@ class EventDetailResource extends Resource
         if ($locale !== 'all') {
             $structure['title'] = $event->getTitleByLocale($locale);
             $structure['content'] = $event->getContentByLocale($locale);
+
+            /*
+             * Если событие привязано к месту, то отображаем локализованные названия места/региона/страны, иначе null
+             */
+            $structure['locality'] = $eventLocality ? $eventLocality->getNameByLocale($locale) : null;
+            $structure['region'] = $eventLocality ? $eventLocality->getRegion()->getNameByLocale($locale) : null;
+            $structure['country'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameByLocale($locale) : null;
+
         } else {
             $structure['title_ru'] = $event->getTitleRu();
             $structure['title_en'] = $event->getTitleEn();
@@ -68,6 +77,19 @@ class EventDetailResource extends Resource
             $structure['content_ru'] = $event->getContentRu();
             $structure['content_en'] = $event->getContentEn();
             $structure['content_es'] = $event->getContentEs();
+
+            /*
+             * Если событие привязано к месту, то отображаем названия места/региона/страны, иначе null
+             */
+            $structure['locality_ru'] = $eventLocality ? $eventLocality->getNameRu() : null;
+            $structure['locality_en'] = $eventLocality ? $eventLocality->getNameEn() : null;
+            $structure['locality_es'] = $eventLocality ? $eventLocality->getNameEs() : null;
+            $structure['region_ru'] = $eventLocality ? $eventLocality->getRegion()->getNameRu() : null;
+            $structure['region_en'] = $eventLocality ? $eventLocality->getRegion()->getNameEn() : null;
+            $structure['region_es'] = $eventLocality ? $eventLocality->getRegion()->getNameEs() : null;
+            $structure['country_ru'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameRu() : null;
+            $structure['country_en'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEn() : null;
+            $structure['country_es'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEs() : null;
         }
 
         return $structure;

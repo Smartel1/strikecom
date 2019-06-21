@@ -64,10 +64,10 @@ class Region extends \App\Entities\References\Region implements \Doctrine\ORM\Pr
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'name_ru', 'name_en', 'name_es'];
+            return ['__isInitialized__', 'id', 'country', 'localities', 'name_ru', 'name_en', 'name_es'];
         }
 
-        return ['__isInitialized__', 'id', 'name_ru', 'name_en', 'name_es'];
+        return ['__isInitialized__', 'id', 'country', 'localities', 'name_ru', 'name_en', 'name_es'];
     }
 
     /**
@@ -191,6 +191,50 @@ class Region extends \App\Entities\References\Region implements \Doctrine\ORM\Pr
     /**
      * {@inheritDoc}
      */
+    public function getCountry(): \App\Entities\References\Country
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCountry', []);
+
+        return parent::getCountry();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCountry(\App\Entities\References\Country $country): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCountry', [$country]);
+
+        parent::setCountry($country);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLocalities()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLocalities', []);
+
+        return parent::getLocalities();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLocalities($localities): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLocalities', [$localities]);
+
+        parent::setLocalities($localities);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getNameRu()
     {
 
@@ -252,6 +296,17 @@ class Region extends \App\Entities\References\Region implements \Doctrine\ORM\Pr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNameEs', [$name_es]);
 
         parent::setNameEs($name_es);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNameByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNameByLocale', [$locale]);
+
+        return parent::getNameByLocale($locale);
     }
 
 }

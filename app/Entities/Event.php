@@ -4,9 +4,11 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Commentable;
+use App\Entities\References\Locality;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
 use App\Entities\Traits\ContentsTrait;
+use App\Entities\Traits\CoordinatesTrait;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
 use DateTime;
@@ -22,6 +24,7 @@ class Event implements Commentable
     use TitlesTrait;
     use ContentsTrait;
     use Timestamps;
+    use CoordinatesTrait;
 
     /**
      * @ORM\Id
@@ -113,6 +116,13 @@ class Event implements Commentable
      * @var EventType|null
      */
     protected $eventType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\References\Locality")
+     * @ORM\JoinColumn(name="locality_id", referencedColumnName="id", onDelete="set null")
+     * @var Locality|null
+     */
+    protected $locality;
 
     /**
      * @ORM\ManyToMany(targetEntity="Comment", inversedBy="events", cascade={"remove"})
@@ -277,6 +287,22 @@ class Event implements Commentable
     }
 
     /**
+     * @return Locality|null
+     */
+    public function getLocality(): ?Locality
+    {
+        return $this->locality;
+    }
+
+    /**
+     * @param Locality|null $locality
+     */
+    public function setLocality(?Locality $locality): void
+    {
+        $this->locality = $locality;
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -354,29 +380,5 @@ class Event implements Commentable
     public function setPublished(bool $published): void
     {
         $this->published = $published;
-    }
-
-    /**
-     * Получить локализованный заголовок
-     * @param string $locale
-     * @return string
-     */
-    public function getTitleByLocale(string $locale) : ?string
-    {
-        $getterName = 'getTitle' . $locale;
-
-        return $this->$getterName();
-    }
-
-    /**
-     * Получить локализованное содержимое
-     * @param string $locale
-     * @return string
-     */
-    public function getContentByLocale(string $locale) : ?string
-    {
-        $getterName = 'getContent' . $locale;
-
-        return $this->$getterName();
     }
 }

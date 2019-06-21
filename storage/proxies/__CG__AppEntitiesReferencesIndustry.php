@@ -254,4 +254,15 @@ class Industry extends \App\Entities\References\Industry implements \Doctrine\OR
         parent::setNameEs($name_es);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getNameByLocale(string $locale): ?string
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNameByLocale', [$locale]);
+
+        return parent::getNameByLocale($locale);
+    }
+
 }

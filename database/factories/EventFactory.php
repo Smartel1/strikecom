@@ -4,6 +4,7 @@ use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
+use App\Entities\References\Locality;
 use Faker\Generator as Faker;
 use Illuminate\Support\Arr;
 use LaravelDoctrine\ORM\Facades\EntityManager;
@@ -23,6 +24,10 @@ $factory->define(Event::class, function (Faker $faker, array $attributes) {
         ? EntityManager::getReference(EventType::class, $attributes['event_type_id'])
         : null;
 
+    $locality = Arr::has($attributes, 'locality_id')
+        ? EntityManager::getReference(Locality::class, $attributes['locality_id'])
+        : null;
+
     return [
         'conflict'     => $conflict,
         'published'    => Arr::get($attributes, 'published', true),
@@ -33,7 +38,10 @@ $factory->define(Event::class, function (Faker $faker, array $attributes) {
         'content_en'   => Arr::get($attributes, 'content_en', $faker->word),
         'content_es'   => Arr::get($attributes, 'content_es', $faker->word),
         'date'         => Arr::get($attributes, 'date', $faker->dateTime()),
+        'latitude'     => Arr::get($attributes, 'latitude', $faker->randomNumber(7)),
+        'longitude'    => Arr::get($attributes, 'longitude', $faker->randomNumber(7)),
         'source_link'  => Arr::get($attributes, 'source_link', $faker->url),
+        'locality'     => $locality,
         'event_status' => $eventStatus,
         'event_type'   => $eventType,
     ];

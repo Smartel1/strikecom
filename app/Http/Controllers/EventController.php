@@ -114,6 +114,7 @@ class EventController extends Controller
      * @param Event $event
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws AuthorizationException
      */
     public function setFavourite(EventSetFavouriteRequest $request, $locale, Event $event)
     {

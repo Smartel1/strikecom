@@ -72,4 +72,16 @@ trait NamesTrait
     {
         $this->name_es = $name_es;
     }
+
+    /**
+     * Получить локализованное имя
+     * @param string $locale
+     * @return string
+     */
+    public function getNameByLocale(string $locale) : ?string
+    {
+        $getterName = 'getName' . $locale;
+
+        return $this->$getterName();
+    }
 }
