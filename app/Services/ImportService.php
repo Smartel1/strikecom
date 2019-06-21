@@ -282,6 +282,8 @@ class ImportService
             $event->setContentEn(array_get($item, 'content_en'));
             $event->setContentEs(array_get($item, 'content_es'));
             $event->setDate(array_get($item, 'date'));
+            $event->setLatitude(array_get($item, 'lat'));
+            $event->setLongitude(array_get($item, 'lng'));
             $event->setViews(array_get($item, 'count_view', 0));
             $event->setSourceLink(array_get($item, 'link'));
             $event->setConflict($conflict);

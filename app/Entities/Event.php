@@ -77,8 +77,8 @@ class Event implements Commentable
     /**
      * @ORM\ManyToMany(targetEntity="Tag")
      * @ORM\JoinTable(name="event_tag",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Tag[]
      */

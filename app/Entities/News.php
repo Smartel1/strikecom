@@ -72,8 +72,8 @@ class News implements Commentable
     /**
      * @ORM\ManyToMany(targetEntity="Tag")
      * @ORM\JoinTable(name="news_tag",
-     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      * @var ArrayCollection|Tag[]
      */
