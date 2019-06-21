@@ -64,10 +64,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'reward', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'reward', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -329,28 +329,6 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPush', [$push]);
 
         return parent::setPush($push);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getReward()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getReward', []);
-
-        return parent::getReward();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setReward($reward)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setReward', [$reward]);
-
-        return parent::setReward($reward);
     }
 
     /**

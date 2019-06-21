@@ -154,7 +154,6 @@ class ImportService
             $user->setImageUrl(array_get($item, 'image'));
             $user->setRoles((boolean)array_get($item, 'admin') ? ['ADMIN'] : []);
             $user->setPush(array_get($item, 'push'));
-            $user->setReward((integer)array_get($item, 'reward'));
 
             $user->_id = $item['_id'];
             $user->favouritePosts = $item['favorites'];
@@ -273,7 +272,6 @@ class ImportService
             }
 
             $event = new Event;
-            /** @var Company $company */
 
             $event->setTitleRu(array_get($item, 'name'));
             $event->setTitleEn(array_get($item, 'name_en'));

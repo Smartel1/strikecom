@@ -58,11 +58,6 @@ class User implements Authenticatable
     protected $push = false;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $reward = 0;
-
-    /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     protected $imageUrl;
@@ -206,22 +201,6 @@ class User implements Authenticatable
     public function setPush($push)
     {
         $this->push = $push;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getReward()
-    {
-        return $this->reward;
-    }
-
-    /**
-     * @param mixed $reward
-     */
-    public function setReward($reward)
-    {
-        $this->reward = $reward;
     }
 
     /**
