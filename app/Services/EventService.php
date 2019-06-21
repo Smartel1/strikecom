@@ -115,7 +115,7 @@ class EventService
     {
         //Если пользователь хочет сразу опубликовать событие, он должен быть модератором
         $this->businessValidationService->validate([
-            (new UserCanModerate($user))->when(Arr::get($data, 'published'))
+            (new UserCanModerate($user))->when(Arr::get($data, 'published') or Arr::has($data, 'locality_id'))
         ]);
 
         $this->em->beginTransaction();
@@ -154,7 +154,7 @@ class EventService
         );
 
         $this->businessValidationService->validate([
-            (new UserCanModerate($user))->when($userChangesPublishStatus)
+            (new UserCanModerate($user))->when($userChangesPublishStatus or Arr::has($data, 'locality_id'))
         ]);
 
         $this->em->beginTransaction();

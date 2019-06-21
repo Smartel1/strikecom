@@ -191,7 +191,6 @@ class EventControllerTest extends TestCase
             'date'            => 1544680093,
             'latitude'        => 54.5943,
             'longitude'       => 57.1670,
-            'locality_id'     => $locality->getId(),
             'source_link'     => 'https://domain.ru/img.gif',
             'event_status_id' => '1',
             'event_type_id'   => '3',
