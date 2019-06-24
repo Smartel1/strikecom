@@ -85,6 +85,25 @@ class EventService
                 ->setParameter('user', $user);
         }
 
+        //Фильтр по странам (нужен join, поэтому не в criteria)
+        if (Arr::has($filters, 'country_ids')) {
+            $queryBuilder
+                ->leftJoin('e.locality', 'loc')
+                ->leftJoin('loc.region', 'reg')
+                ->leftJoin('reg.country', 'ctr')
+                ->andWhere($this->em->getExpressionBuilder()->in('ctr', ':countries'))
+                ->setParameter('countries', Arr::get($filters, 'country_ids'));
+        }
+
+        //Фильтр по регионам (нужен join, поэтому не в criteria)
+        if (Arr::has($filters, 'region_ids')) {
+            $queryBuilder
+                ->leftJoin('e.locality', 'loc')
+                ->leftJoin('loc.region', 'reg')
+                ->andWhere($this->em->getExpressionBuilder()->in('reg', ':regions'))
+                ->setParameter('regions', Arr::get($filters, 'region_ids'));
+        }
+
         //Пагинируем результат
         $doctrinePaginator = new Paginator(
             $queryBuilder->setFirstResult($perPage * ($page - 1))->setMaxResults($perPage)->getQuery()
