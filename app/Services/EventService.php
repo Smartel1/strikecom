@@ -23,6 +23,7 @@ use App\Entities\Video;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentEvent;
 use App\Rules\UserCanModerate;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -66,8 +67,8 @@ class EventService
             ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'e.date',
-                Arr::get($filters, 'date_from'),
-                Arr::get($filters, 'date_to')
+                Datetime::createFromFormat('U', Arr::get($filters, 'date_from')),
+                Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
             ))
             ->addCriteria(SafeEq::make('e.published', Arr::get($filters, 'published')))
             ->addCriteria(SafeIn::make('e.eventStatus', Arr::get($filters, 'event_status_ids')))

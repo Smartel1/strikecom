@@ -16,6 +16,7 @@ use App\Entities\User;
 use App\Entities\Video;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\UserCanModerate;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -57,8 +58,8 @@ class NewsService
             ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'n.date',
-                Arr::get($filters, 'date_from'),
-                Arr::get($filters, 'date_to')
+                Datetime::createFromFormat('U', Arr::get($filters, 'date_from')),
+                Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
             ))
             ->addCriteria(SafeEq::make('n.published', Arr::get($filters, 'published')))
             ->addCriteria(HasTag::make('n', Arr::get($filters, 'tag_id')))

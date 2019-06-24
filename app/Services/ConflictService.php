@@ -17,6 +17,7 @@ use App\Entities\References\ConflictResult;
 use App\Entities\References\Industry;
 use App\Exceptions\BusinessRuleValidationException;
 use App\Rules\NotAParentConflict;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -57,8 +58,8 @@ class ConflictService
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
             ->from(Conflict::class, 'c')
-            ->addCriteria(SafeGTE::make('c.date_from', Arr::get($filters, 'date_from')))
-            ->addCriteria(SafeLTE::make('c.date_to', Arr::get($filters, 'date_to')))
+            ->addCriteria(SafeGTE::make('c.dateFrom', Datetime::createFromFormat('U', Arr::get($filters, 'date_from'))))
+            ->addCriteria(SafeLTE::make('c.dateTo', Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))))
             ->addCriteria(SafeIn::make('c.conflictResult', Arr::get($filters, 'conflict_result_ids')))
             ->addCriteria(SafeIn::make('c.conflictReason', Arr::get($filters, 'conflict_reason_ids')))
             ->addCriteria(AncestorsOfConflict::make('c', Arr::get($filters, 'ancestors_of')))
