@@ -60,7 +60,7 @@
 { 
     "_id" : "5c1654a67acc4c6a008b457f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Нефтекамск", 
     "locality_ru" : "село Амзя", 
     "street_ru" : "улица Свердлова", 
@@ -75,7 +75,7 @@
 { 
     "_id" : "5c1654a77acc4c6a008b4580", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Нягань", 
     "locality_ru" : "Нягань", 
     "street_ru" : "Сибирская улица", 
@@ -268,7 +268,7 @@
 { 
     "_id" : "5c1654b07acc4c6a008b458e", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Революционная улица", 
@@ -283,7 +283,7 @@
 { 
     "_id" : "5c1654b17acc4c6a008b458f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "Надымский район", 
     "locality_ru" : "Надым", 
     "street_ru" : "8-й проезд", 
@@ -416,7 +416,7 @@
 { 
     "_id" : "5c1654b87acc4c6a008b4599", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "Верхнекибякозинское сельское поселение", 
     "locality_ru" : "село Максабаш", 
     "country_en" : "Russia", 
@@ -444,7 +444,7 @@
 { 
     "_id" : "5c1654b97acc4c6a008b459b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Алтай", 
+    "province_ru" : "Алтай", 
     "area_ru" : "Чойский район", 
     "locality_ru" : "село Сейка", 
     "street_ru" : "Школьная улица", 
@@ -504,7 +504,7 @@
 { 
     "_id" : "5c1654bc7acc4c6a008b459f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "Тункинский район", 
     "locality_ru" : "поселок Аршан", 
     "country_en" : "Russia", 
@@ -575,8 +575,9 @@
 { 
     "_id" : "5c1654bf7acc4c6a008b45a4", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
-    "area_ru" : "Тазовский район", 
+    "province_ru" : "Ямало-Ненецкий АО",
+    "locality_ru" : "Месторождение Русское",
+    "area_ru" : "Тазовский район",
     "country_en" : "Russia", 
     "province_en" : "Yamalo-Nenets Autonomous Area", 
     "area_en" : "Tazovskiy rayon", 
@@ -614,7 +615,7 @@
 { 
     "_id" : "5c1654c17acc4c6a008b45a7", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "Пуровский район", 
     "locality_ru" : "Тарко-Сале", 
     "country_en" : "Russia", 
@@ -904,7 +905,7 @@
 { 
     "_id" : "5c1654cf7acc4c6a008b45bb", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Берёзовский район", 
     "locality_ru" : "посёлок городского типа Игрим", 
     "street_ru" : "улица Энтузиастов", 
@@ -919,7 +920,7 @@
 { 
     "_id" : "5c1654d07acc4c6a008b45bc", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "street_ru" : "Университетская улица", 
@@ -934,7 +935,7 @@
 { 
     "_id" : "5c1654d17acc4c6a008b45be", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Мордовия", 
+    "province_ru" : "Мордовия", 
     "area_ru" : "городской округ Саранск", 
     "locality_ru" : "Саранск", 
     "street_ru" : "улица Лодыгина", 
@@ -964,7 +965,7 @@
 { 
     "_id" : "5c1654d37acc4c6a008b45c0", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "2-й Верхний Михайловский проезд", 
     "country_en" : "Russia", 
@@ -1003,8 +1004,9 @@
 { 
     "_id" : "5c1654d57acc4c6a008b45c3", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
-    "area_ru" : "Пряжинский район", 
+    "province_ru" : "Карелия", 
+    "area_ru" : "Пряжинский район",
+    "locality_ru" : "А-121, 468-й километр",
     "street_ru" : "А-121, 468-й километр", 
     "country_en" : "Russia", 
     "province_en" : "Republic of Karelia", 
@@ -1016,7 +1018,7 @@
 { 
     "_id" : "5c1654d57acc4c6a008b45c4", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "городской округ Казань", 
     "locality_ru" : "Казань", 
     "street_ru" : "Московская улица", 
@@ -1031,7 +1033,7 @@
 { 
     "_id" : "5c1654d67acc4c6a008b45c5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Алтай", 
+    "province_ru" : "Алтай", 
     "area_ru" : "Чойский район", 
     "locality_ru" : "село Сейка", 
     "country_en" : "Russia", 
@@ -1119,7 +1121,7 @@
 { 
     "_id" : "5c1654da7acc4c6a008b45cb", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Уфимское шоссе", 
@@ -1194,7 +1196,7 @@
 { 
     "_id" : "5c1654de7acc4c6a008b45d0", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "country_en" : "Russia", 
@@ -1222,7 +1224,7 @@
 { 
     "_id" : "5c1654df7acc4c6a008b45d2", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Сибай", 
     "locality_ru" : "Сибай", 
     "street_ru" : "Горная улица", 
@@ -1250,7 +1252,7 @@
 { 
     "_id" : "5c1654e07acc4c6a008b45d4", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Черногорск", 
     "locality_ru" : "Черногорск", 
     "country_en" : "Russia", 
@@ -1392,7 +1394,7 @@
 { 
     "_id" : "5c1654e77acc4c6a008b45de", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "country_en" : "Russia", 
@@ -1418,7 +1420,7 @@
 { 
     "_id" : "5c1654e97acc4c6a008b45e0", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новозаводская улица", 
     "country_en" : "Russia", 
@@ -1511,7 +1513,7 @@
 { 
     "_id" : "5c1654ee7acc4c6a008b45e8", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Дербеневская набережная", 
     "country_en" : "Russia", 
@@ -1569,7 +1571,7 @@
 { 
     "_id" : "5c1654f17acc4c6a008b45ec", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "Кулинский район", 
     "locality_ru" : "село Вачи", 
     "country_en" : "Russia", 
@@ -1638,7 +1640,7 @@
 { 
     "_id" : "5c1654f47acc4c6a008b45f1", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "улица Седова", 
@@ -1653,7 +1655,7 @@
 { 
     "_id" : "5c1654f57acc4c6a008b45f2", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Нижневартовск", 
     "locality_ru" : "Нижневартовск", 
     "street_ru" : "улица Мира", 
@@ -1668,7 +1670,7 @@
 { 
     "_id" : "5c1654f67acc4c6a008b45f3", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Кутузовский проспект", 
     "country_en" : "Russia", 
@@ -1696,7 +1698,7 @@
 { 
     "_id" : "5c1654f77acc4c6a008b45f5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Лубянский проезд", 
     "country_en" : "Russia", 
@@ -1739,7 +1741,7 @@
 { 
     "_id" : "5c1654f97acc4c6a008b45f8", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "street_ru" : "улица Дзержинского", 
@@ -1769,7 +1771,7 @@
 { 
     "_id" : "5c1654fb7acc4c6a008b45fb", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -1819,7 +1821,7 @@
 { 
     "_id" : "5c1654fe7acc4c6a008b45ff", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Мордовия", 
+    "province_ru" : "Мордовия", 
     "area_ru" : "городской округ Саранск", 
     "locality_ru" : "Саранск", 
     "street_ru" : "Волгоградская улица", 
@@ -1860,7 +1862,7 @@
 { 
     "_id" : "5c1655007acc4c6a008b4602", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новозаводская улица", 
     "country_en" : "Russia", 
@@ -1873,7 +1875,7 @@
 { 
     "_id" : "5c1655017acc4c6a008b4603", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "street_ru" : "проспект Октябрьской Революции", 
     "country_en" : "Russia", 
@@ -1886,7 +1888,7 @@
 { 
     "_id" : "5c1655027acc4c6a008b4604", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Покровский путепровод", 
     "country_en" : "Russia", 
@@ -1899,7 +1901,7 @@
 { 
     "_id" : "5c1655027acc4c6a008b4605", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Тимура Фрунзе", 
     "country_en" : "Russia", 
@@ -1912,7 +1914,7 @@
 { 
     "_id" : "5c1655037acc4c6a008b4606", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новозаводская улица", 
     "country_en" : "Russia", 
@@ -1940,8 +1942,10 @@
 { 
     "_id" : "5c1655327acc4c6a008b464a", 
     "country_ru" : "Турция", 
-    "country_en" : "Turkey", 
-    "lat" : 40.9939383, 
+    "country_en" : "Turkey",
+    "province_ru" : "Стамбул",
+    "locality_ru" : "Стамбул",
+    "lat" : 40.9939383,
     "lng" : 29.0165215
 },
 { 
@@ -1968,8 +1972,10 @@
 },
 { 
     "_id" : "5c16559f7acc4c6a008b46e4", 
-    "country_ru" : "Украина", 
-    "street_ru" : "М-07", 
+    "country_ru" : "Украина",
+    "province_ru" : "Волынская область",
+    "locality_ru" : "Старовойтово",
+    "street_ru" : "М-07",
     "country_en" : "Ukraine", 
     "street_en" : "M-07", 
     "lat" : 51.1941226, 
@@ -1987,7 +1993,7 @@
 { 
     "_id" : "5c246823101f7d6b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "country_en" : "Russia", 
     "province_en" : "Moscow", 
@@ -1999,19 +2005,11 @@
     "_id" : "5c25ed7ecc61296c008b4569", 
     "country_ru" : "Армения", 
     "province_ru" : "Арагацотнская область", 
-    "country_en" : "Armenia", 
+    "country_en" : "Armenia",
+    "locality_ru" : "E 691",
     "province_en" : "Aragatsotn Region", 
     "lat" : 40.32825, 
     "lng" : 43.9942751
-},
-{ 
-    "_id" : "5c455e750763d56b008b4569", 
-    "country_ru" : "Казахстан", 
-    "street_ru" : "Европейский маршрут E121", 
-    "country_en" : "Kazakhstan", 
-    "street_en" : "European route E121", 
-    "lat" : 51.6731157, 
-    "lng" : 51.0043872
 },
 { 
     "_id" : "5c5193be7732a36c008b4569", 
@@ -2027,7 +2025,7 @@
 { 
     "_id" : "5c6e84e1e8a4c16d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "country_en" : "Russia", 
     "province_en" : "Moscow", 
@@ -2038,7 +2036,8 @@
 { 
     "_id" : "5c765e55e923336d008b456e", 
     "country_ru" : "Грузия", 
-    "province_ru" : "муниципалитет Тбилиси", 
+    "province_ru" : "муниципалитет Тбилиси",
+    "locality_ru" : "Тбилиси",
     "country_en" : "Georgia", 
     "province_en" : "Tbilisi Municipality", 
     "lat" : "41.667494", 
@@ -2048,7 +2047,8 @@
     "_id" : "5c765e5be923336b008b456c", 
     "country_ru" : "Грузия", 
     "province_ru" : "муниципалитет Тбилиси", 
-    "country_en" : "Georgia", 
+    "country_en" : "Georgia",
+    "locality_ru" : "Тбилиси",
     "province_en" : "Tbilisi Municipality", 
     "lat" : 41.667494, 
     "lng" : 44.877822
@@ -2078,14 +2078,17 @@
 { 
     "_id" : "5c87f7005f3f006b008b456f", 
     "country_ru" : "Турция", 
-    "country_en" : "Turkey", 
+    "country_en" : "Turkey",
+    "province_ru" : "Стамбул",
+    "locality_ru" : "Стамбул",
     "lat" : 41.002678, 
     "lng" : 28.9972374
 },
 { 
     "_id" : "5c89eed205305e6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Приморский край", 
+    "province_ru" : "Приморский край",
+    "locality_ru" : "05А-620",
     "street_ru" : "05А-620", 
     "country_en" : "Russia", 
     "province_en" : "Primorye Territory", 
@@ -2127,7 +2130,8 @@
 { 
     "_id" : "5c934ac95533df6c008b4569", 
     "country_ru" : "Латвия", 
-    "locality_ru" : "Рига", 
+    "province_ru" : "Rīga",
+    "locality_ru" : "Rīga",
     "street_ru" : "улица Екаба", 
     "country_en" : "Latvia", 
     "locality_en" : "Riga", 
@@ -2137,7 +2141,9 @@
 },
 { 
     "_id" : "5c98ddb82794c86b008b456c", 
-    "country_ru" : "Украина", 
+    "country_ru" : "Украина",
+    "province_ru" : "Сумская область",
+    "locality_ru" : "Кролевец",
     "street_ru" : "М-02", 
     "country_en" : "Ukraine", 
     "street_en" : "M-02", 
@@ -2146,17 +2152,19 @@
 },
 { 
     "_id" : "5ca614b028e41e6c008b4569", 
-    "country_ru" : "Молдова", 
-    "locality_ru" : "Бельцы", 
+    "country_ru" : "Молдова",
+    "province_ru" : "Bălți",
+    "locality_ru" : "Bălți",
     "country_en" : "Moldova", 
     "locality_en" : "Beltsy", 
-    "lat" : "47.764690", 
-    "lng" : "27.940118"
+    "lat" : 47.764690,
+    "lng" : 27.940118
 },
 { 
     "_id" : "5ca614be28e41e6d008b4567", 
-    "country_ru" : "Молдова", 
-    "locality_ru" : "Бельцы", 
+    "country_ru" : "Молдова",
+    "province_ru" : "Bălți",
+    "locality_ru" : "Bălți",
     "country_en" : "Moldova", 
     "locality_en" : "Beltsy", 
     "lat" : 47.76469, 
@@ -2165,8 +2173,9 @@
 { 
     "_id" : "5cb5d286697a066d008b456b", 
     "country_ru" : "Молдова", 
-    "area_ru" : "Каушанский район", 
-    "locality_ru" : "Каушаны", 
+    "area_ru" : "Каушанский район",
+    "province_ru" : "Bălți",
+    "locality_ru" : "Bălți",
     "country_en" : "Moldova", 
     "area_en" : "raionul Căuşeni", 
     "locality_en" : "Căuşeni", 
@@ -2178,14 +2187,15 @@
     "country_ru" : "Армения", 
     "province_ru" : "Араратская область", 
     "country_en" : "Armenia", 
-    "province_en" : "Ararat Region", 
+    "province_en" : "Ararat Region",
+    "locality_ru" : "Арарат",
     "lat" : 39.8550742, 
     "lng" : 44.7305617
 },
 { 
     "_id" : "5ccb1d29385f696c008b456d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "country_en" : "Russia", 
     "province_en" : "Moscow", 
@@ -2196,7 +2206,7 @@
 { 
     "_id" : "5cd980c09c403d6c008b4573", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "country_en" : "Russia", 
     "province_en" : "Sevastopol", 
@@ -2207,7 +2217,7 @@
 { 
     "_id" : "5ce161ceca34156c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "country_en" : "Russia", 
     "province_en" : "Moscow", 
@@ -2240,7 +2250,8 @@
 { 
     "_id" : "5cf0158d0c76236a008b4569", 
     "country_ru" : "Армения", 
-    "province_ru" : "Арагацотнская область", 
+    "province_ru" : "Арагацотнская область",
+    "locality_ru" : "Т-1-4",
     "street_ru" : "Т-1-4", 
     "country_en" : "Armenia", 
     "province_en" : "Aragatsotn Region", 
@@ -2251,7 +2262,8 @@
 { 
     "_id" : "5cf2433733b6d96c008b456a", 
     "country_ru" : "Украина", 
-    "province_ru" : "Киевская область", 
+    "province_ru" : "Киевская область",
+    "locality_ru" : "Борисполь",
     "country_en" : "Ukraine", 
     "province_en" : "Kyivska oblast", 
     "lat" : 50.3382483, 
@@ -2273,7 +2285,7 @@
 { 
     "_id" : "5c1654957acc4c6a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -2288,7 +2300,7 @@
 { 
     "_id" : "5c1654967acc4c6a008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Избербаш", 
     "locality_ru" : "Избербаш", 
     "street_ru" : "улица Буйнакского", 
@@ -2316,7 +2328,8 @@
 { 
     "_id" : "5c1654977acc4c6a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО",
+    "locality_ru" : "Надымский район",
     "area_ru" : "Надымский район", 
     "country_en" : "Russia", 
     "province_en" : "Yamalo-Nenets Autonomous Area", 
@@ -2327,8 +2340,8 @@
 { 
     "_id" : "5c1654987acc4c6a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
-    "area_ru" : "городской округ Инта", 
+    "province_ru" : "Коми", 
+    "locality_ru" : "городской округ Инта",
     "country_en" : "Russia", 
     "province_en" : "Komi Republic", 
     "area_en" : "gorodskoy okrug Inta", 
@@ -2338,8 +2351,8 @@
 { 
     "_id" : "5c1654987acc4c6a008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
-    "area_ru" : "Кондинский район", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
+    "locality_ru" : "Кондинский район",
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
     "area_en" : "Kondinskiy rayon", 
@@ -2364,7 +2377,7 @@
 { 
     "_id" : "5c16549a7acc4c6a008b456e", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Рижская улица", 
@@ -2440,7 +2453,7 @@
     "_id" : "5c16549d7acc4c6a008b4573", 
     "country_ru" : "Россия", 
     "province_ru" : "Республика Саха (Якутия)", 
-    "area_ru" : "городской округ Якутск", 
+    "locality_ru" : "городской округ Якутск",
     "country_en" : "Russia", 
     "province_en" : "Republic of Sakha (Yakutia)", 
     "area_en" : "gorodskoy okrug Yakutsk", 
@@ -2480,7 +2493,7 @@
 { 
     "_id" : "5c16549f7acc4c6a008b4576", 
     "country_ru" : "Литва", 
-    "province_ru" : "Вильнюсский уезд", 
+    "province_ru" : "Vilniaus miesto savivaldybė", 
     "area_ru" : "Вильнюсское городское самоуправление", 
     "locality_ru" : "Вильнюс", 
     "street_ru" : "улица Андрей Волан", 
@@ -2495,7 +2508,7 @@
 { 
     "_id" : "5c1654a07acc4c6a008b4577", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "street_ru" : "улица Правды", 
     "country_en" : "Russia", 
@@ -2508,7 +2521,7 @@
 { 
     "_id" : "5c1654a17acc4c6a008b4578", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Некрасова", 
     "country_en" : "Russia", 
@@ -2665,7 +2678,7 @@
 { 
     "_id" : "5c1655067acc4c6a008b460b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Типанова", 
     "country_en" : "Russia", 
@@ -2784,7 +2797,7 @@
 { 
     "_id" : "5c16550d7acc4c6a008b4614", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -2814,7 +2827,7 @@
 { 
     "_id" : "5c16550f7acc4c6a008b4616", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "площадь Ленина", 
     "country_en" : "Russia", 
@@ -2965,7 +2978,7 @@
 { 
     "_id" : "5c1655167acc4c6a008b4621", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "проспект Энгельса", 
     "country_en" : "Russia", 
@@ -3081,7 +3094,7 @@
 { 
     "_id" : "5c16551c7acc4c6a008b4629", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Неглинная улица", 
     "country_en" : "Russia", 
@@ -3178,7 +3191,7 @@
 { 
     "_id" : "5c1655207acc4c6a008b4630", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Неглинная улица", 
     "country_en" : "Russia", 
@@ -3191,7 +3204,7 @@
 { 
     "_id" : "5c1655217acc4c6a008b4631", 
     "country_ru" : "Молдова", 
-    "province_ru" : "Автономное территориальное образование Гагаузия", 
+    "province_ru" : "АТО Гагаузия", 
     "area_ru" : "Комратский район", 
     "locality_ru" : "Комрат", 
     "country_en" : "Moldova", 
@@ -3204,8 +3217,8 @@
 { 
     "_id" : "5c1655227acc4c6a008b4632", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Крым", 
-    "area_ru" : "Сакский район", 
+    "province_ru" : "Крым",
+    "locality_ru" : "Сакский район",
     "country_en" : "Russia", 
     "province_en" : "Republic of Crimea", 
     "area_en" : "Sakskiy rayon", 
@@ -3216,7 +3229,7 @@
     "_id" : "5c1655237acc4c6a008b4633", 
     "country_ru" : "Беларусь", 
     "province_ru" : "Гомельская область", 
-    "area_ru" : "Валосавіцкі сельсавет", 
+    "locality_ru" : "Валосавіцкі сельсавет",
     "country_en" : "Belarus", 
     "province_en" : "Homieĺskaja voblasć", 
     "area_en" : "Валосавіцкі сельсавет", 
@@ -3284,7 +3297,7 @@
 { 
     "_id" : "5c1655267acc4c6a008b4638", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хоца Намсараева", 
@@ -3386,7 +3399,7 @@
     "_id" : "5c16552b7acc4c6a008b463f", 
     "country_ru" : "Россия", 
     "province_ru" : "Псковская область", 
-    "area_ru" : "городской округ Псков", 
+    "locality_ru" : "городской округ Псков",
     "country_en" : "Russia", 
     "province_en" : "Pskov Region", 
     "area_en" : "gorodskoy okrug Pskov", 
@@ -3426,7 +3439,7 @@
 { 
     "_id" : "5c16552d7acc4c6a008b4642", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Ханты-Мансийск", 
     "locality_ru" : "Ханты-Мансийск", 
     "street_ru" : "улица Рознина", 
@@ -3441,7 +3454,7 @@
 { 
     "_id" : "5c16552d7acc4c6a008b4643", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Стерлитамак", 
     "locality_ru" : "Стерлитамак", 
     "street_ru" : "Западная улица", 
@@ -3626,7 +3639,7 @@
 { 
     "_id" : "5c1655377acc4c6a008b4652", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "Тазовский район", 
     "country_en" : "Russia", 
     "province_en" : "Yamalo-Nenets Autonomous Area", 
@@ -3667,7 +3680,7 @@
 { 
     "_id" : "5c16553a7acc4c6a008b4655", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Самаркандский бульвар", 
     "country_en" : "Russia", 
@@ -3680,7 +3693,7 @@
 { 
     "_id" : "5c16553a7acc4c6a008b4656", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Некрасова", 
     "country_en" : "Russia", 
@@ -3693,7 +3706,7 @@
 { 
     "_id" : "5c16553b7acc4c6a008b4657", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Багратионовский проезд", 
     "country_en" : "Russia", 
@@ -3706,7 +3719,7 @@
 { 
     "_id" : "5c16553c7acc4c6a008b4658", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Мордовия", 
+    "province_ru" : "Мордовия", 
     "area_ru" : "городской округ Саранск", 
     "locality_ru" : "Саранск", 
     "country_en" : "Russia", 
@@ -3880,7 +3893,7 @@
 { 
     "_id" : "5c1655447acc4c6a008b4664", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "Абзелиловский район", 
     "locality_ru" : "село Целинный", 
     "street_ru" : "Уральская улица", 
@@ -3895,7 +3908,7 @@
 { 
     "_id" : "5c1655457acc4c6a008b4665", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -3910,7 +3923,7 @@
 { 
     "_id" : "5c1655467acc4c6a008b4666", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Крым", 
+    "province_ru" : "Крым",
     "area_ru" : "городской округ Симферополь", 
     "locality_ru" : "Симферополь", 
     "street_ru" : "проспект Победы", 
@@ -3925,7 +3938,7 @@
 { 
     "_id" : "5c1655477acc4c6a008b4667", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "Муниципальное образование город Арск", 
     "locality_ru" : "Арск", 
     "street_ru" : "улица Габдуллы Тукая", 
@@ -3970,7 +3983,7 @@
 { 
     "_id" : "5c1655497acc4c6a008b466a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Берёзовский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -4011,7 +4024,7 @@
 { 
     "_id" : "5c16554b7acc4c6a008b466d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Верхняя Красносельская улица", 
     "country_en" : "Russia", 
@@ -4039,7 +4052,7 @@
 { 
     "_id" : "5c16554c7acc4c6a008b466f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Пряжинский район", 
     "locality_ru" : "посёлок городского типа Пряжа", 
     "street_ru" : "Совхозная улица", 
@@ -4112,7 +4125,7 @@
 { 
     "_id" : "5c1655507acc4c6a008b4674", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Соловьиный проезд", 
     "country_en" : "Russia", 
@@ -4415,7 +4428,7 @@
 { 
     "_id" : "5c16555e7acc4c6a008b4689", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "street_ru" : "Муезерская улица", 
@@ -4430,7 +4443,7 @@
 { 
     "_id" : "5c16555f7acc4c6a008b468a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "площадь Европы", 
     "country_en" : "Russia", 
@@ -4443,7 +4456,7 @@
 { 
     "_id" : "5c1655607acc4c6a008b468b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "street_ru" : "улица Грибоедова", 
@@ -4473,7 +4486,7 @@
 { 
     "_id" : "5c1655617acc4c6a008b468d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Магомеда Ярагского", 
@@ -4516,7 +4529,7 @@
 { 
     "_id" : "5c1655637acc4c6a008b4690", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Нахимова", 
     "country_en" : "Russia", 
@@ -4529,7 +4542,7 @@
 { 
     "_id" : "5c1655647acc4c6a008b4691", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Преображенская площадь", 
     "country_en" : "Russia", 
@@ -4572,7 +4585,7 @@
 { 
     "_id" : "5c1655667acc4c6a008b4694", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Северная Осетия — Алания", 
+    "province_ru" : "Северная Осетия - Алания", 
     "area_ru" : "Ардонский район", 
     "locality_ru" : "село Мичурино", 
     "country_en" : "Russia", 
@@ -4600,7 +4613,7 @@
 { 
     "_id" : "5c1655677acc4c6a008b4696", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Молодцова", 
     "country_en" : "Russia", 
@@ -4658,7 +4671,7 @@
 { 
     "_id" : "5c16556a7acc4c6a008b469a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Народного Ополчения", 
     "country_en" : "Russia", 
@@ -4686,7 +4699,7 @@
 { 
     "_id" : "5c16556c7acc4c6a008b469c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "street_ru" : "Ленинградская улица", 
@@ -4798,7 +4811,7 @@
 { 
     "_id" : "5c1655717acc4c6a008b46a4", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новохохловская улица", 
     "country_en" : "Russia", 
@@ -4839,7 +4852,7 @@
 { 
     "_id" : "5c1655737acc4c6a008b46a7", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "Прибайкальский район", 
     "locality_ru" : "село Горячинск", 
     "country_en" : "Russia", 
@@ -4938,7 +4951,7 @@
 { 
     "_id" : "5c1655787acc4c6a008b46ae", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Интернациональная улица", 
@@ -4953,7 +4966,7 @@
 { 
     "_id" : "5c1655787acc4c6a008b46af", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "улица Мелиораторов", 
@@ -4968,7 +4981,7 @@
 { 
     "_id" : "5c1655797acc4c6a008b46b0", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "улица Седова", 
@@ -4983,7 +4996,7 @@
 { 
     "_id" : "5c16557a7acc4c6a008b46b1", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Сысольское шоссе", 
@@ -4998,7 +5011,7 @@
 { 
     "_id" : "5c16557b7acc4c6a008b46b2", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -5037,7 +5050,7 @@
 { 
     "_id" : "5c16557d7acc4c6a008b46b5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Северная Осетия — Алания", 
+    "province_ru" : "Северная Осетия - Алания", 
     "area_ru" : "городской округ Владикавказ", 
     "locality_ru" : "Владикавказ", 
     "country_en" : "Russia", 
@@ -5093,7 +5106,7 @@
 { 
     "_id" : "5c1655807acc4c6a008b46b9", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "country_en" : "Russia", 
@@ -5136,7 +5149,7 @@
 { 
     "_id" : "5c1655827acc4c6a008b46bc", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Батырая", 
@@ -5151,7 +5164,7 @@
 { 
     "_id" : "5c1655827acc4c6a008b46bd", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Интернациональная улица", 
@@ -5166,7 +5179,7 @@
 { 
     "_id" : "5c1655837acc4c6a008b46be", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Дербеневская набережная", 
     "country_en" : "Russia", 
@@ -5194,7 +5207,7 @@
 { 
     "_id" : "5c1655857acc4c6a008b46c0", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -5209,7 +5222,7 @@
 { 
     "_id" : "5c1655857acc4c6a008b46c1", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Черногорск", 
     "locality_ru" : "Черногорск", 
     "street_ru" : "улица Дзержинского", 
@@ -5224,7 +5237,7 @@
 { 
     "_id" : "5c1655867acc4c6a008b46c2", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "country_en" : "Russia", 
@@ -5237,7 +5250,7 @@
 { 
     "_id" : "5c1655877acc4c6a008b46c3", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Черногорск", 
     "locality_ru" : "Черногорск", 
     "street_ru" : "улица Дзержинского", 
@@ -5297,7 +5310,7 @@
 { 
     "_id" : "5c16558a7acc4c6a008b46c7", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -5325,7 +5338,7 @@
 { 
     "_id" : "5c16558b7acc4c6a008b46c9", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "country_en" : "Russia", 
@@ -5392,7 +5405,7 @@
 { 
     "_id" : "5c16558f7acc4c6a008b46ce", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -5407,7 +5420,7 @@
 { 
     "_id" : "5c16558f7acc4c6a008b46cf", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Ляхова", 
@@ -5474,7 +5487,7 @@
 { 
     "_id" : "5c1655937acc4c6a008b46d4", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -5489,7 +5502,7 @@
 { 
     "_id" : "5c1655947acc4c6a008b46d5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -5582,7 +5595,7 @@
 { 
     "_id" : "5c16559a7acc4c6a008b46dd", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Международное шоссе", 
     "country_en" : "Russia", 
@@ -5608,7 +5621,7 @@
 { 
     "_id" : "5c16559b7acc4c6a008b46df", 
     "country_ru" : "Киргизия", 
-    "province_ru" : "город республиканского подчинения Бишкек", 
+    "province_ru" : "Бишкек", 
     "locality_ru" : "Бишкек", 
     "country_en" : "Kyrgyzstan", 
     "province_en" : "City of Republican significance Bishkek", 
@@ -5750,7 +5763,7 @@
 { 
     "_id" : "5c1655a37acc4c6a008b46ea", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -5819,7 +5832,7 @@
 { 
     "_id" : "5c1655a67acc4c6a008b46ef", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Никитский бульвар", 
     "country_en" : "Russia", 
@@ -5856,7 +5869,7 @@
 { 
     "_id" : "5c1655a87acc4c6a008b46f2", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "городской округ Лабытнанги", 
     "locality_ru" : "Лабытнанги", 
     "street_ru" : "площадь имени Владимира Нака", 
@@ -5899,7 +5912,7 @@
 { 
     "_id" : "5c1655aa7acc4c6a008b46f5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Суворовский проспект", 
     "country_en" : "Russia", 
@@ -5968,7 +5981,7 @@
 { 
     "_id" : "5c1655ae7acc4c6a008b46fa", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "street_ru" : "проспект Ленина", 
@@ -6067,7 +6080,7 @@
 { 
     "_id" : "5c1685137074826b008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "street_ru" : "проспект Ленина", 
@@ -6097,7 +6110,7 @@
 { 
     "_id" : "5c189379109abb6c008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "городской округ Лабытнанги", 
     "locality_ru" : "Лабытнанги", 
     "street_ru" : "площадь имени Владимира Нака", 
@@ -6127,7 +6140,7 @@
 { 
     "_id" : "5c18c207d871966d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Рижская улица", 
@@ -6168,7 +6181,7 @@
 { 
     "_id" : "5c18d0d5d871966b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новозаводская улица", 
     "country_en" : "Russia", 
@@ -6192,7 +6205,7 @@
 { 
     "_id" : "5c19da26243f906d008b4568", 
     "country_ru" : "Литва", 
-    "province_ru" : "Вильнюсский уезд", 
+    "province_ru" : "Vilniaus miesto savivaldybė", 
     "area_ru" : "Вильнюсское городское самоуправление", 
     "locality_ru" : "Вильнюс", 
     "street_ru" : "улица Андрей Волан", 
@@ -6235,7 +6248,7 @@
 { 
     "_id" : "5c1a265f2ba0fb6a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Большая Черкизовская улица", 
     "country_en" : "Russia", 
@@ -6306,7 +6319,7 @@
 { 
     "_id" : "5c1a9d9f87db226d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Бассейная улица", 
     "country_en" : "Russia", 
@@ -6332,7 +6345,7 @@
 { 
     "_id" : "5c1b34e731d6da6c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Лосиноостровская улица", 
     "country_en" : "Russia", 
@@ -6390,7 +6403,7 @@
 { 
     "_id" : "5c1d449407780b6c008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Башиловская улица", 
     "country_en" : "Russia", 
@@ -6403,7 +6416,7 @@
 { 
     "_id" : "5c1feef17484a56d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Руставели", 
     "country_en" : "Russia", 
@@ -6416,7 +6429,7 @@
 { 
     "_id" : "5c23bb81bdb2076b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Театральная площадь", 
     "country_en" : "Russia", 
@@ -6444,7 +6457,7 @@
 { 
     "_id" : "5c24af4b101f7d6b008b456e", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Средний проспект Васильевского острова", 
     "country_en" : "Russia", 
@@ -6457,7 +6470,7 @@
 { 
     "_id" : "5c2505cb101f7d6b008b4571", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Большой проспект Васильевского острова", 
     "country_en" : "Russia", 
@@ -6470,7 +6483,7 @@
 { 
     "_id" : "5c25fd9acc61296a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Средний проспект Васильевского острова", 
     "country_en" : "Russia", 
@@ -6483,7 +6496,7 @@
 { 
     "_id" : "5c263193cc61296b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Болотниковская улица", 
     "country_en" : "Russia", 
@@ -6561,7 +6574,7 @@
 { 
     "_id" : "5c383accc71f906a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Международное шоссе", 
     "country_en" : "Russia", 
@@ -6574,7 +6587,7 @@
 { 
     "_id" : "5c3a0b2b42fd5b6b008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Международное шоссе", 
     "country_en" : "Russia", 
@@ -6656,7 +6669,7 @@
 { 
     "_id" : "5c401cc45b08f66d008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Алтай", 
+    "province_ru" : "Алтай", 
     "area_ru" : "Шебалинский район", 
     "country_en" : "Russia", 
     "province_en" : "Republic of Altai", 
@@ -6667,7 +6680,7 @@
 { 
     "_id" : "5c401cd35b08f66b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Алтай", 
+    "province_ru" : "Алтай", 
     "area_ru" : "Шебалинский район", 
     "country_en" : "Russia", 
     "province_en" : "Republic of Altai", 
@@ -6747,7 +6760,7 @@
 { 
     "_id" : "5c41e27cd16be86a008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Красная площадь", 
     "country_en" : "Russia", 
@@ -6760,7 +6773,7 @@
 { 
     "_id" : "5c44735b0763d56b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Азовская улица", 
     "country_en" : "Russia", 
@@ -6788,7 +6801,7 @@
 { 
     "_id" : "5c45d4583687d96a008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "Корабельная улица", 
@@ -6848,7 +6861,7 @@
 { 
     "_id" : "5c4848c96edfda6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "country_en" : "Russia", 
@@ -6902,7 +6915,7 @@
 { 
     "_id" : "5c49f8e7f2539e6a008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Загородный проспект", 
     "country_en" : "Russia", 
@@ -6986,7 +6999,7 @@
 { 
     "_id" : "5c4ac4bbf6448b6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "городской округ Казань", 
     "locality_ru" : "Казань", 
     "street_ru" : "улица Ульянова-Ленина", 
@@ -7114,7 +7127,7 @@
 { 
     "_id" : "5c4fe79f51ed3e6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Руставели", 
     "country_en" : "Russia", 
@@ -7127,7 +7140,7 @@
 { 
     "_id" : "5c50948a7732a36d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Каспийск", 
     "locality_ru" : "Каспийск", 
     "street_ru" : "улица Назарова", 
@@ -7142,7 +7155,7 @@
 { 
     "_id" : "5c50949c7732a36d008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Каспийск", 
     "locality_ru" : "Каспийск", 
     "street_ru" : "улица Назарова", 
@@ -7157,7 +7170,7 @@
 { 
     "_id" : "5c50949c7732a36a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Каспийск", 
     "locality_ru" : "Каспийск", 
     "street_ru" : "улица Назарова", 
@@ -7172,7 +7185,7 @@
 { 
     "_id" : "5c509b0c7732a36d008b456d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Сухэ-Батора", 
@@ -7213,7 +7226,7 @@
 { 
     "_id" : "5c51ef109b79366c008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Азовская улица", 
     "country_en" : "Russia", 
@@ -7286,7 +7299,7 @@
 { 
     "_id" : "5c5489c01a6c5a6a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Огородный проезд", 
     "country_en" : "Russia", 
@@ -7312,7 +7325,7 @@
 { 
     "_id" : "5c555ee71a6c5a6c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Невский проспект", 
     "country_en" : "Russia", 
@@ -7435,7 +7448,7 @@
 { 
     "_id" : "5c5a9a1bccd7b16b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Народного Ополчения", 
     "country_en" : "Russia", 
@@ -7448,7 +7461,7 @@
 { 
     "_id" : "5c5a9a95ccd7b16a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Народного Ополчения", 
     "country_en" : "Russia", 
@@ -7504,7 +7517,7 @@
 { 
     "_id" : "5c5d4a92a5e9c26b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Глинки", 
     "country_en" : "Russia", 
@@ -7517,7 +7530,7 @@
 { 
     "_id" : "5c5d4affa5e9c26c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Глинки", 
     "country_en" : "Russia", 
@@ -7545,7 +7558,7 @@
 { 
     "_id" : "5c61889eff8b8e6c008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "проспект Имама Шамиля", 
@@ -7560,7 +7573,7 @@
 { 
     "_id" : "5c63daf7c9151a6b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Нефтеюганск", 
     "locality_ru" : "Нефтеюганск", 
     "country_en" : "Russia", 
@@ -7638,7 +7651,7 @@
 { 
     "_id" : "5c66b9d281b63b6d008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "street_ru" : "улица Льва Толстого", 
     "country_en" : "Russia", 
@@ -7720,7 +7733,7 @@
 { 
     "_id" : "5c6bf0a8b4eb5f6c008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Дербеневская набережная", 
     "country_en" : "Russia", 
@@ -7834,7 +7847,7 @@
 { 
     "_id" : "5c6f984dd864456c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Комсомольская площадь", 
     "country_en" : "Russia", 
@@ -7847,7 +7860,7 @@
 { 
     "_id" : "5c6fbc89d864456a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Садовническая набережная", 
     "country_en" : "Russia", 
@@ -7920,7 +7933,7 @@
 { 
     "_id" : "5c6feca2d864456b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Азовская улица", 
     "country_en" : "Russia", 
@@ -7948,7 +7961,7 @@
 { 
     "_id" : "5c73ac189bfa406c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Белоярский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -8099,7 +8112,7 @@
 { 
     "_id" : "5c7674afe923336a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "проспект Али-Гаджи Акушинского", 
@@ -8114,7 +8127,7 @@
 { 
     "_id" : "5c77c4042266656a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Коммунистическая улица", 
@@ -8211,7 +8224,7 @@
 { 
     "_id" : "5c7e91083e9f076a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "1-я Аэропортовская улица", 
     "country_en" : "Russia", 
@@ -8265,7 +8278,7 @@
 { 
     "_id" : "5c8130a15decd66d008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "country_en" : "Russia", 
@@ -8278,7 +8291,7 @@
 { 
     "_id" : "5c8162d35decd66c008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "аллея Смольного", 
     "country_en" : "Russia", 
@@ -8291,7 +8304,7 @@
 { 
     "_id" : "5c84d7633cda6a6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "улица Ферина", 
@@ -8336,7 +8349,7 @@
 { 
     "_id" : "5c874fd15f3f006b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Александра Невского", 
     "country_en" : "Russia", 
@@ -8364,7 +8377,7 @@
 { 
     "_id" : "5c89f59905305e6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "улица Ленина", 
@@ -8439,7 +8452,7 @@
 { 
     "_id" : "5c8e045c33e58e6d008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Алтай", 
+    "province_ru" : "Алтай", 
     "area_ru" : "Майминский район", 
     "locality_ru" : "село Майма", 
     "country_en" : "Russia", 
@@ -8465,7 +8478,7 @@
 { 
     "_id" : "5c8e965dc380166d008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Абакан", 
     "locality_ru" : "Абакан", 
     "street_ru" : "улица Пушкина", 
@@ -8495,7 +8508,7 @@
 { 
     "_id" : "5c8f605bc380166c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "площадь Ленина", 
@@ -8607,7 +8620,7 @@
 { 
     "_id" : "5c9280d20cd9bc6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "Боградский район", 
     "locality_ru" : "село Боград", 
     "street_ru" : "улица Ленина", 
@@ -8838,7 +8851,7 @@
 { 
     "_id" : "5c9b36ac0fce176b008b45f5", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "проспект Маршала Жукова", 
     "country_en" : "Russia", 
@@ -8851,7 +8864,7 @@
 { 
     "_id" : "5c9b7a410fce176a008b4573", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Салават", 
     "locality_ru" : "Салават", 
     "street_ru" : "Советская улица", 
@@ -8881,7 +8894,7 @@
 { 
     "_id" : "5c9db7aa71e4b46d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Урай", 
     "locality_ru" : "Урай", 
     "country_en" : "Russia", 
@@ -8937,7 +8950,7 @@
 { 
     "_id" : "5c9fa515b3dbf56c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Раушская набережная", 
     "country_en" : "Russia", 
@@ -8965,7 +8978,7 @@
 { 
     "_id" : "5c9fbaa9b3dbf56a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Азовская улица", 
     "country_en" : "Russia", 
@@ -9264,7 +9277,7 @@
 { 
     "_id" : "5ca4dce2044bc06b008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -9279,7 +9292,7 @@
 { 
     "_id" : "5ca4dd26044bc06c008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -9303,7 +9316,7 @@
 { 
     "_id" : "5ca4df4c044bc06c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "Порт-Петровская улица", 
@@ -9318,7 +9331,7 @@
 { 
     "_id" : "5ca4df8e044bc06b008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -9348,7 +9361,7 @@
 { 
     "_id" : "5ca5cc92ed305f6b008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Суворовская площадь", 
     "country_en" : "Russia", 
@@ -9374,7 +9387,7 @@
 { 
     "_id" : "5ca5e5baed305f6b008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Некрасова", 
     "country_en" : "Russia", 
@@ -9387,7 +9400,7 @@
 { 
     "_id" : "5ca5e639ed305f6c008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -9402,7 +9415,7 @@
 { 
     "_id" : "5ca5e656ed305f6c008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "улица Седова", 
@@ -9417,7 +9430,7 @@
 { 
     "_id" : "5ca5e720ed305f6d008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "country_en" : "Russia", 
@@ -9430,7 +9443,7 @@
 { 
     "_id" : "5ca5e769ed305f6c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -9445,7 +9458,7 @@
 { 
     "_id" : "5ca5e81ded305f6b008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Черногорск", 
     "locality_ru" : "Черногорск", 
     "street_ru" : "улица Дзержинского", 
@@ -9460,7 +9473,7 @@
 { 
     "_id" : "5ca5e865ed305f6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Хакасия", 
+    "province_ru" : "Хакасия", 
     "area_ru" : "городской округ Черногорск", 
     "locality_ru" : "Черногорск", 
     "country_en" : "Russia", 
@@ -9473,7 +9486,7 @@
 { 
     "_id" : "5ca5eb4fed305f6c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -9501,7 +9514,7 @@
 { 
     "_id" : "5ca5ec3bed305f6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -9516,7 +9529,7 @@
 { 
     "_id" : "5ca5ed55ed305f6a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Северная Осетия — Алания", 
+    "province_ru" : "Северная Осетия - Алания", 
     "area_ru" : "городской округ Владикавказ", 
     "locality_ru" : "Владикавказ", 
     "country_en" : "Russia", 
@@ -9529,7 +9542,7 @@
 { 
     "_id" : "5ca5ed8aed305f6b008b456e", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Сысольское шоссе", 
@@ -9557,7 +9570,7 @@
 { 
     "_id" : "5ca5f50ded305f6c008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "посёлок городского типа Семендер", 
     "street_ru" : "проспект Казбекова", 
@@ -9572,7 +9585,7 @@
 { 
     "_id" : "5ca71b0628e41e6a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "street_ru" : "проспект Октябрьской Революции", 
     "country_en" : "Russia", 
@@ -9660,7 +9673,7 @@
 { 
     "_id" : "5cab09733f075b6b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Избербаш", 
     "locality_ru" : "Избербаш", 
     "street_ru" : "улица Буйнакского", 
@@ -9675,7 +9688,7 @@
 { 
     "_id" : "5cab09973f075b6a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Рижская улица", 
@@ -9778,7 +9791,7 @@
 { 
     "_id" : "5cab0db33f075b6d008b456d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Мордовия", 
+    "province_ru" : "Мордовия", 
     "area_ru" : "городской округ Саранск", 
     "locality_ru" : "Саранск", 
     "street_ru" : "улица Лодыгина", 
@@ -9939,7 +9952,7 @@
 { 
     "_id" : "5cab2fa13f075b6b008b456e", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Сургут", 
     "locality_ru" : "Сургут", 
     "street_ru" : "Университетская улица", 
@@ -9954,7 +9967,7 @@
 { 
     "_id" : "5cab2fc13f075b6b008b456f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Берёзовский район", 
     "locality_ru" : "посёлок городского типа Игрим", 
     "street_ru" : "улица Энтузиастов", 
@@ -10186,7 +10199,7 @@
 { 
     "_id" : "5cb862654ae01e6a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Нягань", 
     "locality_ru" : "Нягань", 
     "street_ru" : "улица Ленина", 
@@ -10270,7 +10283,7 @@
 { 
     "_id" : "5cb9b5ea09e3d46d008b4572", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Садовая-Самотёчная улица", 
     "country_en" : "Russia", 
@@ -10311,7 +10324,7 @@
 { 
     "_id" : "5cba19cb09e3d46b008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "2-й Верхний Михайловский проезд", 
     "country_en" : "Russia", 
@@ -10365,7 +10378,7 @@
 { 
     "_id" : "5cba1b7a09e3d46c008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "городской округ Казань", 
     "locality_ru" : "Казань", 
     "street_ru" : "Московская улица", 
@@ -10380,7 +10393,7 @@
 { 
     "_id" : "5cba1bf509e3d46b008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Пряжинский район", 
     "street_ru" : "А-121, 468-й километр", 
     "country_en" : "Russia", 
@@ -10453,7 +10466,7 @@
 { 
     "_id" : "5cba27db09e3d46b008b456d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "street_ru" : "Уфимское шоссе", 
@@ -10498,7 +10511,7 @@
 { 
     "_id" : "5cba288509e3d46d008b457c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Сибай", 
     "locality_ru" : "Сибай", 
     "street_ru" : "Горная улица", 
@@ -10642,7 +10655,7 @@
 { 
     "_id" : "5cba340009e3d46c008b456f", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новозаводская улица", 
     "country_en" : "Russia", 
@@ -10670,7 +10683,7 @@
 { 
     "_id" : "5cba3a0009e3d46a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "country_en" : "Russia", 
@@ -10683,7 +10696,7 @@
 { 
     "_id" : "5cba3a5a09e3d46c008b4570", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "country_en" : "Russia", 
@@ -10778,7 +10791,7 @@
 { 
     "_id" : "5cba3e1909e3d46d008b4582", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "Кулинский район", 
     "locality_ru" : "село Вачи", 
     "country_en" : "Russia", 
@@ -10806,7 +10819,7 @@
 { 
     "_id" : "5cba410f09e3d46d008b4583", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -10821,7 +10834,7 @@
 { 
     "_id" : "5cba41ad09e3d46b008b4573", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -10836,7 +10849,7 @@
 { 
     "_id" : "5cba424309e3d46b008b4574", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Бурятия", 
+    "province_ru" : "Бурятия", 
     "area_ru" : "городской округ Улан-Удэ", 
     "locality_ru" : "Улан-Удэ", 
     "street_ru" : "улица Хахалова", 
@@ -10978,7 +10991,7 @@
 { 
     "_id" : "5cbb974efeedbf6c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Интернациональная улица", 
@@ -11051,7 +11064,7 @@
 { 
     "_id" : "5cbc46e8f2e5ed6d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Сыктывкар", 
     "locality_ru" : "Сыктывкар", 
     "street_ru" : "Интернациональная улица", 
@@ -11077,7 +11090,7 @@
 { 
     "_id" : "5cbc47c9f2e5ed6a008b4568", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Ляхова", 
@@ -11107,7 +11120,7 @@
 { 
     "_id" : "5cbc4870f2e5ed6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -11118,7 +11131,7 @@
 { 
     "_id" : "5cbc48e8f2e5ed6c008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Кондинский район", 
     "country_en" : "Russia", 
     "province_en" : "Khanty-Mansi Autonomous Area", 
@@ -11129,7 +11142,7 @@
 { 
     "_id" : "5cbc4ec5f2e5ed6d008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Батырая", 
@@ -11342,7 +11355,7 @@
 { 
     "_id" : "5cbebeff2d48ce6b008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Новохохловская улица", 
     "country_en" : "Russia", 
@@ -11355,7 +11368,7 @@
 { 
     "_id" : "5cbedae92d48ce6d008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "улица Руставели", 
     "country_en" : "Russia", 
@@ -11512,7 +11525,7 @@
 { 
     "_id" : "5cc2b76220ea1e6b008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Буйнакск", 
     "country_en" : "Russia", 
     "province_en" : "Republic of Daghestan", 
@@ -11553,7 +11566,7 @@
 { 
     "_id" : "5cc2c6ae20ea1e6d008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Севастополь", 
+    "province_ru" : "Город федерального значения Севастополь", 
     "locality_ru" : "Севастополь", 
     "street_ru" : "Исторический бульвар", 
     "country_en" : "Russia", 
@@ -11596,7 +11609,7 @@
 { 
     "_id" : "5cc4a0f50763a76c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Большая Морская улица", 
     "country_en" : "Russia", 
@@ -11667,7 +11680,7 @@
 { 
     "_id" : "5cd00f992dee546a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Башкортостан", 
+    "province_ru" : "Башкортостан", 
     "area_ru" : "городской округ Уфа", 
     "locality_ru" : "Уфа", 
     "country_en" : "Russia", 
@@ -11877,7 +11890,7 @@
 { 
     "_id" : "5cdd0c5df9aa1a6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Карелия", 
+    "province_ru" : "Карелия", 
     "area_ru" : "Петрозаводский городской округ", 
     "locality_ru" : "Петрозаводск", 
     "street_ru" : "улица Кирова", 
@@ -11981,7 +11994,7 @@
 { 
     "_id" : "5cdeed6f843fbf6a008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Пулковское шоссе", 
     "country_en" : "Russia", 
@@ -12063,7 +12076,7 @@
 { 
     "_id" : "5ce27b38c4722c6d008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Павелецкая площадь", 
     "country_en" : "Russia", 
@@ -12076,7 +12089,7 @@
 { 
     "_id" : "5ce28734c4722c6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Рублёвское шоссе", 
     "country_en" : "Russia", 
@@ -12119,7 +12132,7 @@
 { 
     "_id" : "5ce403725d53f76c008b4569", 
     "country_ru" : "Киргизия", 
-    "province_ru" : "город республиканского подчинения Бишкек", 
+    "province_ru" : "Бишкек", 
     "locality_ru" : "Бишкек", 
     "street_ru" : "Чуйский проспект", 
     "country_en" : "Kyrgyzstan", 
@@ -12132,7 +12145,7 @@
 { 
     "_id" : "5ce511112463f76a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Дагестан", 
+    "province_ru" : "Дагестан", 
     "area_ru" : "городской округ Махачкала", 
     "locality_ru" : "Махачкала", 
     "street_ru" : "улица Магомеда Ярагского", 
@@ -12295,7 +12308,7 @@
 { 
     "_id" : "5cee31a80c2b506a008b456b", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Татарстан", 
+    "province_ru" : "Татарстан", 
     "area_ru" : "Бугульминский район", 
     "locality_ru" : "Бугульма", 
     "street_ru" : "улица Мусы Джалиля", 
@@ -12310,7 +12323,7 @@
 { 
     "_id" : "5cee37ea0c2b506d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ямало-Ненецкий автономный округ", 
+    "province_ru" : "Ямало-Ненецкий АО", 
     "area_ru" : "Тазовский район", 
     "locality_ru" : "поселок городского типа Тазовский", 
     "street_ru" : "улица Геофизиков", 
@@ -12325,7 +12338,7 @@
 { 
     "_id" : "5cee4e7885844a6d008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Пыть-Ях", 
     "locality_ru" : "Пыть-Ях", 
     "street_ru" : "Магистральная улица", 
@@ -12340,7 +12353,7 @@
 { 
     "_id" : "5cee4e8e85844a6a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "городской округ Пыть-Ях", 
     "locality_ru" : "Пыть-Ях", 
     "street_ru" : "Магистральная улица", 
@@ -12422,7 +12435,7 @@
 { 
     "_id" : "5cefda830c76236d008b4569", 
     "country_ru" : "Киргизия", 
-    "province_ru" : "город республиканского подчинения Бишкек", 
+    "province_ru" : "Бишкек", 
     "locality_ru" : "Бишкек", 
     "country_en" : "Kyrgyzstan", 
     "province_en" : "City of Republican significance Bishkek", 
@@ -12433,7 +12446,7 @@
 { 
     "_id" : "5cf0de57cd5da16b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Садовническая набережная", 
     "country_en" : "Russia", 
@@ -12446,7 +12459,7 @@
 { 
     "_id" : "5cf0e148cd5da16d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Ленинский проспект", 
     "country_en" : "Russia", 
@@ -12489,7 +12502,7 @@
 { 
     "_id" : "5cf12d1ecd5da16c008b456d", 
     "country_ru" : "Россия", 
-    "province_ru" : "Ханты-Мансийский автономный округ", 
+    "province_ru" : "Ханты-Мансийский Автономный округ - Югра АО", 
     "area_ru" : "Советский район", 
     "locality_ru" : "Советский", 
     "street_ru" : "улица Ленина", 
@@ -12504,7 +12517,7 @@
 { 
     "_id" : "5cf4b8f4f0f87c6a008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Рижский проспект", 
     "country_en" : "Russia", 
@@ -12517,7 +12530,7 @@
 { 
     "_id" : "5cf4e077f0f87c6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "посёлок Парголово", 
     "street_ru" : "улица Первого Мая", 
     "country_en" : "Russia", 
@@ -12558,7 +12571,7 @@
 { 
     "_id" : "5cf75af57793a86b008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Мордовия", 
+    "province_ru" : "Мордовия", 
     "area_ru" : "городской округ Саранск", 
     "locality_ru" : "Саранск", 
     "street_ru" : "Лямбирское шоссе", 
@@ -12614,7 +12627,7 @@
 { 
     "_id" : "5cfb929423c4226c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "area_ru" : "Колпинский район", 
     "locality_ru" : "Колпино", 
     "street_ru" : "Финляндская улица", 
@@ -12683,7 +12696,7 @@
 { 
     "_id" : "5cfe0e601add956c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Ухта", 
     "locality_ru" : "Ухта", 
     "street_ru" : "Западная улица", 
@@ -12698,7 +12711,7 @@
 { 
     "_id" : "5cfe0f4d1add956a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Республика Коми", 
+    "province_ru" : "Коми", 
     "area_ru" : "городской округ Ухта", 
     "locality_ru" : "Ухта", 
     "street_ru" : "Западная улица", 
@@ -12756,7 +12769,7 @@
 { 
     "_id" : "5cfead371add956b008b456a", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Большой Девятинский переулок", 
     "country_en" : "Russia", 
@@ -12797,7 +12810,7 @@
 { 
     "_id" : "5d04e5c8c10fbd6c008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "Садовая-Самотёчная улица", 
     "country_en" : "Russia", 
@@ -12810,7 +12823,7 @@
 { 
     "_id" : "5d0536ebc10fbd6d008b456c", 
     "country_ru" : "Россия", 
-    "province_ru" : "Санкт-Петербург", 
+    "province_ru" : "Город федерального значения Санкт-Петербург", 
     "locality_ru" : "Санкт-Петербург", 
     "street_ru" : "Варшавская улица", 
     "country_en" : "Russia", 
@@ -12838,7 +12851,7 @@
 { 
     "_id" : "5d068fa925355a6d008b4569", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Ивана Франко", 
     "country_en" : "Russia", 
@@ -12851,7 +12864,7 @@
 { 
     "_id" : "5d068fce25355a6a008b4567", 
     "country_ru" : "Россия", 
-    "province_ru" : "Москва", 
+    "province_ru" : "Город федерального значения Москва", 
     "locality_ru" : "Москва", 
     "street_ru" : "улица Ивана Франко", 
     "country_en" : "Russia", 
@@ -12892,7 +12905,7 @@
 { 
     "_id" : "5d08918df2ef316a008b4569", 
     "country_ru" : "Киргизия", 
-    "province_ru" : "город республиканского подчинения Бишкек", 
+    "province_ru" : "Бишкек", 
     "locality_ru" : "Бишкек", 
     "street_ru" : "Чуйский проспект", 
     "country_en" : "Kyrgyzstan", 
