@@ -21,6 +21,7 @@ class EventDetailResource extends Resource
     {
         /** @var $event Event */
         $event = $this;
+        $eventLocality = $event->getLocality();
 
         $structure = [
             'id'              => $event->getId(),
@@ -51,23 +52,18 @@ class EventDetailResource extends Resource
             ] : null,
             'conflict'        => ConflictDetailResource::make($event->getConflict()),
             'comments_count'  => $event->getComments()->count(),
+            'locality'        => $eventLocality ? $eventLocality->getName() : null,
+            'region'          => $eventLocality ? $eventLocality->getRegion()->getName() : null,
         ];
 
         $locale = app('locale');
-        $eventLocality = $event->getLocality();
         /**
-         * Если передана конкретная локаль, то возвращаем поля title и content на нужном языке
+         * Если передана конкретная локаль, то возвращаем поля title, content и country на нужном языке
          * Иначе возвращаем title_ru, title_en, title_es и content_ru, content_es, content_es
          */
         if ($locale !== 'all') {
             $structure['title'] = $event->getTitleByLocale($locale);
             $structure['content'] = $event->getContentByLocale($locale);
-
-            /*
-             * Если событие привязано к месту, то отображаем локализованные названия места/региона/страны, иначе null
-             */
-            $structure['locality'] = $eventLocality ? $eventLocality->getNameByLocale($locale) : null;
-            $structure['region'] = $eventLocality ? $eventLocality->getRegion()->getNameByLocale($locale) : null;
             $structure['country'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameByLocale($locale) : null;
 
         } else {
@@ -77,16 +73,6 @@ class EventDetailResource extends Resource
             $structure['content_ru'] = $event->getContentRu();
             $structure['content_en'] = $event->getContentEn();
             $structure['content_es'] = $event->getContentEs();
-
-            /*
-             * Если событие привязано к месту, то отображаем названия места/региона/страны, иначе null
-             */
-            $structure['locality_ru'] = $eventLocality ? $eventLocality->getNameRu() : null;
-            $structure['locality_en'] = $eventLocality ? $eventLocality->getNameEn() : null;
-            $structure['locality_es'] = $eventLocality ? $eventLocality->getNameEs() : null;
-            $structure['region_ru'] = $eventLocality ? $eventLocality->getRegion()->getNameRu() : null;
-            $structure['region_en'] = $eventLocality ? $eventLocality->getRegion()->getNameEn() : null;
-            $structure['region_es'] = $eventLocality ? $eventLocality->getRegion()->getNameEs() : null;
             $structure['country_ru'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameRu() : null;
             $structure['country_en'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEn() : null;
             $structure['country_es'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEs() : null;

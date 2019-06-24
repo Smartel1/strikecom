@@ -56,10 +56,10 @@ class EventControllerTest extends TestCase
         $country->setNameRu('Роиccя');
         $region = new Region;
         $region->setCountry($country);
-        $region->setNameRu('Придумская область');
+        $region->setName('Придумская область');
         $locality = new Locality;
         $locality->setRegion($region);
-        $locality->setNameRu('село Выдумно');
+        $locality->setName('село Выдумно');
         EntityManager::persist($country);
         EntityManager::persist($region);
         EntityManager::persist($locality);

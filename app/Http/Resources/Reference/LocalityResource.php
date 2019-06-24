@@ -8,18 +8,20 @@ use Illuminate\Http\Resources\Json\Resource;
 class LocalityResource extends Resource
 {
     /**
-     * Структура ответа на запрос регионов
+     * Структура ответа на запрос населенных пунктов
      *
      * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        /** @var Locality $region */
-        $region = $this;
+        /** @var Locality $locality */
+        $locality = $this;
 
         $structure = [
-            'id' => $region->getId(),
+            'id'     => $locality->getId(),
+            'name'   => $locality->getName(),
+            'region' => $locality->getRegion()->getName()
         ];
 
         /**
@@ -28,19 +30,11 @@ class LocalityResource extends Resource
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['name'] = $region->getNameByLocale($locale);
-            $structure['region'] = $region->getRegion()->getNameByLocale($locale);
-            $structure['country'] = $region->getRegion()->getCountry()->getNameByLocale($locale);
+            $structure['country'] = $locality->getRegion()->getCountry()->getNameByLocale($locale);
         } else {
-            $structure['name_ru'] = $region->getNameRu();
-            $structure['name_en'] = $region->getNameEn();
-            $structure['name_es'] = $region->getNameEs();
-            $structure['region_ru'] = $region->getRegion()->getNameRu();
-            $structure['region_en'] = $region->getRegion()->getNameEn();
-            $structure['region_es'] = $region->getRegion()->getNameEs();
-            $structure['country_ru'] = $region->getRegion()->getCountry()->getNameRu();
-            $structure['country_en'] = $region->getRegion()->getCountry()->getNameEn();
-            $structure['country_es'] = $region->getRegion()->getCountry()->getNameEs();
+            $structure['country_ru'] = $locality->getRegion()->getCountry()->getNameRu();
+            $structure['country_en'] = $locality->getRegion()->getCountry()->getNameEn();
+            $structure['country_es'] = $locality->getRegion()->getCountry()->getNameEs();
         }
 
         return $structure;

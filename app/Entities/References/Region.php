@@ -2,18 +2,14 @@
 
 namespace App\Entities\References;
 
-use App\Entities\Interfaces\Reference;
-use App\Entities\Traits\NamesTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
  */
-class Region implements Reference
+class Region
 {
-    use NamesTrait;
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,18 +17,11 @@ class Region implements Reference
      */
     protected $id;
 
-    public function __construct()
-    {
-        $this->cities = new ArrayCollection();
-    }
-
     /**
-     * @return mixed
+     * @ORM\Column(type="string", length=255)
+     * @var string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    protected $name;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entities\References\Country", inversedBy="regions")
@@ -46,6 +35,35 @@ class Region implements Reference
      * @var ArrayCollection|Locality[]
      */
     protected $localities;
+
+    public function __construct()
+    {
+        $this->localities = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return Country

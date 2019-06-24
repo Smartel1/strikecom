@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
 
     Route::get('reference', 'RefController@index');
-    Route::get('country-search', 'RefController@searchCountry');
-    Route::get('region-search', 'RefController@searchRegion');
-    Route::get('locality-search', 'RefController@searchLocality');
-
     Route::get('reference-checksum', 'RefController@checkSum');
+
+    Route::resource('country', 'CountryController', ['only' => ['index', 'store']]);
+    Route::resource('region', 'RegionController', ['only' => ['index', 'store']]);
+    Route::resource('locality', 'LocalityController', ['only' => ['index', 'store']]);
 
     Route::resource('client-version', 'ClientVersionController', ['only' => ['index', 'store', 'destroy']]);
 

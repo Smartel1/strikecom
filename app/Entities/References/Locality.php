@@ -2,22 +2,32 @@
 
 namespace App\Entities\References;
 
-use App\Entities\Interfaces\Reference;
-use App\Entities\Traits\NamesTrait;
 use Doctrine\ORM\Mapping AS ORM;
 
 /**
  * @ORM\Entity
  */
-class Locality implements Reference
+class Locality
 {
-    use NamesTrait;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entities\References\Region", inversedBy="localities")
+     * @ORM\JoinColumn(name="region_id", referencedColumnName="id", onDelete="cascade", nullable=false)
+     * @var Region
+     */
+    protected $region;
 
     /**
      * @return mixed
@@ -28,11 +38,20 @@ class Locality implements Reference
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entities\References\Region", inversedBy="localities")
-     * @ORM\JoinColumn(name="region_id", referencedColumnName="id", onDelete="cascade", nullable=false)
-     * @var Region
+     * @return string
      */
-    protected $region;
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 
     /**
      * @return Region

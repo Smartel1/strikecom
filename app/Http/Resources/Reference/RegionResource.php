@@ -19,7 +19,8 @@ class RegionResource extends Resource
         $region = $this;
 
         $structure = [
-            'id' => $region->getId(),
+            'id'   => $region->getId(),
+            'name' => $region->getName(),
         ];
 
         /**
@@ -28,12 +29,8 @@ class RegionResource extends Resource
         $locale = app('locale');
 
         if ($locale !== 'all') {
-            $structure['name'] = $region->getNameByLocale($locale);
             $structure['country'] = $region->getCountry()->getNameByLocale($locale);
         } else {
-            $structure['name_ru'] = $region->getNameRu();
-            $structure['name_en'] = $region->getNameEn();
-            $structure['name_es'] = $region->getNameEs();
             $structure['country_ru'] = $region->getCountry()->getNameRu();
             $structure['country_en'] = $region->getCountry()->getNameEn();
             $structure['country_es'] = $region->getCountry()->getNameEs();
