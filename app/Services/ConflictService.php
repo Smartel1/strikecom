@@ -58,8 +58,18 @@ class ConflictService
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
             ->from(Conflict::class, 'c')
-            ->addCriteria(SafeGTE::make('c.dateFrom', Datetime::createFromFormat('U', Arr::get($filters, 'date_from'))))
-            ->addCriteria(SafeLTE::make('c.dateTo', Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))))
+            ->addCriteria(SafeGTE::make(
+                'c.dateFrom',
+                Arr::has($filters, 'date_from')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_from'))
+                    : null
+            ))
+            ->addCriteria(SafeLTE::make(
+                'c.dateTo',
+                Arr::has($filters, 'date_to')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
+                    : null
+            ))
             ->addCriteria(SafeIn::make('c.conflictResult', Arr::get($filters, 'conflict_result_ids')))
             ->addCriteria(SafeIn::make('c.conflictReason', Arr::get($filters, 'conflict_reason_ids')))
             ->addCriteria(AncestorsOfConflict::make('c', Arr::get($filters, 'ancestors_of')))

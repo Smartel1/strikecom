@@ -67,8 +67,12 @@ class EventService
             ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'e.date',
-                Datetime::createFromFormat('U', Arr::get($filters, 'date_from')),
-                Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
+                Arr::has($filters, 'date_from')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_from'))
+                    : null,
+                Arr::has($filters, 'date_to')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
+                    : null
             ))
             ->addCriteria(SafeEq::make('e.published', Arr::get($filters, 'published')))
             ->addCriteria(SafeIn::make('e.eventStatus', Arr::get($filters, 'event_status_ids')))
@@ -116,7 +120,7 @@ class EventService
             $doctrinePaginator->count(),
             (integer)$perPage,
             $page,
-            ['path'=>request()->url()]
+            ['path' => request()->url()]
         );
 
         return $laravelPaginator;
@@ -170,7 +174,7 @@ class EventService
         $userChangesPublishStatus = (
             Arr::has($data, 'published')
             and
-            (bool) Arr::get($data, 'published') !== $event->isPublished()
+            (bool)Arr::get($data, 'published') !== $event->isPublished()
         );
 
         $this->businessValidationService->validate([
@@ -350,7 +354,7 @@ class EventService
      */
     private function syncPhotos(Event $event, array $photoUrls)
     {
-        foreach ($event->getPhotos() as $oldPhoto){
+        foreach ($event->getPhotos() as $oldPhoto) {
             $this->em->remove($oldPhoto);
         };
 
@@ -372,7 +376,7 @@ class EventService
      */
     private function syncVideos(Event $event, array $receivedVideos)
     {
-        foreach ($event->getVideos() as $oldVideo){
+        foreach ($event->getVideos() as $oldVideo) {
             $this->em->remove($oldVideo);
         };
 

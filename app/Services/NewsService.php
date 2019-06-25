@@ -58,8 +58,12 @@ class NewsService
             ->addCriteria(ByPermission::make($user))
             ->addCriteria(SafeBetween::make(
                 'n.date',
-                Datetime::createFromFormat('U', Arr::get($filters, 'date_from')),
-                Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
+                Arr::has($filters, 'date_from')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_from'))
+                    : null,
+                Arr::has($filters, 'date_to')
+                    ? Datetime::createFromFormat('U', Arr::get($filters, 'date_to'))
+                    : null
             ))
             ->addCriteria(SafeEq::make('n.published', Arr::get($filters, 'published')))
             ->addCriteria(HasTag::make('n', Arr::get($filters, 'tag_id')))
