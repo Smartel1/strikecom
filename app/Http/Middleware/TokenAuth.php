@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Kreait\Firebase;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
 use Lcobucci\JWT\Token;
 use Throwable;
 
@@ -30,27 +28,7 @@ class TokenAuth
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
-
-        $serviceAccount = ServiceAccount::fromArray([
-            "type"                        => "service_account",
-            "project_id"                  => "strikecom-7ad08",
-            "private_key_id"              => "b9898c8f2a0800be1cf5c8b1c671e1eb771271ae",
-            "private_key"                 => base64_decode(env('FB_SECRET')),
-            "client_email"                => "firebase-adminsdk-gk3et@strikecom-7ad08.iam.gserviceaccount.com",
-            "client_id"                   => "113160820514212811997",
-            "auth_uri"                    => "https://accounts.google.com/o/oauth2/auth",
-            "token_uri"                   => "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url" => "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url"        => "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-gk3et%40strikecom-7ad08.iam.gserviceaccount.com"
-        ]);
-
-        try {
-            $this->firebase = (new Factory)
-                ->withServiceAccount($serviceAccount)
-                ->create();
-        } catch (Throwable $e) {
-            throw new AuthenticationException('Проблемы с аутентификацией: ' . $e->getMessage());
-        }
+        $this->firebase = app('firebase');
     }
 
     /**
