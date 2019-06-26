@@ -29,12 +29,20 @@ use Illuminate\Support\Arr;
 class NewsService
 {
     protected $em;
+
     private $businessValidationService;
 
-    public function __construct(EntityManager $em, BusinessValidationService $businessValidationService)
+    private $pushService;
+
+    public function __construct(
+        EntityManager $em,
+        BusinessValidationService $businessValidationService,
+        PushService $pushService
+    )
     {
         $this->em = $em;
         $this->businessValidationService = $businessValidationService;
+        $this->pushService = $pushService;
     }
 
     /**
@@ -105,7 +113,7 @@ class NewsService
      * @throws TransactionRequiredException
      * @throws BusinessRuleValidationException
      */
-    public function create($data, $user)
+    public function create($data, User $user)
     {
         //Если пользователь хочет сразу опубликовать новость, он должен быть модератором
         $this->businessValidationService->validate([
@@ -124,6 +132,13 @@ class NewsService
         $this->em->persist($news);
         $this->em->flush();
         $this->em->commit();
+
+        //Если обычный пользователь предлагает новость, посылаем пуш админам; если новость публикуется - то всем
+        if (!$news->isPublished()) {
+            $this->pushService->newsCreatedByUser($news);
+        } else {
+            $this->pushService->newsPublished($news);
+        }
 
         return $news;
     }
@@ -160,6 +175,11 @@ class NewsService
         $this->em->persist($news);
         $this->em->flush();
         $this->em->commit();
+
+        //Если модератор меняет статус публикации на true, то оповещаем пользователей
+        if ($userChangesPublishStatus and $news->isPublished()) {
+            $this->pushService->newsPublished($news);
+        }
 
         return $news;
     }
@@ -313,7 +333,11 @@ class NewsService
     public function delete(News $news)
     {
         $this->em->remove($news);
-
         $this->em->flush();
+
+        //Если новость не была опубликована, то посылаем уведомление автору о том, что его запись отклонена
+        if (!$news->isPublished()) {
+            $this->pushService->eventDeclined($news);
+        }
     }
 }

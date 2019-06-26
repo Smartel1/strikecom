@@ -39,10 +39,17 @@ class EventService
 
     protected $businessValidationService;
 
-    public function __construct(EntityManager $em, BusinessValidationService $bvs)
+    private $pushService;
+
+    public function __construct(
+        EntityManager $em,
+        BusinessValidationService $businessValidationService,
+        PushService $pushService
+    )
     {
         $this->em = $em;
-        $this->businessValidationService = $bvs;
+        $this->businessValidationService = $businessValidationService;
+        $this->pushService = $pushService;
     }
 
     /**
@@ -135,7 +142,7 @@ class EventService
      * @throws OptimisticLockException
      * @throws BusinessRuleValidationException
      */
-    public function create($data, $user)
+    public function create($data, User $user)
     {
         //Если пользователь хочет сразу опубликовать событие, он должен быть модератором
         $this->businessValidationService->validate([
@@ -155,6 +162,13 @@ class EventService
         $this->em->persist($event);
         $this->em->flush();
         $this->em->commit();
+
+        //Если обычный пользователь предлагает событие, посылаем пуш админам. Если модератор публикует - то всем
+        if (!$event->isPublished()) {
+            $this->pushService->eventCreatedByUser($event);
+        } else {
+            $this->pushService->eventPublished($event);
+        }
 
         return $event;
     }
@@ -191,6 +205,11 @@ class EventService
         $this->em->persist($event);
         $this->em->flush();
         $this->em->commit();
+
+        //Если модератор меняет статус публикации на true, то оповещаем пользователей
+        if ($userChangesPublishStatus and $event->isPublished()) {
+            $this->pushService->eventPublished($event);
+        }
 
         return $event;
     }
@@ -431,7 +450,11 @@ class EventService
         ]);
 
         $this->em->remove($event);
-
         $this->em->flush();
+
+        //Если событие не было опубликовано, то посылаем уведомление автору о том, что его запись отклонена
+        if (!$event->isPublished()) {
+            $this->pushService->eventDeclined($event);
+        }
     }
 }

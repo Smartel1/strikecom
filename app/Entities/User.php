@@ -16,8 +16,8 @@ class User implements Authenticatable
 {
     use Timestamps;
 
-    public static $ROLE_ADMIN = "ADMIN";
-    public static $ROLE_MODERATOR = "MODERATOR";
+    public static $ROLE_ADMIN = 'ADMIN';
+    public static $ROLE_MODERATOR = 'MODERATOR';
 
     /**
      * @ORM\Id
