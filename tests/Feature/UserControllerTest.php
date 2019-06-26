@@ -24,7 +24,7 @@ class UserControllerTest extends TestCase
         $user = entity(User::class)->make([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'roles' => ['MODERATOR'],
+            'roles' => [User::$ROLE_MODERATOR],
         ]);
 
         $user->getFavouriteEvents()->add(
@@ -52,54 +52,78 @@ class UserControllerTest extends TestCase
     }
 
     /**
-     * запрос на подписку
+     * запрос на изменение
      */
-    public function testSubscribe()
+    public function testUpdate()
     {
         /** @var User $user */
-        $user = entity(User::class)->make([
+        $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'roles' => ['MODERATOR'],
+            'roles' => [User::$ROLE_MODERATOR],
         ]);
 
-        $this->actingAs($user)->post('/api/ru/subscribe',
+        $this->actingAs($user)->put('/api/ru/user/' . $user->getId(),
             [
-                'state' => 1,
-                'fcm'   => 'aj2osdf832la93hp'
+                'fcm'   => 'aj2osdf832la93hp',
+                'roles' => [User::$ROLE_ADMIN]
             ])
             ->assertStatus(200);
     }
 
     /**
-     * запрос на подписку с некорректными данными
+     * запрос на изменение с некорректными данными
      */
-    public function testSubscribeInvalid()
+    public function testUpdateInvalid()
     {
         /** @var User $user */
-        $user = entity(User::class)->make([
+        $user = entity(User::class)->create([
             'name'  => 'John Doe',
             'email' => 'john@doe.com',
-            'roles' => ['MODERATOR'],
+            'roles' => [User::$ROLE_MODERATOR],
         ]);
 
-        $this->actingAs($user)->post('/api/ru/subscribe',
+        $this->actingAs($user)->put('/api/ru/user/' . $user->getId(),
             [
-                'state' => 1,
+                'fcm' => ['foo']
             ])
             ->assertStatus(422);
     }
 
     /**
-     * запрос на подписку неаутентифиц. пользователем
+     * запрос на изменение неаутентифиц. пользователем
      */
-    public function testSubscribeUnauth()
+    public function testUpdateUnauth()
     {
-        $this->post('/api/ru/subscribe',
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'roles' => [User::$ROLE_MODERATOR],
+        ]);
+
+        $this->put('/api/ru/user/' . $user->getId(),
             [
-                'state' => 1,
                 'fcm'   => 'aj2osdf832la93hp'
             ])
-            ->assertStatus(401);
+            ->assertStatus(403);
+    }
+
+    /**
+     * запрос на изменение ролей немодератором
+     */
+    public function testUpdateRoles()
+    {
+        $user = entity(User::class)->create([
+            'name'  => 'John Doe',
+            'email' => 'john@doe.com',
+            'roles' => [],
+        ]);
+
+        $this->put('/api/ru/user/' . $user->getId(),
+            [
+                'fcm'   => 'aj2osdf832la93hp',
+                'roles'   => [User::$ROLE_ADMIN]
+            ])
+            ->assertStatus(403);
     }
 }

@@ -11,7 +11,6 @@ $factory->define(User::class, function (Faker $faker, array $attributes) {
         'email'     => Arr::get($attributes, 'email', $faker->email),
         'roles'     => Arr::get($attributes, 'roles', []),
         'fcm'       => Arr::get($attributes, 'admin', $faker->md5),
-        'push'      => Arr::get($attributes, 'push', $faker->boolean),
         'reward'    => Arr::get($attributes, 'reward', $faker->boolean),
         'imageUrl'  => Arr::get($attributes, 'imageUrl', $faker->url),
     ];

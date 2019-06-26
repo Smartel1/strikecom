@@ -153,7 +153,6 @@ class ImportService
             $user->setFcm(array_get($item, 'tokenFCM'));
             $user->setImageUrl(array_get($item, 'image'));
             $user->setRoles((boolean)array_get($item, 'admin') ? ['ADMIN'] : []);
-            $user->setPush(array_get($item, 'push'));
 
             $user->_id = $item['_id'];
             $user->favouritePosts = $item['favorites'];

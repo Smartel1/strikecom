@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Entities\User;
-use App\Http\Requests\User\SubscribeRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Requests\User\UserShowRequest;
 use App\Http\Resources\User\UserResource;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,26 +44,25 @@ class UserController extends Controller
     }
 
     /**
-     * @param SubscribeRequest $request
+     * @param UserUpdateRequest $request
      * @param $locale
-     * @throws AuthenticationException
+     * @param User $user
+     * @return array
      * @throws ORMException
      * @throws OptimisticLockException
+     * @throws AuthorizationException
      */
-    public function subscribe(SubscribeRequest $request, $locale)
+    public function update(UserUpdateRequest $request, $locale, User $user)
     {
-        if (!Auth::check()) throw new AuthenticationException();
-        /** @var User $user */
-        $user = Auth::user();
+        $this->authorize('update', [$user, $request->has('roles')]);
 
-        if ($request->state) {
-            $user->setPush(true);
-            $user->setFcm($request->fcm);
-        } else {
-            $user->setPush(false);
-        }
+        if ($request->has('fcm')) { $user->setFcm($request->fcm); }
+
+        if ($request->has('roles')) { $user->setRoles($request->roles); }
 
         $this->em->persist($user);
         $this->em->flush();
+
+        return UserResource::make(Auth::user())->toArray(null);
     }
 }

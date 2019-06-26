@@ -6,13 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @class SubscribeRequest
- * @description Запрос на подписку
- * @summary Подписаться на push-уведомления
+ * @description Запрос на обновление пользователя (менять роли могут только модераторы или админы, обычные пользователи могут менять только свои записи)
+ * @summary Обновить пользователя
  * @package App\Http\Requests
- * @state Состояние подписки (подписан/не подписан)
  * @fcm fcm-token клиента
+ * @roles роли
  */
-class SubscribeRequest extends FormRequest
+class UserUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,8 +32,8 @@ class SubscribeRequest extends FormRequest
     public function rules()
     {
         return [
-            'state' => 'boolean|required',
-            'fcm'   => 'string|required_if:state,1'
+            'fcm'   => 'string',
+            'roles' => 'array'
         ];
     }
 }

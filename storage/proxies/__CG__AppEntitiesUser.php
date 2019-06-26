@@ -64,10 +64,10 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
         }
 
-        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'push', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'uuid', 'name', 'email', 'roles', 'fcm', 'imageUrl', 'favouriteEvents', 'favouriteNews', 'createdAt', 'updatedAt'];
     }
 
     /**
@@ -307,28 +307,6 @@ class User extends \App\Entities\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFcm', [$fcm]);
 
         return parent::setFcm($fcm);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPush()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPush', []);
-
-        return parent::getPush();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPush($push)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPush', [$push]);
-
-        return parent::setPush($push);
     }
 
     /**

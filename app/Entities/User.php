@@ -53,11 +53,6 @@ class User implements Authenticatable
     protected $fcm;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $push = false;
-
-    /**
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     protected $imageUrl;
@@ -185,22 +180,6 @@ class User implements Authenticatable
     public function setFcm($fcm)
     {
         $this->fcm = $fcm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPush()
-    {
-        return $this->push;
-    }
-
-    /**
-     * @param mixed $push
-     */
-    public function setPush($push)
-    {
-        $this->push = $push;
     }
 
     /**

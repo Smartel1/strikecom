@@ -35,7 +35,7 @@ Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],functi
     });
 
     Route::get('user', 'UserController@show');
-    Route::post('subscribe', 'UserController@subscribe');
+    Route::resource('user', 'UserController', ['only' => ['update']]);
 });
 
 

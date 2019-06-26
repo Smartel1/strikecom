@@ -27,7 +27,6 @@ class UserResource extends Resource
             'email'            => $user->getEmail(),
             'fcm'              => $user->getFcm(),
             'roles'            => $user->getRoles(),
-            'push'             => $user->getPush(),
             'image_url'        => $user->getImageUrl(),
             'favourite_events' => $user->getFavouriteEvents()->map(function (Event $event) {
                 return $event->getId();

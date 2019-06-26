@@ -13,6 +13,7 @@ use App\Policies\CommentPolicy;
 use App\Policies\ConflictPolicy;
 use App\Policies\EventPolicy;
 use App\Policies\NewsPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Event::class         => EventPolicy::class,
         News::class          => NewsPolicy::class,
         Comment::class       => CommentPolicy::class,
+        User::class          => UserPolicy::class,
         ClientVersion::class => ClientVersionPolicy::class,
     ];
 
@@ -40,7 +42,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('moderate', function (User $user){
+        Gate::define('moderate', function (User $user) {
             return in_array(User::$ROLE_MODERATOR, $user->getRoles())
                 or in_array(User::$ROLE_ADMIN, $user->getRoles());
         });

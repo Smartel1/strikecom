@@ -83,6 +83,10 @@ class RouteServiceProvider extends ServiceProvider
             return $this->findOrFail('App\Entities\ClientVersion', $id);
         });
 
+        Route::bind('user', function($id){
+            return $this->findOrFail('App\Entities\User', $id);
+        });
+
         parent::boot();
     }
 
