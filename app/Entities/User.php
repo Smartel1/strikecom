@@ -42,8 +42,8 @@ class User implements Authenticatable
     protected $email;
 
     /**
-     * Роли хранятся как сериализованный неассоциативный массив
-     * @ORM\Column(type="array", options={"default"="a:0:{}"})
+     * Роли хранятся как неассоциативный массив в json
+     * @ORM\Column(type="json", options={"default"="[]"})
      */
     protected $roles = [];
 
@@ -153,13 +153,13 @@ class User implements Authenticatable
     /**
      * @return array
      */
-    public function getRoles()
+    public function getRoles() : array
     {
         return $this->roles;
     }
 
     /**
-     * @param mixed $roles
+     * @param array $roles
      */
     public function setRoles(array $roles): void
     {
