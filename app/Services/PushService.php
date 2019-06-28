@@ -4,7 +4,9 @@
 namespace App\Services;
 
 
+use App\DTO\LocalesDTO;
 use App\Entities\Event;
+use App\Entities\Interfaces\Post;
 use App\Entities\News;
 use Kreait\Firebase\Messaging;
 use Kreait\Firebase\Messaging\CloudMessage;
@@ -21,9 +23,13 @@ class PushService
 
     //Топик, на который подписаны админы
     protected $TOPIC_ADMIN = 'admin';
-
-    protected $TOPIC_NEWS = 'news1'; //todo это в тестовых целях. Потом сменить на 'news'
-    protected $TOPIC_EVENTS = 'events';
+    //Топики для пользователей делятся по языкам.
+    protected $TOPIC_NEWS_RU = 'news_ru';
+    protected $TOPIC_NEWS_EN = 'news_en';
+    protected $TOPIC_NEWS_ES = 'news_es';
+    protected $TOPIC_EVENTS_RU = 'events_ru';
+    protected $TOPIC_EVENTS_EN = 'events_en';
+    protected $TOPIC_EVENTS_ES = 'events_es';
 
     public function __construct()
     {
@@ -80,88 +86,133 @@ class PushService
 
     /**
      * Отправить оповещение всем пользователям о том, что опубликована свежая новость
-     * Второй пуш шлём автору
+     * Оповещения посылаются в три топика (для каждого языка - по необходимость)
+     * Ещё один пуш шлём автору
      * @param News $news
+     * @param LocalesDTO $locales определяет, по каким языкам нужно разослать
      */
-    public function newsPublished(News $news)
+    public function newsPublished(News $news, LocalesDTO $locales)
     {
-        $messageToTopic = CloudMessage::withTarget(Messaging\MessageTarget::TOPIC, $this->TOPIC_NEWS)
-            ->withNotification(
-                Notification::create(
-                    'ЗабастКом',
-                    $news->getTitleRu() ? $news->getTitleRu() : 'В приложении опубликована новость'
-                )
-            )
-            ->withData([
-                'id'         => (string)$news->getId(),
-                'title_ru'   => (string)$news->getTitleRu(),
-                'title_en'   => (string)$news->getTitleEn(),
-                'title_es'   => (string)$news->getTitleEs(),
-                'creator_id' => (string)$news->getAuthor()->getId(),
-                'type'       => 'news', //не знаю, зачем это передаётся
-            ]);
+        //Посылаем уведомление в топик русскоязычных пользователей
+        if ($locales->isRu()) {
+            $this->sendPublishNotification($news, 'ru');
+        }
 
-        $this->send($messageToTopic);
+        //Посылаем уведомление в топик англоязычных пользователей
+        if ($locales->isEn()) {
+            $this->sendPublishNotification($news, 'en');
+        }
 
-        if ($news->getAuthor()->getFcm()) {
-            $messageToAuthor = CloudMessage::withTarget(Messaging\MessageTarget::TOKEN, $news->getAuthor()->getFcm())
-                ->withNotification(Notification::create('ЗабастКом', 'Ваша новость прошла модерацию'))
-                ->withData([
-                    'id'         => (string)$news->getId(),
-                    'title_ru'   => (string)$news->getTitleRu(),
-                    'title_en'   => (string)$news->getTitleEn(),
-                    'title_es'   => (string)$news->getTitleEs(),
-                    'creator_id' => (string)$news->getAuthor()->getId(),
-                    'type'       => 'moderated', //не знаю, зачем это передаётся
-                ]);
+        //Посылаем уведомление в топик испаноязычных пользователей
+        if ($locales->isEs()) {
+            $this->sendPublishNotification($news, 'es');
+        }
+    }
+
+    /**
+     * Отправить оповещение всем пользователям о том, что опубликовано событие
+     * Оповещения посылаются в три топика (для каждого языка)
+     * Ещё один пуш шлём автору
+     * @param Event $event
+     * @param LocalesDTO $locales
+     */
+    public function eventPublished(Event $event, LocalesDTO $locales)
+    {
+        //Посылаем уведомление в топик русскоязычных пользователей
+        if ($locales->isRu()) {
+            $this->sendPublishNotification($event, 'ru');
+        }
+
+        //Посылаем уведомление в топик англоязычных пользователей
+        if ($locales->isEn()) {
+            $this->sendPublishNotification($event, 'en');
+        }
+
+        //Посылаем уведомление в топик испаноязычных пользователей
+        if ($locales->isEs()) {
+            $this->sendPublishNotification($event, 'es');
+        }
+    }
+
+    /**
+     * Послать автору новости/события уведомление, что его пост одобрен и опубликован
+     * @param Post $post
+     */
+    public function sendYourPostModerated(Post $post)
+    {
+        if ($post->getAuthor()->getFcm()) {
+            $messageData = [
+                'id'         => (string)$post->getId(),
+                'title_ru'   => (string)$post->getTitleRu(),
+                'title_en'   => (string)$post->getTitleEn(),
+                'title_es'   => (string)$post->getTitleEs(),
+                'creator_id' => (string)$post->getAuthor()->getId(),
+                'type'       => 'moderated', //не знаю, зачем это передаётся
+            ];
+
+            if ($post instanceof Event) {
+                $messageData['lat'] = $post->getLatitude();
+                $messageData['lng'] = $post->getLongitude();
+            }
+
+            $messageToAuthor = CloudMessage::withTarget(Messaging\MessageTarget::TOKEN, $post->getAuthor()->getFcm())
+                ->withNotification(Notification::create('ЗабастКом', 'Предложенный Вами пост прошел модерацию'))
+                ->withData($messageData);
 
             $this->send($messageToAuthor);
         }
     }
 
     /**
-     * Отправить оповещение всем пользователям о том, что опубликовано свежее событие
-     * Второй пуш шлём автору
-     * @param Event $event
+     * Сформировать сообщение о публикации новости/события на нужном языке и отправить в нужный топик
+     * @param $post
+     * @param $lang
      */
-    public function eventPublished(Event $event)
+    private function sendPublishNotification(Post $post, $lang)
     {
-        $messageToTopic = CloudMessage::withTarget(Messaging\MessageTarget::TOPIC, $this->TOPIC_EVENTS)
-            ->withNotification(
-                Notification::create(
-                    'ЗабастКом',
-                    $event->getTitleRu() ? $event->getTitleRu() : 'В приложении опубликовано событие'
-                )
-            )
-            ->withData([
-                'id'         => (string)$event->getId(),
-                'title_ru'   => (string)$event->getTitleRu(),
-                'title_en'   => (string)$event->getTitleEn(),
-                'title_es'   => (string)$event->getTitleEs(),
-                'lat'        => (string)$event->getLatitude(),
-                'lng'        => (string)$event->getLongitude(),
-                'creator_id' => (string)$event->getAuthor()->getId(),
-                'type'       => 'news', //не знаю, зачем это передаётся
-            ]);
+        $isEvent = $post instanceof Event;
+
+        $messageData = [
+            'id'         => (string)$post->getId(),
+            'creator_id' => (string)$post->getAuthor()->getId(),
+            'title'      => (string)$post->getTitleByLocale($lang),
+            'type'       => 'news', //не знаю, зачем это передаётся
+        ];
+
+        if ($post instanceof Event) {
+            $messageData['lat'] = $post->getLatitude();
+            $messageData['lng'] = $post->getLongitude();
+        }
+
+        $topics = [
+            'ru' => $isEvent ? $this->TOPIC_EVENTS_RU : $this->TOPIC_NEWS_RU,
+            'en' => $isEvent ? $this->TOPIC_EVENTS_EN : $this->TOPIC_NEWS_EN,
+            'es' => $isEvent ? $this->TOPIC_EVENTS_ES : $this->TOPIC_NEWS_ES,
+        ];
+
+        $titles = [
+            'ru' => 'ЗабастКом',
+            'en' => 'ZabastCom',
+            'es' => 'ZabastCom',
+        ];
+
+        $bodies = [
+            'ru' => $isEvent
+                ? $post->getTitleRu() ? $post->getTitleRu() : 'В приложении опубликовано событие'
+                : $post->getTitleRu() ? $post->getTitleRu() : 'В приложении опубликована новость',
+            'en' => $isEvent
+                ? $post->getTitleEn() ? $post->getTitleEn() : 'Event was published'
+                : $post->getTitleEn() ? $post->getTitleEn() : 'News was published',
+            'es' => $isEvent
+                ? $post->getTitleEs() ? $post->getTitleEs() : 'El evento ha sido publicado'
+                : $post->getTitleEs() ? $post->getTitleEs() : 'La noticia ha sido publicada',
+        ];
+
+        $messageToTopic = CloudMessage::withTarget(Messaging\MessageTarget::TOPIC, $topics[$lang])
+            ->withNotification(['title' => $titles[$lang], 'body' => $bodies[$lang]])
+            ->withData($messageData);
 
         $this->send($messageToTopic);
-
-        if ($event->getAuthor()->getFcm()) {
-            $messageToAuthor = CloudMessage::withTarget(Messaging\MessageTarget::TOKEN, $event->getAuthor()->getFcm())
-                ->withNotification(Notification::create('ЗабастКом', 'Ваше событие прошло модерацию'))
-                ->withData([
-                    'id'         => (string)$event->getId(),
-                    'title_ru'   => (string)$event->getTitleRu(),
-                    'title_en'   => (string)$event->getTitleEn(),
-                    'title_es'   => (string)$event->getTitleEs(),
-                    'lat'        => (string)$event->getLatitude(),
-                    'lng'        => (string)$event->getLongitude(),
-                    'creator_id' => (string)$event->getAuthor()->getId(),
-                    'type'       => 'moderated', //не знаю, зачем это передаётся
-                ]);
-
-            $this->send($messageToAuthor);
-        }
     }
 
     /**

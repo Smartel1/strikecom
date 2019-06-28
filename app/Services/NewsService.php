@@ -9,6 +9,7 @@ use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
 use App\Criteria\SafeEq;
+use App\DTO\LocalesDTO;
 use App\Entities\News;
 use App\Entities\Photo;
 use App\Entities\Tag;
@@ -137,7 +138,11 @@ class NewsService
         if (!$news->isPublished()) {
             $this->pushService->newsCreatedByUser($news);
         } else {
-            $this->pushService->newsPublished($news);
+            $this->pushService->newsPublished($news, new LocalesDTO(
+                !is_null($news->getTitleRu()),
+                !is_null($news->getTitleEn()),
+                !is_null($news->getTitleEs())
+            ));
         }
 
         return $news;
@@ -165,6 +170,13 @@ class NewsService
             (new UserCanModerate($user))->when($userChangesPublishStatus)
         ]);
 
+        //Перед изменением смотрим, на каких языках уже есть переводы (чтобы не послать пуш второй раз)
+        $nullLocalesBeforeUpdate = new LocalesDTO(
+            is_null($news->getTitleRu()),
+            is_null($news->getTitleEn()),
+            is_null($news->getTitleEs())
+        );
+
         $this->em->beginTransaction();
 
         $this->fillNewsFields($news, $data);
@@ -176,9 +188,21 @@ class NewsService
         $this->em->flush();
         $this->em->commit();
 
-        //Если модератор меняет статус публикации на true, то оповещаем пользователей
-        if ($userChangesPublishStatus and $news->isPublished()) {
-            $this->pushService->newsPublished($news);
+        //Если новость опубликована, то посылаем пуши в те топики по языкам, на которые переведена новость в этом обновлении.
+        //Если новость публикуется в этом действии, то посылаются пуши на все языки, на которые локализована новость
+        if ($news->isPublished()) {
+            $localesToPush = new LocalesDTO(
+                ($nullLocalesBeforeUpdate->isRu() or $userChangesPublishStatus) and !is_null($news->getTitleRu()),
+                ($nullLocalesBeforeUpdate->isEn() or $userChangesPublishStatus) and !is_null($news->getTitleEn()),
+                ($nullLocalesBeforeUpdate->isEs() or $userChangesPublishStatus) and !is_null($news->getTitleEs())
+            );
+
+            $this->pushService->newsPublished($news, $localesToPush);
+
+            //Если новость публикуется в этом действии, то автору посылается уведомление об этом
+            if ($userChangesPublishStatus) {
+                $this->pushService->sendYourPostModerated($news);
+            }
         }
 
         return $news;
@@ -337,7 +361,7 @@ class NewsService
 
         //Если новость не была опубликована, то посылаем уведомление автору о том, что его запись отклонена
         if (!$news->isPublished()) {
-            $this->pushService->eventDeclined($news);
+            $this->pushService->newsDeclined($news);
         }
     }
 }

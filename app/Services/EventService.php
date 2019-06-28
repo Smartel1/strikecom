@@ -11,6 +11,7 @@ use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
 use App\Criteria\SafeEq;
 use App\Criteria\SafeIn;
+use App\DTO\LocalesDTO;
 use App\Entities\Conflict;
 use App\Entities\Event;
 use App\Entities\Photo;
@@ -167,7 +168,11 @@ class EventService
         if (!$event->isPublished()) {
             $this->pushService->eventCreatedByUser($event);
         } else {
-            $this->pushService->eventPublished($event);
+            $this->pushService->eventPublished($event, new LocalesDTO(
+                !is_null($event->getTitleRu()),
+                !is_null($event->getTitleEn()),
+                !is_null($event->getTitleEs())
+            ));
         }
 
         return $event;
@@ -195,6 +200,13 @@ class EventService
             (new UserCanModerate($user))->when($userChangesPublishStatus or Arr::has($data, 'locality_id'))
         ]);
 
+        //Перед изменением смотрим, на каких языках уже есть переводы (чтобы не послать пуш второй раз)
+        $nullLocalesBeforeUpdate = new LocalesDTO(
+            is_null($event->getTitleRu()),
+            is_null($event->getTitleEn()),
+            is_null($event->getTitleEs())
+        );
+
         $this->em->beginTransaction();
 
         $this->fillEventFields($event, $data);
@@ -206,9 +218,21 @@ class EventService
         $this->em->flush();
         $this->em->commit();
 
-        //Если модератор меняет статус публикации на true, то оповещаем пользователей
-        if ($userChangesPublishStatus and $event->isPublished()) {
-            $this->pushService->eventPublished($event);
+        //Если событие опубликовано, то посылаем пуши в те топики по языкам, на которые переведено событие в этом обновлении.
+        //Если событие публикуется в этом действии, то посылаются пуши на все языки, на которые локализовано событие
+        if ($event->isPublished()) {
+            $localesToPush = new LocalesDTO(
+                ($nullLocalesBeforeUpdate->isRu() or $userChangesPublishStatus) and !is_null($event->getTitleRu()),
+                ($nullLocalesBeforeUpdate->isEn() or $userChangesPublishStatus) and !is_null($event->getTitleEn()),
+                ($nullLocalesBeforeUpdate->isEs() or $userChangesPublishStatus) and !is_null($event->getTitleEs())
+            );
+
+            $this->pushService->eventPublished($event, $localesToPush);
+
+            //Если событие публикуется в этом действии, то автору посылается уведомление об этом
+            if ($userChangesPublishStatus) {
+                $this->pushService->sendYourPostModerated($event);
+            }
         }
 
         return $event;

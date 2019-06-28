@@ -4,6 +4,7 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Commentable;
+use App\Entities\Interfaces\Post;
 use App\Entities\References\Locality;
 use App\Entities\References\EventStatus;
 use App\Entities\References\EventType;
@@ -19,7 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="events")
  */
-class Event implements Commentable
+class Event implements Commentable, Post
 {
     use TitlesTrait;
     use ContentsTrait;

@@ -4,6 +4,7 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Commentable;
+use App\Entities\Interfaces\Post;
 use App\Entities\Traits\ContentsTrait;
 use App\Entities\Traits\Timestamps;
 use App\Entities\Traits\TitlesTrait;
@@ -15,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="news")
  */
-class News implements Commentable
+class News implements Commentable, Post
 {
     use TitlesTrait;
     use ContentsTrait;
