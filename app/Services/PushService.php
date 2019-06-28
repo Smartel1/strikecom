@@ -94,9 +94,9 @@ class PushService
             )
             ->withData([
                 'id'         => (string)$news->getId(),
-                'title_ru'   => $news->getTitleRu(),
-                'title_en'   => $news->getTitleEn(),
-                'title_es'   => $news->getTitleEs(),
+                'title_ru'   => (string)$news->getTitleRu(),
+                'title_en'   => (string)$news->getTitleEn(),
+                'title_es'   => (string)$news->getTitleEs(),
                 'creator_id' => (string)$news->getAuthor()->getId(),
                 'type'       => 'news', //не знаю, зачем это передаётся
             ]);
@@ -108,9 +108,9 @@ class PushService
                 ->withNotification(Notification::create('ЗабастКом', 'Ваша новость прошла модерацию'))
                 ->withData([
                     'id'         => (string)$news->getId(),
-                    'title_ru'   => $news->getTitleRu(),
-                    'title_en'   => $news->getTitleEn(),
-                    'title_es'   => $news->getTitleEs(),
+                    'title_ru'   => (string)$news->getTitleRu(),
+                    'title_en'   => (string)$news->getTitleEn(),
+                    'title_es'   => (string)$news->getTitleEs(),
                     'creator_id' => (string)$news->getAuthor()->getId(),
                     'type'       => 'moderated', //не знаю, зачем это передаётся
                 ]);
@@ -135,9 +135,9 @@ class PushService
             )
             ->withData([
                 'id'         => (string)$event->getId(),
-                'title_ru'   => $event->getTitleRu(),
-                'title_en'   => $event->getTitleEn(),
-                'title_es'   => $event->getTitleEs(),
+                'title_ru'   => (string)$event->getTitleRu(),
+                'title_en'   => (string)$event->getTitleEn(),
+                'title_es'   => (string)$event->getTitleEs(),
                 'lat'        => (string)$event->getLatitude(),
                 'lng'        => (string)$event->getLongitude(),
                 'creator_id' => (string)$event->getAuthor()->getId(),
@@ -151,9 +151,9 @@ class PushService
                 ->withNotification(Notification::create('ЗабастКом', 'Ваше событие прошло модерацию'))
                 ->withData([
                     'id'         => (string)$event->getId(),
-                    'title_ru'   => $event->getTitleRu(),
-                    'title_en'   => $event->getTitleEn(),
-                    'title_es'   => $event->getTitleEs(),
+                    'title_ru'   => (string)$event->getTitleRu(),
+                    'title_en'   => (string)$event->getTitleEn(),
+                    'title_es'   => (string)$event->getTitleEs(),
                     'lat'        => (string)$event->getLatitude(),
                     'lng'        => (string)$event->getLongitude(),
                     'creator_id' => (string)$event->getAuthor()->getId(),
