@@ -73,12 +73,10 @@ class PushService
                 Notification::create('ЗабастКом', 'На модерации событие от ' . $author->getName())
             )
             ->withData([
-                'id'         => (string)$event->getId(),
-                'title_ru'   => $event->getTitleRu() ? $event->getTitleRu() : 'Новость от ' . $author->getName(),
-                'title_en'   => $event->getTitleEn() ? $event->getTitleEn() : 'News from ' . $author->getName(),
-                'title_es'   => $event->getTitleEs() ? $event->getTitleEs() : 'Noticias de ' . $author->getName(),
-                'creator_id' => (string)$author->getId(),
-                'type'       => 'admin', //не знаю, зачем это передаётся
+                'id'           => (string)$event->getId(),
+                'creator_name' => (string)$author->getName(),
+                'creator_id'   => (string)$author->getId(),
+                'type'         => 'admin', //не знаю, зачем это передаётся
             ]);
 
         $this->send($message);

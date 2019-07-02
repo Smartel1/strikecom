@@ -117,6 +117,15 @@ class EventService
                 ->setParameter('regions', Arr::get($filters, 'region_ids'));
         }
 
+        //Если передан фильтр "вблизи точки", то применяем ограничение по формуле гаверсинуса
+        //https://stackoverflow.com/questions/21084886/how-to-calculate-distance-using-latitude-and-longitude
+        if (Arr::has($filters, 'near')) {
+            $queryBuilder->andWhere('6371 * acos(cos(radians(:lat)) * cos(radians(e.latitude)) * cos(radians(e.longitude) - radians(:lng)) + sin(radians(:lat)) * sin(radians(e.latitude))) <= :radius')
+                ->setParameter('lat', Arr::get($filters, 'near.lat'))
+                ->setParameter('lng', Arr::get($filters, 'near.lng'))
+                ->setParameter('radius', Arr::get($filters, 'near.radius'));
+        }
+
         //Пагинируем результат
         $doctrinePaginator = new Paginator(
             $queryBuilder->setFirstResult($perPage * ($page - 1))->setMaxResults($perPage)->getQuery()
