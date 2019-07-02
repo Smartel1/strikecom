@@ -49,12 +49,10 @@ class PushService
                 Notification::create('ЗабастКом', 'На модерации новость от ' . $author->getName())
             )
             ->withData([
-                'id'         => (string)$news->getId(),
-                'title_ru'   => $news->getTitleRu() ? $news->getTitleRu() : 'Новость от ' . $author->getName(),
-                'title_en'   => $news->getTitleEn() ? $news->getTitleEn() : 'News from ' . $author->getName(),
-                'title_es'   => $news->getTitleEs() ? $news->getTitleEs() : 'Noticias de ' . $author->getName(),
-                'creator_id' => (string)$author->getId(),
-                'type'       => 'admin', //не знаю, зачем это передаётся
+                'id'           => (string)$news->getId(),
+                'creator_name' => (string)$author->getName(),
+                'creator_id'   => (string)$author->getId(),
+                'type'         => 'admin', //не знаю, зачем это передаётся
             ]);
 
         $this->send($message);
@@ -85,7 +83,6 @@ class PushService
     /**
      * Отправить оповещение всем пользователям о том, что опубликована свежая новость
      * Оповещения посылаются в три топика (для каждого языка - по необходимость)
-     * Ещё один пуш шлём автору
      * @param News $news
      * @param LocalesDTO $locales определяет, по каким языкам нужно разослать
      */
@@ -110,7 +107,6 @@ class PushService
     /**
      * Отправить оповещение всем пользователям о том, что опубликовано событие
      * Оповещения посылаются в три топика (для каждого языка)
-     * Ещё один пуш шлём автору
      * @param Event $event
      * @param LocalesDTO $locales
      */
@@ -141,9 +137,9 @@ class PushService
         if ($post->getAuthor()->getFcm()) {
             $messageData = [
                 'id'         => (string)$post->getId(),
-                'title_ru'   => (string)$post->getTitleRu(),
-                'title_en'   => (string)$post->getTitleEn(),
-                'title_es'   => (string)$post->getTitleEs(),
+                'message_ru' => 'Предложенный Вами пост прошел модерацию',
+                'message_en' => 'The news you proposed was published',
+                'message_es' => 'Las noticias que propusiste fueron publicadas',
                 'creator_id' => (string)$post->getAuthor()->getId(),
                 'type'       => 'moderated', //не знаю, зачем это передаётся
             ];
@@ -225,7 +221,9 @@ class PushService
             ->withNotification(Notification::create('ЗабастКом', 'Ваша новость не прошла модерацию и была удалена'))
             ->withData([
                 'id'         => (string)$news->getId(),
-                'message'    => 'Ваша новость не прошла модерацию и была удалена',
+                'message_ru' => 'Предложенный Вами пост не прошел модерацию и был удалён',
+                'message_en' => 'The news you proposed was removed',
+                'message_es' => 'Las noticias que propusiste fueron eliminadas',
                 'creator_id' => (string)$news->getAuthor()->getId(),
                 'type'       => 'moderated', //не знаю, зачем это передаётся
             ]);
