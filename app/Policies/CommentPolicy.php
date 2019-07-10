@@ -24,12 +24,16 @@ class CommentPolicy
 
     public function update (User $user, Comment $comment)
     {
-        return $comment->getUserId() === $user->getId();
+        if (!$comment->getUser()) return false;
+
+        return $comment->getUser()->getId() === $user->getId();
     }
 
     public function delete (User $user, Comment $comment)
     {
-        return $comment->getUserId() === $user->getId();
+        if (!$comment->getUser()) return false;
+
+        return $comment->getUser()->getId() === $user->getId();
     }
 
 }
