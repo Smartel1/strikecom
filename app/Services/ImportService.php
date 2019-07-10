@@ -539,12 +539,17 @@ class ImportService
             $comment->setCreatedAt($date);
             $comment->setUpdatedAt($date);
 
-            if ($event) $comment->getEvents()->add($event);
-            if ($post) $comment->getNews()->add($post);
-
-            //не записываем картинки и жалобы, так как их нет в дампе
-
-            EntityManager::persist($comment);
+            if ($event) {
+                $event->getComments()->add($comment);
+                EntityManager::persist($event);
+                EntityManager::persist($comment);
+            } elseif ($post) {
+                $post->getComments()->add($comment);
+                EntityManager::persist($post);
+                EntityManager::persist($comment);
+            }
+            //Если не к чему присоединить коммент, то не сохраняем.
+            //Не записываем картинки и жалобы, так как их нет в дампе.
         }
     }
 
