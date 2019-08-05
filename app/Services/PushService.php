@@ -145,8 +145,8 @@ class PushService
             ];
 
             if ($post instanceof Event) {
-                $messageData['lat'] = $post->getLatitude();
-                $messageData['lng'] = $post->getLongitude();
+                $messageData['lat'] = (string)$post->getLatitude();
+                $messageData['lng'] = (string)$post->getLongitude();
             }
 
             $messageToAuthor = CloudMessage::withTarget(Messaging\MessageTarget::TOKEN, $post->getAuthor()->getFcm())
@@ -174,8 +174,8 @@ class PushService
         ];
 
         if ($post instanceof Event) {
-            $messageData['lat'] = $post->getLatitude();
-            $messageData['lng'] = $post->getLongitude();
+            $messageData['lat'] = (string)$post->getLatitude();
+            $messageData['lng'] = (string)$post->getLongitude();
         }
 
         $topics = [
