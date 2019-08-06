@@ -163,7 +163,6 @@ class EventService
 
         $event = new Event;
         $event->setAuthor($user);
-        $this->attachConflict($event, Arr::get($data, 'conflict_id'));
         $this->fillEventFields($event, $data);
         $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($event, Arr::get($data, 'videos', []));
@@ -205,8 +204,15 @@ class EventService
             (bool)Arr::get($data, 'published') !== $event->isPublished()
         );
 
+        $userChangesConflict = (Arr::has($data, 'conflict_id') and ($data['conflict_id'] !== $event->getConflict()->getId()));
+
         $this->businessValidationService->validate([
-            (new UserCanModerate($user))->when($userChangesPublishStatus or Arr::has($data, 'locality_id'))
+            (new UserCanModerate($user))->when(
+                $userChangesPublishStatus
+                or Arr::has($data, 'locality_id')
+                or $userChangesConflict
+            ),
+            (new NotAParentEvent($event))->when($userChangesConflict)
         ]);
 
         //Перед изменением смотрим, на каких языках уже есть переводы (чтобы не послать пуш второй раз)
@@ -294,6 +300,7 @@ class EventService
      */
     private function fillEventFields(Event $event, $data)
     {
+        if (Arr::has($data, 'conflict_id')) $this->attachConflict($event, Arr::get($data, 'conflict_id'));
         if (Arr::has($data, 'date')) $event->setDate(Arr::get($data, 'date'));
         if (Arr::has($data, 'source_link')) $event->setSourceLink(Arr::get($data, 'source_link'));
         if (Arr::has($data, 'title_ru')) $event->setTitleRu(Arr::get($data, 'title_ru'));

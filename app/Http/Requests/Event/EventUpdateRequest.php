@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class EventRequest
  * @summary Обновление события
+ * @conflict_id ид. конфликта (только модератор может менять это поле)
  * @published опубликована ли запись
  * @title заголовок
  * @title_ru Заголовок на русском
@@ -48,6 +49,7 @@ class EventUpdateRequest extends FormRequest
     public function rules()
     {
         return [
+            'conflict_id'            => 'nullable|exists:App\Entities\Conflict,id',
             'published'              => 'nullable|boolean',
             'title'                  => 'nullable|string|max:255',
             'title_ru'               => 'nullable|string|max:255',

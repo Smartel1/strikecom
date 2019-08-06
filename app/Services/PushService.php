@@ -257,6 +257,8 @@ class PushService
      */
     private function send($message)
     {
+        if (env("APP_ENV") === "test") return;
+
         try {
             $this->messaging->send($message);
         } catch (\Exception $e) {

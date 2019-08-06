@@ -11,7 +11,7 @@ class UserCanModerate extends BusinessRule
     private $user;
 
     /**
-     * UniqueVersion constructor.
+     * UserCanModerate constructor.
      * @param $user
      */
     public function __construct(User $user)

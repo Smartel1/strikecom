@@ -8,8 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventStoreRequest
  * @description Запрос на создание события
  * @summary Создание события
- * @published опубликована ли запись
  * @conflict_id ид. конфликта
+ * @published опубликована ли запись
  * @title заголовок
  * @title_ru Заголовок на русском
  * @title_en Заголовок на английском
