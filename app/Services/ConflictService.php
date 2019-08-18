@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Criteria\AncestorsOfConflict;
+use App\Criteria\ChildrenOfConflict;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeGTE;
@@ -73,6 +74,7 @@ class ConflictService
             ->addCriteria(SafeIn::make('c.conflictResult', Arr::get($filters, 'conflict_result_ids')))
             ->addCriteria(SafeIn::make('c.conflictReason', Arr::get($filters, 'conflict_reason_ids')))
             ->addCriteria(AncestorsOfConflict::make('c', Arr::get($filters, 'ancestors_of')))
+            ->addCriteria(ChildrenOfConflict::make('c', Arr::get($filters, 'children_of')))
             //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
             ->innerJoin('c.events', 'e')
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))

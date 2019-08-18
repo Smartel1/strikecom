@@ -14,6 +14,8 @@ class ReferenceControllerTest extends TestCase
 
     public function testReferences()
     {
+        //Сначала убираем все наследственные связи, чтобы беспрепятственно удалить конфликты
+        EntityManager::createQuery('update App\Entities\Conflict c set c.parentEvent = :null')->setParameter('null', null)->execute();
         EntityManager::createQuery('DELETE FROM App\Entities\Event t')->getResult();
         EntityManager::createQuery('DELETE FROM App\Entities\Conflict t')->getResult();
         EntityManager::createQuery('DELETE FROM App\Entities\References\ClaimType t WHERE t.id > 3')->getResult();

@@ -24,6 +24,8 @@ class EventControllerTest extends TestCase
      */
     private function deleteAllEventsFromDB()
     {
+        //Сначала убираем все наследственные связи, чтобы беспрепятственно удалить конфликты
+        EntityManager::createQuery('update '.Conflict::class.' c set c.parentEvent = :null')->setParameter('null', null)->execute();
         EntityManager::createQueryBuilder()->from(Event::class, 'e')->delete()->getQuery()->getResult();
     }
 

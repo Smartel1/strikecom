@@ -36,7 +36,7 @@ class AncestorsOfConflict
         }
 
         return Criteria::create()->where(
-            Criteria::expr()->in($entityAlias . '.id', $ancestorsIds)
+            Criteria::expr()->in($entityAlias, $ancestorsIds)
         );
     }
 }
