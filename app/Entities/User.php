@@ -21,7 +21,7 @@ class User implements Authenticatable
 
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer")
      */
     protected $id;
@@ -58,7 +58,7 @@ class User implements Authenticatable
     protected $imageUrl;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Event")
+     * @ORM\ManyToMany(targetEntity="Event", inversedBy="likedUsers")
      * @ORM\JoinTable(name="favourite_events",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id", onDelete="cascade")}
@@ -68,7 +68,7 @@ class User implements Authenticatable
     protected $favouriteEvents;
 
     /**
-     * @ORM\ManyToMany(targetEntity="News")
+     * @ORM\ManyToMany(targetEntity="News", inversedBy="likedUsers")
      * @ORM\JoinTable(name="favourite_news",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="news_id", referencedColumnName="id", onDelete="cascade")}
