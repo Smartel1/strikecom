@@ -31,7 +31,7 @@ class Video
     /**
      * @ORM\Column(type="integer")
      */
-    protected $video_type_id;
+    protected $video_type_id; //todo выпилить?
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
@@ -74,24 +74,6 @@ class Video
     public function setUrl($url)
     {
         $this->url = $url;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVideoTypeId()
-    {
-        if ($this->videoType !== null) return $this->videoType->getId();
-
-        return $this->video_type_id;
-    }
-
-    /**
-     * @param mixed $video_type_id
-     */
-    public function setVideoTypeId($video_type_id)
-    {
-        $this->video_type_id = $video_type_id;
     }
 
     /**

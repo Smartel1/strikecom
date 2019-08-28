@@ -224,28 +224,6 @@ class Video extends \App\Entities\Video implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getVideoTypeId()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getVideoTypeId', []);
-
-        return parent::getVideoTypeId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setVideoTypeId($video_type_id)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVideoTypeId', [$video_type_id]);
-
-        return parent::setVideoTypeId($video_type_id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getPreviewUrl()
     {
 

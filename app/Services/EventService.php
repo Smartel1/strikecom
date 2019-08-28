@@ -225,9 +225,9 @@ class EventService
         $this->em->beginTransaction();
 
         $this->fillEventFields($event, $data);
-        $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
-        $this->syncVideos($event, Arr::get($data, 'videos', []));
-        $this->syncTags($event, Arr::get($data, 'tags', []));
+        if (Arr::has($data, 'photo_urls')) $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
+        if (Arr::has($data, 'videos')) $this->syncVideos($event, Arr::get($data, 'videos', []));
+        if (Arr::has($data, 'tags')) $this->syncTags($event, Arr::get($data, 'tags', []));
 
         $this->em->persist($event);
         $this->em->flush();

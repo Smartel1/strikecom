@@ -180,9 +180,9 @@ class NewsService
         $this->em->beginTransaction();
 
         $this->fillNewsFields($news, $data);
-        $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
-        $this->syncVideos($news, Arr::get($data, 'videos', []));
-        $this->syncTags($news, Arr::get($data, 'tags', []));
+        if (Arr::has($data, 'photo_urls')) $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
+        if (Arr::has($data, 'videos')) $this->syncVideos($news, Arr::get($data, 'videos', []));
+        if (Arr::has($data, 'tags')) $this->syncTags($news, Arr::get($data, 'tags', []));
 
         $this->em->persist($news);
         $this->em->flush();

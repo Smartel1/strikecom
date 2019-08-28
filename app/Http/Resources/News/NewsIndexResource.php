@@ -36,7 +36,7 @@ class NewsIndexResource extends Resource
                 return [
                     'url'           => $video->getUrl(),
                     'preview_url'   => $video->getPreviewUrl(),
-                    'video_type_id' => $video->getVideoTypeId(),
+                    'video_type_id' => $video->getVideoType()->getId(),
                 ];
             })->getValues(),
             'tags'        => $news->getTags()->map(function (Tag $tag) {
