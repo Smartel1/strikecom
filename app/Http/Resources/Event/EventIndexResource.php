@@ -27,6 +27,8 @@ class EventIndexResource extends Resource
             'id'              => $event->getId(),
             'date'            => $event->getDate(),
             'views'           => $event->getViews(),
+            'latitude'        => $event->getLatitude(),
+            'longitude'       => $event->getLongitude(),
             'source_link'     => $event->getSourceLink(),
             'conflict_id'     => $event->getConflict()->getId(),
             'event_status_id' => $event->getEventStatus() ? $event->getEventStatus()->getId() : null,
