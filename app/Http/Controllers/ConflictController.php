@@ -44,7 +44,11 @@ class ConflictController extends Controller
      */
     public function index(ConflictIndexRequest $request, $locale)
     {
-        $conflictsCollection = $this->conflictService->index(Arr::get($request->validated(), 'filters',[]));
+        $conflictsCollection = $this->conflictService->index(
+            Arr::get($request->validated(), 'filters',[]),
+            Arr::get($request, 'per_page'),
+            Arr::get($request, 'page', 1)
+        );
 
         if ($request->get('brief')) {
             return ConflictBriefIndexResource::collection($conflictsCollection);

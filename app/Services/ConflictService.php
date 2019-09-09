@@ -23,6 +23,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\QueryException;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -54,7 +56,7 @@ class ConflictService
      * @return Collection
      * @throws QueryException
      */
-    public function index(array $filters)
+    public function index(array $filters, $perPage, $page)
     {
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
@@ -89,9 +91,25 @@ class ConflictService
                 ->setParameter('radius', Arr::get($filters, 'near.radius'));
         }
 
-        $conflicts = $queryBuilder->getQuery()->getResult();
+        if ($perPage === null) {
+            return collect($queryBuilder->getQuery()->getResult());
+        }
 
-        return collect($conflicts);
+        //Пагинируем результат
+        $doctrinePaginator = new Paginator(
+            $queryBuilder->setFirstResult($perPage * ($page - 1))->setMaxResults($perPage)->getQuery()
+        );
+
+        //Переводим в формат, понятный laravel
+        $laravelPaginator = new LengthAwarePaginator(
+            collect($doctrinePaginator),
+            $doctrinePaginator->count(),
+            (integer)$perPage,
+            $page,
+            ['path' => request()->url()]
+        );
+
+        return $laravelPaginator;
     }
 
     /**

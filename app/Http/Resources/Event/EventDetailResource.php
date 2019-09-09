@@ -7,6 +7,7 @@ use App\Entities\Photo;
 use App\Entities\Tag;
 use App\Entities\Video;
 use App\Http\Resources\Conflict\ConflictDetailResource;
+use App\Http\Resources\Reference\LocalityResourceExtended;
 use Illuminate\Http\Resources\Json\Resource;
 
 class EventDetailResource extends Resource
@@ -54,8 +55,7 @@ class EventDetailResource extends Resource
             ] : null,
             'conflict'        => ConflictDetailResource::make($event->getConflict()),
             'comments_count'  => $event->getComments()->count(),
-            'locality'        => $eventLocality ? $eventLocality->getName() : null,
-            'region'          => $eventLocality ? $eventLocality->getRegion()->getName() : null,
+            'locality'        => $eventLocality ? new LocalityResourceExtended($eventLocality) : null,
         ];
 
         $locale = app('locale');
@@ -66,7 +66,6 @@ class EventDetailResource extends Resource
         if ($locale !== 'all') {
             $structure['title'] = $event->getTitleByLocale($locale);
             $structure['content'] = $event->getContentByLocale($locale);
-            $structure['country'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameByLocale($locale) : null;
 
         } else {
             $structure['title_ru'] = $event->getTitleRu();
@@ -75,9 +74,6 @@ class EventDetailResource extends Resource
             $structure['content_ru'] = $event->getContentRu();
             $structure['content_en'] = $event->getContentEn();
             $structure['content_es'] = $event->getContentEs();
-            $structure['country_ru'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameRu() : null;
-            $structure['country_en'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEn() : null;
-            $structure['country_es'] = $eventLocality ? $eventLocality->getRegion()->getCountry()->getNameEs() : null;
         }
 
         return $structure;

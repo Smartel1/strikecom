@@ -22,7 +22,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @latitude Долгота
  * @longitude Широта
  * @source_link ссылка на источник
- * @locality_id ссылка на населенный пункт
+ * @locality_id ссылка на населенный пункт (может быть задана только модератором)
  * @event_status_id ссылка на статус события
  * @event_type_id ссылка на тип события
  * @tags массив тэгов

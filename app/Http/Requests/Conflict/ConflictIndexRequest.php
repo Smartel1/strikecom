@@ -20,6 +20,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.near.lat широта точки (в градусах)
  * @filters.near.lng долгота точки (в градусах)
  * @filters.near.radius радиус поиска в километрах
+ * @per_page Количество элементов в пагинации (если не передан, то пагинации не будет)
+ * @page Страница пагинации
  * @package App\Http\Requests\Conflict
  */
 class ConflictIndexRequest extends FormRequest
@@ -56,6 +58,8 @@ class ConflictIndexRequest extends FormRequest
             'filters.near.lat'              => 'numeric|required_with:filters.near',
             'filters.near.lng'              => 'numeric|required_with:filters.near',
             'filters.near.radius'           => 'integer|required_with:filters.near',
+            'per_page'                      => 'integer|min:1',
+            'page'                          => 'integer',
         ];
     }
 }
