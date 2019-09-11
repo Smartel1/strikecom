@@ -20,8 +20,8 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.near.lat широта точки (в градусах)
  * @filters.near.lng долгота точки (в градусах)
  * @filters.near.radius радиус поиска в километрах
- * @per_page Количество элементов в пагинации (если не передан, то пагинации не будет)
- * @page Страница пагинации
+ * @per_page Количество элементов в пагинации (по умолчанию 20)
+ * @page Страница пагинации (если не передана, то пагинации не будет)
  * @package App\Http\Requests\Conflict
  */
 class ConflictIndexRequest extends FormRequest

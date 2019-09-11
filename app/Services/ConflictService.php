@@ -56,7 +56,7 @@ class ConflictService
      * @return Collection
      * @throws QueryException
      */
-    public function index(array $filters, $perPage, $page)
+    public function index(array $filters, $page, $perPage)
     {
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
@@ -91,7 +91,7 @@ class ConflictService
                 ->setParameter('radius', Arr::get($filters, 'near.radius'));
         }
 
-        if ($perPage === null) {
+        if ($page === null) {
             return collect($queryBuilder->getQuery()->getResult());
         }
 

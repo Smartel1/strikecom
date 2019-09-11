@@ -46,8 +46,8 @@ class ConflictController extends Controller
     {
         $conflictsCollection = $this->conflictService->index(
             Arr::get($request->validated(), 'filters',[]),
-            Arr::get($request, 'per_page'),
-            Arr::get($request, 'page', 1)
+            Arr::get($request, 'page'),
+            Arr::get($request, 'per_page', 20)
         );
 
         if ($request->get('brief')) {
