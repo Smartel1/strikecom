@@ -23,6 +23,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @filters.near.radius радиус поиска в километрах
  * @filters.favourites только избранные
  * @filters.published только опубликованные (true), только неопубликованные (false), любые (если не передать)
+ * @filters.contains_content полнотекстовый поиск среди контента всех локалей
  * @per_page Количество элементов в пагинации (по умолчанию 20)
  * @page Страница пагинации
  * @package App\Http\Requests
@@ -64,6 +65,7 @@ class EventIndexRequest extends FormRequest
             'filters.favourites'         => 'boolean',
             'filters.published'          => 'boolean',
             'filters.near'               => 'array',
+            'filters.contains_content'   => 'string',
             'filters.near.lat'           => 'numeric|required_with:filters.near',
             'filters.near.lng'           => 'numeric|required_with:filters.near',
             'filters.near.radius'        => 'integer|required_with:filters.near',

@@ -9,6 +9,7 @@ use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
+use App\Criteria\SafeContains;
 use App\Criteria\SafeEq;
 use App\Criteria\SafeIn;
 use App\DTO\LocalesDTO;
@@ -90,6 +91,25 @@ class EventService
             ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
             ->addCriteria(HasLocalizedContent::make('e', app('locale')))
             ->orderBy('e.date', 'desc');
+
+        //Полнотекстовый фильтр по содержанию строки в событии
+        if (Arr::has($filters, 'contains_content')) {
+            $queryBuilder
+                ->andWhere('LOWER(e.content_ru) like LOWER(:contains_content) or '
+                    .'LOWER(e.content_en) like LOWER(:contains_content) or '
+                    .'LOWER(e.content_es) like LOWER(:contains_content)')
+                ->setParameter('contains_content', '%'.Arr::get($filters, 'contains_content').'%');
+        }
+        if (Arr::has($filters, 'contains_content_en')) {
+            $queryBuilder
+                ->where('LOWER(e.content_en) like LOWER(:contains_content_en)')
+                ->setParameter('contains_content_en', '%'.Arr::get($filters, 'contains_content_en').'%');
+        }
+        if (Arr::has($filters, 'contains_content_es')) {
+            $queryBuilder
+                ->where('LOWER(e.content_es) like LOWER(:contains_content_es)')
+                ->setParameter('contains_content_es', '%'.Arr::get($filters, 'contains_content_es').'%');
+        }
 
         //Фильтр "только избранные" (criteria не получилось сделать)
         if (Arr::get($filters, 'favourites')) {
