@@ -8,6 +8,7 @@ use App\Entities\Tag;
 use App\Entities\Video;
 use App\Http\Resources\Conflict\ConflictDetailResource;
 use App\Http\Resources\Reference\LocalityResourceExtended;
+use App\Services\EventService;
 use Illuminate\Http\Resources\Json\Resource;
 
 class EventDetailResource extends Resource
@@ -21,7 +22,7 @@ class EventDetailResource extends Resource
     public function toArray($request)
     {
         /** @var $event Event */
-        $event = $this;
+        $event = $this->resource;
         $eventLocality = $event->getLocality();
 
         $structure = [
@@ -76,6 +77,12 @@ class EventDetailResource extends Resource
             $structure['content_es'] = $event->getContentEs();
         }
 
+        if ($request->get('withRelatives')) {
+            /** @var EventService $eventService */
+            $eventService = app(EventService::class);
+
+            $structure['relatives'] = $eventService->getRelatives($event);
+        }
         return $structure;
     }
 }

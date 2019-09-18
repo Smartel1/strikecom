@@ -64,10 +64,10 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
+            return ['__isInitialized__', 'id', 'lft', 'lvl', 'rgt', 'parent', 'children', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
         }
 
-        return ['__isInitialized__', 'id', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
+        return ['__isInitialized__', 'id', 'lft', 'lvl', 'rgt', 'parent', 'children', 'company_name', 'dateFrom', 'dateTo', 'conflictReason', 'conflictResult', 'industry', 'events', 'parentEvent', 'title_ru', 'title_en', 'title_es', 'createdAt', 'updatedAt', 'latitude', 'longitude'];
     }
 
     /**
@@ -197,6 +197,116 @@ class Conflict extends \App\Entities\Conflict implements \Doctrine\ORM\Proxy\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
         parent::setId($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLft()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLft', []);
+
+        return parent::getLft();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLft($lft): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLft', [$lft]);
+
+        parent::setLft($lft);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLvl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLvl', []);
+
+        return parent::getLvl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLvl($lvl): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLvl', [$lvl]);
+
+        parent::setLvl($lvl);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRgt()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRgt', []);
+
+        return parent::getRgt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRgt($rgt): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRgt', [$rgt]);
+
+        parent::setRgt($rgt);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getParent()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getParent', []);
+
+        return parent::getParent();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setParent($parent): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setParent', [$parent]);
+
+        parent::setParent($parent);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getChildren()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getChildren', []);
+
+        return parent::getChildren();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setChildren($children): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setChildren', [$children]);
+
+        parent::setChildren($children);
     }
 
     /**

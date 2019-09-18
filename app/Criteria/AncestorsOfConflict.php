@@ -6,6 +6,10 @@ namespace App\Criteria;
 
 use App\Entities\Conflict;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\TransactionRequiredException;
 
 /**
  * Применяет фильтр по принадлежности к предкам конфликта
@@ -17,23 +21,29 @@ class AncestorsOfConflict
      * @param string $entityAlias псевдоним сущности в DQL
      * @param int $descendantId
      * @return Criteria
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws TransactionRequiredException
      */
     public static function make(string $entityAlias, ?int $descendantId)
     {
         if (is_null($descendantId)) return Criteria::create();
 
-        $ancestorsIds = [];
+        /** @var EntityManager $em */
+        $em = app('em');
 
         /** @var Conflict $childConflict */
-        $childConflict = app('em')->find(Conflict::class, $descendantId);
+        $childConflict = $em->find(Conflict::class, $descendantId);
 
-        //Перебираем в цикле всех предков переданного конфликта (через привязку к событию).
-        //Чтобы не попасть в замкнутый цикл, проверяем, что конфликт ещё не в массиве $ancestorsIds
-        while ($childConflict->getParentEvent() and !in_array($childConflict->getId(), $ancestorsIds)) {
-            $parentEvent = $childConflict->getParentEvent();
-            $ancestorsIds []= $parentEvent->getConflict()->getId();
-            $childConflict = $parentEvent->getConflict();
-        }
+        $ancestorsIds = $em->createQueryBuilder()
+            ->select('c.id')
+            ->from(Conflict::class, 'c')
+            ->where($em->getExpressionBuilder()->lt('c.lft', $childConflict->getLft()))
+            ->andWhere($em->getExpressionBuilder()->gt('c.rgt', $childConflict->getRgt()))
+            ->getQuery()
+            ->getResult();
+
+        $ancestorsIds = collect($ancestorsIds)->pluck('id')->toArray();
 
         return Criteria::create()->where(
             Criteria::expr()->in($entityAlias, $ancestorsIds)

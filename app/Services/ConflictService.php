@@ -250,13 +250,15 @@ class ConflictService
     {
         if (!$parentEventId) {
             $conflict->setParentEvent(null);
+            $conflict->setParent(null); //Изменяем и ссылку на родительский конфликт
             return;
         }
 
         /** @var $parentEvent Event */
-        $parentEvent = $this->em->getReference(Event::class, $parentEventId);
+        $parentEvent = $this->em->find(Event::class, $parentEventId);
 
         $conflict->setParentEvent($parentEvent);
+        $conflict->setParent($parentEvent->getConflict()); //Изменяем и ссылку на родительский конфликт
     }
 
     /**

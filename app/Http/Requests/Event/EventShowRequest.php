@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EventIndexRequest
  * @description Запрос на получение события
  * @summary Найти событие
+ * @withRelatives вернуть вместе с массивом связанных событий (для отображения развития конфликта)
  * @package App\Http\Requests
  */
 class EventShowRequest extends FormRequest
@@ -29,6 +30,8 @@ class EventShowRequest extends FormRequest
      */
     public function rules()
     {
-        return [];
+        return [
+            'withRelatives' => 'boolean'
+        ];
     }
 }

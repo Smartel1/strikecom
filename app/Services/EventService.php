@@ -9,7 +9,6 @@ use App\Criteria\HasTag;
 use App\Criteria\HasLocalizedContent;
 use App\Criteria\HasLocalizedTitle;
 use App\Criteria\SafeBetween;
-use App\Criteria\SafeContains;
 use App\Criteria\SafeEq;
 use App\Criteria\SafeIn;
 use App\DTO\LocalesDTO;
@@ -23,10 +22,13 @@ use App\Entities\Tag;
 use App\Entities\User;
 use App\Entities\Video;
 use App\Exceptions\BusinessRuleValidationException;
+use App\Repositories\ConflictRepository;
 use App\Rules\NotAParentEvent;
 use App\Rules\UserCanModerate;
 use DateTime;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\QueryException;
@@ -43,6 +45,8 @@ class EventService
 
     private $pushService;
 
+    private $locale;
+
     public function __construct(
         EntityManager $em,
         BusinessValidationService $businessValidationService,
@@ -52,6 +56,7 @@ class EventService
         $this->em = $em;
         $this->businessValidationService = $businessValidationService;
         $this->pushService = $pushService;
+        $this->locale = app('locale');
     }
 
     /**
@@ -88,27 +93,27 @@ class EventService
             ->addCriteria(SafeIn::make('e.eventType', Arr::get($filters, 'event_type_ids')))
             ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
             ->addCriteria(BelongsToConflicts::make(Arr::get($filters, 'conflict_ids')))
-            ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
-            ->addCriteria(HasLocalizedContent::make('e', app('locale')))
+            ->addCriteria(HasLocalizedTitle::make('e', $this->locale))
+            ->addCriteria(HasLocalizedContent::make('e', $this->locale))
             ->orderBy('e.date', 'desc');
 
         //Полнотекстовый фильтр по содержанию строки в событии
         if (Arr::has($filters, 'contains_content')) {
             $queryBuilder
                 ->andWhere('LOWER(e.content_ru) like LOWER(:contains_content) or '
-                    .'LOWER(e.content_en) like LOWER(:contains_content) or '
-                    .'LOWER(e.content_es) like LOWER(:contains_content)')
-                ->setParameter('contains_content', '%'.Arr::get($filters, 'contains_content').'%');
+                    . 'LOWER(e.content_en) like LOWER(:contains_content) or '
+                    . 'LOWER(e.content_es) like LOWER(:contains_content)')
+                ->setParameter('contains_content', '%' . Arr::get($filters, 'contains_content') . '%');
         }
         if (Arr::has($filters, 'contains_content_en')) {
             $queryBuilder
                 ->where('LOWER(e.content_en) like LOWER(:contains_content_en)')
-                ->setParameter('contains_content_en', '%'.Arr::get($filters, 'contains_content_en').'%');
+                ->setParameter('contains_content_en', '%' . Arr::get($filters, 'contains_content_en') . '%');
         }
         if (Arr::has($filters, 'contains_content_es')) {
             $queryBuilder
                 ->where('LOWER(e.content_es) like LOWER(:contains_content_es)')
-                ->setParameter('contains_content_es', '%'.Arr::get($filters, 'contains_content_es').'%');
+                ->setParameter('contains_content_es', '%' . Arr::get($filters, 'contains_content_es') . '%');
         }
 
         //Фильтр "только избранные" (criteria не получилось сделать)
@@ -337,17 +342,15 @@ class EventService
         if (Arr::has($data, 'event_status_id')) $this->setEventStatus($event, Arr::get($data, 'event_status_id'));
         if (Arr::has($data, 'event_type_id')) $this->setEventType($event, Arr::get($data, 'event_type_id'));
 
-        $locale = app('locale');
-
         //В зависимости от локали
         //при сохранении новости мы поле title записываем в поле title_ru [en/es]
-        if (Arr::has($data, 'title') and $locale !== 'all') {
-            $titleSetterName = 'setTitle' . $locale;
+        if (Arr::has($data, 'title') and $this->locale !== 'all') {
+            $titleSetterName = 'setTitle' . $this->locale;
             $event->$titleSetterName(Arr::get($data, 'title'));
         }
         //content - то же самое
-        if (Arr::has($data, 'content') and $locale !== 'all') {
-            $contentSetterName = 'setContent' . $locale;
+        if (Arr::has($data, 'content') and $this->locale !== 'all') {
+            $contentSetterName = 'setContent' . $this->locale;
             $event->$contentSetterName(Arr::get($data, 'content'));
         }
     }
@@ -516,5 +519,84 @@ class EventService
         if (!$event->isPublished()) {
             $this->pushService->eventDeclined($event);
         }
+    }
+
+    /**
+     * Вернуть родственников этого события, сгруппировав их по конфликтам.
+     * Вернутся события из всех веток, которые имеют хоть одного общего предка с этим событием
+     * @param Event $event
+     * @return array
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getRelatives(Event $event)
+    {
+        //Сначала берем конфликт этого события
+        $conflict = $event->getConflict();
+        if (!$conflict) return [];
+
+        /** @var ConflictRepository $conflictRepository */
+        $conflictRepository = $this->em->getRepository(Conflict::class);
+
+        //Находим родоначальника ветки событий
+        $rootParentConflict = $conflictRepository->getParentOfConflictBranch($conflict);
+        //Находим всех его потомков
+        $conflictsOfRoot = collect(
+            $conflictRepository->childrenQueryBuilder($rootParentConflict, false, null, 'ASC', true)
+                ->select('node.id') //node - такой псевдоним используется в childrenQueryBuilder
+                ->addSelect('IDENTITY(node.parentEvent) as parent_event_id')
+                ->addSelect('IDENTITY(node.parent) as parent_conflict_id')
+                ->getQuery()
+                ->getResult()
+        );
+
+        //приводим к плоскому массиву
+        $conflictsOfRootIds = $conflictsOfRoot->pluck('id')->toArray();
+
+        //Ищем события, относящиеся к этим конфликтам. Запрашиваем только необходимые поля. Оборачиваем в коллекцию
+        $conflictEvents = collect(
+            $this->em->createQueryBuilder()
+                ->select('e.id, e.title_ru, e.title_en, e.title_es, IDENTITY(e.conflict) as conflict_id')
+                ->from(Event::class, 'e')
+                ->where($this->em->getExpressionBuilder()->in('e.conflict', $conflictsOfRootIds))
+                ->orderBy('e.date')
+                ->getQuery()
+                ->getResult()
+        );
+
+        $locale = $this->locale;
+
+        //Объединяем две коллекции (конфликты и события) в один массив
+        return $conflictsOfRoot->map(function ($conflictItem) use ($conflictEvents, $locale) {
+            $conflictItem['events'] = $conflictEvents->where('conflict_id', $conflictItem['id'])
+                ->map(function ($eventItem) use ($locale) {
+                    return $this->formatEventItemByLocale($eventItem, $locale);
+                })
+                ->values();
+            return $conflictItem;
+        })->toArray();
+    }
+
+    /**
+     * На вход поступат массив с ключами [id, title_ru, title_en, title_es] и локаль.
+     * На выходе будет либо тот же массив (если локаль = all), либо [id, title]
+     * @param array $eventItem
+     * @param string $locale
+     * @return array
+     */
+    private function formatEventItemByLocale(array $eventItem, string $locale)
+    {
+        if ($this->locale === 'all') return $eventItem;
+
+        //отображаем заголовок на нужной локали (если не переведено, то отображаем на русском),
+        //считая, что на русский переведено всегда
+        $title = (!in_array($eventItem['title_' . $locale], [null, '']))
+            ? $eventItem['title_' . $locale]
+            : $eventItem['title_ru'];
+
+        return [
+            'id'    => $eventItem['id'],
+            'title' => $title
+        ];
     }
 }
