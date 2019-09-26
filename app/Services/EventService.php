@@ -556,7 +556,7 @@ class EventService
         //Ищем события, относящиеся к этим конфликтам. Запрашиваем только необходимые поля. Оборачиваем в коллекцию
         $conflictEvents = collect(
             $this->em->createQueryBuilder()
-                ->select('e.id, e.title_ru, e.title_en, e.title_es, IDENTITY(e.conflict) as conflict_id')
+                ->select('e.id, e.date, e.title_ru, e.title_en, e.title_es, IDENTITY(e.conflict) as conflict_id')
                 ->from(Event::class, 'e')
                 ->where($this->em->getExpressionBuilder()->in('e.conflict', $conflictsOfRootIds))
                 ->orderBy('e.date')
@@ -594,8 +594,10 @@ class EventService
             ? $eventItem['title_' . $locale]
             : $eventItem['title_ru'];
 
+
         return [
             'id'    => $eventItem['id'],
+            'date'  => $eventItem['date']->getTimestamp(),
             'title' => $title
         ];
     }
