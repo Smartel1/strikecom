@@ -41,7 +41,7 @@ class Event implements Commentable, Post
     protected $date;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default":0})
      */
     protected $views = 0;
 
@@ -51,7 +51,7 @@ class Event implements Commentable, Post
     protected $source_link;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $published = false;
 
