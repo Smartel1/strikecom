@@ -58,16 +58,16 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if ($e instanceof AuthorizationException) {
-            return response($e->getMessage(), 403);
+            return response(['error' => $e->getMessage()], 403);
         }
         if ($e instanceof AuthenticationException) {
-            return response($e->getMessage(), 401);
+            return response(['error' => $e->getMessage()], 401);
         }
         if ($e instanceof UnknownKey) {
-            return response($e->getMessage(), 401);
+            return response(['error' => $e->getMessage()], 401);
         }
         if ($e instanceof InvalidToken) {
-            return response($e->getMessage(), 401);
+            return response(['error' => $e->getMessage()], 401);
         }
         if ($e instanceof ValidationException) {
             return response($e->errors(), 422);
