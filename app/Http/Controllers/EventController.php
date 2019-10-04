@@ -49,6 +49,7 @@ class EventController extends Controller
             Arr::get($request->validated(), 'filters', []),
             Arr::get($request, 'per_page', 20),
             Arr::get($request, 'page', 1),
+            $locale,
             Auth::user()
         );
 
@@ -68,7 +69,7 @@ class EventController extends Controller
     {
         $this->authorize('create', Event::class);
 
-        $event = $this->service->create($request->validated(), Auth::user());
+        $event = $this->service->create($request->validated(), $locale, Auth::user());
 
         return EventDetailResource::make($event);
     }
@@ -103,7 +104,7 @@ class EventController extends Controller
     {
         $this->authorize('update', $event);
 
-        $event = $this->service->update($event, $request->validated(), Auth::user());
+        $event = $this->service->update($event, $request->validated(), $locale, Auth::user());
 
         return EventDetailResource::make($event);
     }

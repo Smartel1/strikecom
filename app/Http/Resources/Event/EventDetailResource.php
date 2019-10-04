@@ -81,7 +81,7 @@ class EventDetailResource extends Resource
             /** @var EventService $eventService */
             $eventService = app(EventService::class);
 
-            $structure['relatives'] = $eventService->getRelatives($event);
+            $structure['relatives'] = $eventService->getRelatives($event, $locale);
         }
         return $structure;
     }

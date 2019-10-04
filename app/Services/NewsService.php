@@ -51,11 +51,12 @@ class NewsService
      * @param $filters array фильтры
      * @param $perPage int размер выборки
      * @param $page int номер страницы
+     * @param $locale
      * @param User|null $user
      * @return LengthAwarePaginator
      * @throws QueryException
      */
-    public function index($filters, $perPage, $page, ?User $user)
+    public function index($filters, $perPage, $page, $locale, ?User $user)
     {
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
@@ -76,8 +77,8 @@ class NewsService
             ))
             ->addCriteria(SafeEq::make('n.published', Arr::get($filters, 'published')))
             ->addCriteria(HasTag::make('n', Arr::get($filters, 'tag_id')))
-            ->addCriteria(HasLocalizedTitle::make('n', app('locale')))
-            ->addCriteria(HasLocalizedContent::make('n', app('locale')))
+            ->addCriteria(HasLocalizedTitle::make('n', $locale))
+            ->addCriteria(HasLocalizedContent::make('n', $locale))
             ->orderBy('n.date', 'desc');
 
         //Фильтр "только избранные" (criteria не получилось сделать)
@@ -107,14 +108,15 @@ class NewsService
     /**
      * Создать новость
      * @param $data
-     * @param $user
+     * @param $locale
+     * @param User $user
      * @return News
+     * @throws BusinessRuleValidationException
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
-     * @throws BusinessRuleValidationException
      */
-    public function create($data, User $user)
+    public function create($data, $locale, User $user)
     {
         //Если пользователь хочет сразу опубликовать новость, он должен быть модератором
         $this->businessValidationService->validate([
@@ -125,7 +127,7 @@ class NewsService
 
         $news = new News;
         $news->setAuthor($user);
-        $this->fillNewsFields($news, $data);
+        $this->fillNewsFields($news, $data, $locale);
         $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($news, Arr::get($data, 'videos', []));
         $this->syncTags($news, Arr::get($data, 'tags', []));
@@ -151,14 +153,15 @@ class NewsService
     /**
      * @param News $news
      * @param $data
+     * @param $locale
      * @param $user
      * @return News
+     * @throws BusinessRuleValidationException
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
-     * @throws BusinessRuleValidationException
      */
-    public function update(News $news, $data, $user)
+    public function update(News $news, $data, $locale, $user)
     {
         $userChangesPublishStatus = (
             Arr::has($data, 'published')
@@ -179,7 +182,7 @@ class NewsService
 
         $this->em->beginTransaction();
 
-        $this->fillNewsFields($news, $data);
+        $this->fillNewsFields($news, $data, $locale);
         if (Arr::has($data, 'photo_urls')) $this->syncPhotos($news, Arr::get($data, 'photo_urls', []));
         if (Arr::has($data, 'videos')) $this->syncVideos($news, Arr::get($data, 'videos', []));
         if (Arr::has($data, 'tags')) $this->syncTags($news, Arr::get($data, 'tags', []));
@@ -249,8 +252,9 @@ class NewsService
      * Заполнить поля новости переданными данными
      * @param News $news
      * @param $data
+     * @param $locale
      */
-    private function fillNewsFields(News $news, $data)
+    private function fillNewsFields(News $news, $data, $locale)
     {
         //Устанавливаем/обновляем только те поля, которые переданы
         if (Arr::has($data, 'date')) $news->setDate(Arr::get($data, 'date'));
@@ -262,8 +266,6 @@ class NewsService
         if (Arr::has($data, 'content_en')) $news->setContentEn(Arr::get($data, 'content_en'));
         if (Arr::has($data, 'content_es')) $news->setContentEs(Arr::get($data, 'content_es'));
         if (Arr::has($data, 'published'))  $news->setPublished(Arr::get($data, 'published'));
-
-        $locale = app('locale');
 
         //В зависимости от локали
         //при сохранении новости мы поле title записываем в поле title_ru [en/es]

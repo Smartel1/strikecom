@@ -40,14 +40,18 @@ class ConflictController extends Controller
      * @param ConflictIndexRequest $request
      * @param $locale
      * @return AnonymousResourceCollection
+     * @throws ORMException
+     * @throws OptimisticLockException
      * @throws QueryException
+     * @throws \Doctrine\ORM\TransactionRequiredException
      */
     public function index(ConflictIndexRequest $request, $locale)
     {
         $conflictsCollection = $this->conflictService->index(
             Arr::get($request->validated(), 'filters',[]),
             Arr::get($request, 'page'),
-            Arr::get($request, 'per_page', 20)
+            Arr::get($request, 'per_page', 20),
+            $locale
         );
 
         if ($request->get('brief')) {
@@ -69,7 +73,7 @@ class ConflictController extends Controller
     {
         $this->authorize('create', Conflict::class);
 
-        $conflict = $this->conflictService->create($request->validated());
+        $conflict = $this->conflictService->create($request->validated(), $locale);
 
         return ConflictDetailResource::make($conflict);
     }
@@ -98,7 +102,7 @@ class ConflictController extends Controller
     {
         $this->authorize('update', $conflict);
 
-        $conflict = $this->conflictService->update($conflict, $request->validated());
+        $conflict = $this->conflictService->update($conflict, $request->validated(), $locale);
 
         return ConflictDetailResource::make($conflict);
     }

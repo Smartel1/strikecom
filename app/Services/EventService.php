@@ -45,8 +45,6 @@ class EventService
 
     private $pushService;
 
-    private $locale;
-
     public function __construct(
         EntityManager $em,
         BusinessValidationService $businessValidationService,
@@ -56,7 +54,6 @@ class EventService
         $this->em = $em;
         $this->businessValidationService = $businessValidationService;
         $this->pushService = $pushService;
-        $this->locale = app('locale');
     }
 
     /**
@@ -64,11 +61,12 @@ class EventService
      * @param $filters array фильтры
      * @param $perPage int размер выборки
      * @param $page int номер страницы
+     * @param $locale
      * @param User|null $user пользователь, запросивший ресурс
      * @return LengthAwarePaginator
      * @throws QueryException
      */
-    public function index($filters, $perPage, $page, ?User $user)
+    public function index($filters, $perPage, $page, $locale, ?User $user)
     {
         //Запрашиваем новости с их связанными сущностями, сортируя по убыванию даты
         $queryBuilder = $this->em->createQueryBuilder()
@@ -93,8 +91,8 @@ class EventService
             ->addCriteria(SafeIn::make('e.eventType', Arr::get($filters, 'event_type_ids')))
             ->addCriteria(HasTag::make('e', Arr::get($filters, 'tag_id')))
             ->addCriteria(BelongsToConflicts::make(Arr::get($filters, 'conflict_ids')))
-            ->addCriteria(HasLocalizedTitle::make('e', $this->locale))
-            ->addCriteria(HasLocalizedContent::make('e', $this->locale))
+            ->addCriteria(HasLocalizedTitle::make('e', $locale))
+            ->addCriteria(HasLocalizedContent::make('e', $locale))
             ->orderBy('e.date', 'desc');
 
         //Полнотекстовый фильтр по содержанию строки в событии
@@ -171,13 +169,15 @@ class EventService
     /**
      * Создать событие
      * @param $data
-     * @param $user
+     * @param User $user
+     * @param $locale
      * @return Event
+     * @throws BusinessRuleValidationException
      * @throws ORMException
      * @throws OptimisticLockException
-     * @throws BusinessRuleValidationException
+     * @throws TransactionRequiredException
      */
-    public function create($data, User $user)
+    public function create($data, User $user, $locale)
     {
         //Если пользователь хочет сразу опубликовать событие, он должен быть модератором
         $this->businessValidationService->validate([
@@ -188,7 +188,7 @@ class EventService
 
         $event = new Event;
         $event->setAuthor($user);
-        $this->fillEventFields($event, $data);
+        $this->fillEventFields($event, $data, $locale);
         $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
         $this->syncVideos($event, Arr::get($data, 'videos', []));
         $this->syncTags($event, Arr::get($data, 'tags', []));
@@ -214,6 +214,7 @@ class EventService
     /**
      * @param Event $event
      * @param $data
+     * @param $locale
      * @param $user
      * @return Event
      * @throws BusinessRuleValidationException
@@ -221,7 +222,7 @@ class EventService
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    public function update(Event $event, $data, $user)
+    public function update(Event $event, $data, $locale, $user)
     {
         $userChangesPublishStatus = (
             Arr::has($data, 'published')
@@ -249,7 +250,7 @@ class EventService
 
         $this->em->beginTransaction();
 
-        $this->fillEventFields($event, $data);
+        $this->fillEventFields($event, $data, $locale);
         if (Arr::has($data, 'photo_urls')) $this->syncPhotos($event, Arr::get($data, 'photo_urls', []));
         if (Arr::has($data, 'videos')) $this->syncVideos($event, Arr::get($data, 'videos', []));
         if (Arr::has($data, 'tags')) $this->syncTags($event, Arr::get($data, 'tags', []));
@@ -319,11 +320,12 @@ class EventService
      * Заполнить поля события переданными данными
      * @param Event $event
      * @param $data
+     * @param $locale
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws TransactionRequiredException
      */
-    private function fillEventFields(Event $event, $data)
+    private function fillEventFields(Event $event, $data, $locale)
     {
         if (Arr::has($data, 'conflict_id')) $this->attachConflict($event, Arr::get($data, 'conflict_id'));
         if (Arr::has($data, 'date')) $event->setDate(Arr::get($data, 'date'));
@@ -344,13 +346,13 @@ class EventService
 
         //В зависимости от локали
         //при сохранении новости мы поле title записываем в поле title_ru [en/es]
-        if (Arr::has($data, 'title') and $this->locale !== 'all') {
-            $titleSetterName = 'setTitle' . $this->locale;
+        if (Arr::has($data, 'title') and $locale !== 'all') {
+            $titleSetterName = 'setTitle' . $locale;
             $event->$titleSetterName(Arr::get($data, 'title'));
         }
         //content - то же самое
-        if (Arr::has($data, 'content') and $this->locale !== 'all') {
-            $contentSetterName = 'setContent' . $this->locale;
+        if (Arr::has($data, 'content') and $locale !== 'all') {
+            $contentSetterName = 'setContent' . $locale;
             $event->$contentSetterName(Arr::get($data, 'content'));
         }
     }
@@ -525,11 +527,12 @@ class EventService
      * Вернуть родственников этого события, сгруппировав их по конфликтам.
      * Вернутся события из всех веток, которые имеют хоть одного общего предка с этим событием
      * @param Event $event
+     * @param $locale
      * @return array
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getRelatives(Event $event)
+    public function getRelatives(Event $event, $locale)
     {
         //Сначала берем конфликт этого события
         $conflict = $event->getConflict();
@@ -564,8 +567,6 @@ class EventService
                 ->getResult()
         );
 
-        $locale = $this->locale;
-
         //Объединяем две коллекции (конфликты и события) в один массив
         return $conflictsOfRoot->map(function ($conflictItem) use ($conflictEvents, $locale) {
             $conflictItem['events'] = $conflictEvents->where('conflict_id', $conflictItem['id'])
@@ -586,7 +587,7 @@ class EventService
      */
     private function formatEventItemByLocale(array $eventItem, string $locale)
     {
-        if ($this->locale === 'all') return $eventItem;
+        if ($locale === 'all') return $eventItem;
 
         //отображаем заголовок на нужной локали (если не переведено, то отображаем на русском),
         //считая, что на русский переведено всегда

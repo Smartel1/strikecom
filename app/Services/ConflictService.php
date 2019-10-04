@@ -24,6 +24,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\ORM\TransactionRequiredException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -53,10 +54,16 @@ class ConflictService
     /**
      * Вернуть конфликты из бд
      * @param array $filters
+     * @param $page
+     * @param $perPage
+     * @param $locale
      * @return Collection
+     * @throws ORMException
+     * @throws OptimisticLockException
      * @throws QueryException
+     * @throws TransactionRequiredException
      */
-    public function index(array $filters, $page, $perPage)
+    public function index(array $filters, $page, $perPage, $locale)
     {
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('c')
@@ -79,8 +86,8 @@ class ConflictService
             ->addCriteria(ChildrenOfConflict::make('c', Arr::get($filters, 'children_of')))
             //Если указана конкретная локаль, то выводим только те конфликты, которые содержат локализованные события
             ->innerJoin('c.events', 'e')
-            ->addCriteria(HasLocalizedTitle::make('e', app('locale')))
-            ->addCriteria(HasLocalizedContent::make('e', app('locale')));
+            ->addCriteria(HasLocalizedTitle::make('e', $locale))
+            ->addCriteria(HasLocalizedContent::make('e', $locale));
 
         //Если передан фильтр "вблизи точки", то применяем ограничение по формуле гаверсинуса
         //https://stackoverflow.com/questions/21084886/how-to-calculate-distance-using-latitude-and-longitude
@@ -114,16 +121,17 @@ class ConflictService
 
     /**
      * @param $data
+     * @param $locale
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function create($data)
+    public function create($data, $locale)
     {
         $this->em->beginTransaction();
 
         $conflict = new Conflict();
-        $this->fillConflictFields($conflict, $data);
+        $this->fillConflictFields($conflict, $data, $locale);
 
         $this->em->persist($conflict);
         $this->em->flush();
@@ -135,15 +143,16 @@ class ConflictService
     /**
      * @param Conflict $conflict
      * @param $data
+     * @param $locale
      * @return Conflict
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function update(Conflict $conflict, $data)
+    public function update(Conflict $conflict, $data, $locale)
     {
         $this->em->beginTransaction();
 
-        $this->fillConflictFields($conflict, $data);
+        $this->fillConflictFields($conflict, $data, $locale);
 
         $this->em->persist($conflict);
         $this->em->flush();
@@ -155,9 +164,10 @@ class ConflictService
     /**
      * @param Conflict $conflict
      * @param $data
+     * @param $locale
      * @throws ORMException
      */
-    private function fillConflictFields(Conflict $conflict, $data)
+    private function fillConflictFields(Conflict $conflict, $data, $locale)
     {
         //todo use Builder pattern
         if (Arr::get($data, 'title_ru')) $conflict->setTitleRu(Arr::get($data, 'title_ru'));
@@ -174,7 +184,6 @@ class ConflictService
         if (Arr::get($data, 'industry_id')) $this->setIndustry($conflict, Arr::get($data, 'industry_id'));
         if (Arr::get($data, 'parent_event_id')) $this->setParentEvent($conflict, Arr::get($data, 'parent_event_id'));
 
-        $locale = app('locale');
 
         //В зависимости от локали
         //при сохранении новости мы поле title записываем в поле title_ru [en/es]

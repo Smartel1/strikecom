@@ -48,6 +48,7 @@ class NewsController extends Controller
             array_get($request->validated(), 'filters',[]),
             array_get($request, 'per_page', 20),
             array_get($request, 'page', 1),
+            $locale,
             Auth::user()
         );
 
@@ -66,7 +67,7 @@ class NewsController extends Controller
     {
         $this->authorize('create', News::class);
 
-        $news = $this->service->create($request->validated(), Auth::user());
+        $news = $this->service->create($request->validated(), $locale, Auth::user());
 
         return NewsDetailResource::make($news);
     }
@@ -99,7 +100,7 @@ class NewsController extends Controller
     {
         $this->authorize('update', $news);
 
-        $news = $this->service->update($news, $request->validated(), Auth::user());
+        $news = $this->service->update($news, $request->validated(), $locale, Auth::user());
 
         return NewsDetailResource::make($news);
     }
