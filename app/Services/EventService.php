@@ -103,16 +103,6 @@ class EventService
                     . 'LOWER(e.content_es) like LOWER(:contains_content)')
                 ->setParameter('contains_content', '%' . Arr::get($filters, 'contains_content') . '%');
         }
-        if (Arr::has($filters, 'contains_content_en')) {
-            $queryBuilder
-                ->where('LOWER(e.content_en) like LOWER(:contains_content_en)')
-                ->setParameter('contains_content_en', '%' . Arr::get($filters, 'contains_content_en') . '%');
-        }
-        if (Arr::has($filters, 'contains_content_es')) {
-            $queryBuilder
-                ->where('LOWER(e.content_es) like LOWER(:contains_content_es)')
-                ->setParameter('contains_content_es', '%' . Arr::get($filters, 'contains_content_es') . '%');
-        }
 
         //Фильтр "только избранные" (criteria не получилось сделать)
         if (Arr::get($filters, 'favourites')) {

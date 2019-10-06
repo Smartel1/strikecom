@@ -48,9 +48,9 @@ class EventIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'filters'                    => 'nullable|array',
-            'filters.tag_id'             => 'nullable|integer',
-            'filters.conflict_ids'       => 'nullable|array',
+            'filters'                    => 'array',
+            'filters.tag_id'             => 'integer',
+            'filters.conflict_ids'       => 'array',
             'filters.conflict_ids.*'     => 'integer',
             'filters.date_from'          => 'integer',
             'filters.date_to'            => 'integer',
@@ -64,11 +64,11 @@ class EventIndexRequest extends FormRequest
             'filters.region_ids.*'       => 'integer',
             'filters.favourites'         => 'boolean',
             'filters.published'          => 'boolean',
-            'filters.near'               => 'array',
             'filters.contains_content'   => 'string',
-            'filters.near.lat'           => 'numeric|required_with:filters.near',
-            'filters.near.lng'           => 'numeric|required_with:filters.near',
-            'filters.near.radius'        => 'integer|required_with:filters.near',
+            'filters.near'               => 'array',
+            'filters.near.lat'           => 'numeric',
+            'filters.near.lng'           => 'numeric',
+            'filters.near.radius'        => 'integer',
             'per_page'                   => 'integer|min:1',
             'page'                       => 'integer',
         ];
