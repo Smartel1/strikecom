@@ -19,10 +19,10 @@ class ByPermission
      */
     public static function make(?User $user)
     {
-        if (is_null($user)) return Criteria::create();
-
-        if (in_array(User::$ROLE_MODERATOR, $user->getRoles())
-            or in_array(User::$ROLE_ADMIN, $user->getRoles())) return Criteria::create();
+        if (!is_null($user)) {
+            if (in_array(User::$ROLE_MODERATOR, $user->getRoles())
+                        or in_array(User::$ROLE_ADMIN, $user->getRoles())) return Criteria::create();
+        }
 
         return Criteria::create()->where(
             Criteria::expr()->eq('published', true)
