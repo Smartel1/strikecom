@@ -70,7 +70,7 @@ class EventIndexRequest extends FormRequest
             'filters.near.lng'           => 'numeric',
             'filters.near.radius'        => 'integer',
             'per_page'                   => 'integer|min:1',
-            'page'                       => 'integer',
+            'page'                       => 'integer|min:1',
         ];
     }
 }

@@ -173,7 +173,7 @@ class PushService
             'type'       => 'news', //не знаю, зачем это передаётся
         ];
 
-        if ($post instanceof Event) {
+        if ($isEvent) {
             $messageData['lat'] = (string)$post->getLatitude();
             $messageData['lng'] = (string)$post->getLongitude();
         }

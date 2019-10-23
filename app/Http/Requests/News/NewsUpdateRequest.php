@@ -43,7 +43,7 @@ class NewsUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'published'             => 'nullable|boolean',
+            'published'             => 'boolean',
             'title'                 => 'nullable|string|max:255',
             'title_ru'              => 'nullable|string|max:255',
             'title_en'              => 'nullable|string|max:255',
@@ -57,11 +57,11 @@ class NewsUpdateRequest extends FormRequest
             'tags'                  => 'array',
             'tags.*'                => 'string|min:2|max:20',
             'photo_urls'            => 'array',
-            'photo_urls.*'          => 'required|string|max:500',
+            'photo_urls.*'          => 'string|max:500',
             'videos'                => 'array',
             'videos.*.url'          => 'required|string|max:500',
             'videos.*.preview_url'  => 'nullable|string|max:500',
-            'videos.*.video_type_id'=> 'exists:App\Entities\References\VideoType,id',
+            'videos.*.video_type_id'=> 'required|exists:App\Entities\References\VideoType,id',
         ];
     }
 }

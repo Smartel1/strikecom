@@ -59,7 +59,7 @@ class ConflictIndexRequest extends FormRequest
             'filters.near.lng'              => 'numeric|required_with:filters.near',
             'filters.near.radius'           => 'integer|required_with:filters.near',
             'per_page'                      => 'integer|min:1',
-            'page'                          => 'integer',
+            'page'                          => 'integer|min:1',
         ];
     }
 }

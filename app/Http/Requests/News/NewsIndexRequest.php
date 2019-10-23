@@ -45,7 +45,7 @@ class NewsIndexRequest extends FormRequest
             'filters.favourites' => 'boolean',
             'filters.published'  => 'boolean',
             'per_page'           => 'integer|min:1',
-            'page'               => 'integer',
+            'page'               => 'integer|min:1',
         ];
     }
 }
