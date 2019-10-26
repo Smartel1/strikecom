@@ -38,10 +38,10 @@ class NewsIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'filters'            => 'nullable|array',
-            'filters.tag_id'     => 'nullable|integer',
-            'filters.date_from'  => 'nullable|integer',
-            'filters.date_to'    => 'nullable|integer',
+            'filters'            => 'array',
+            'filters.tag_id'     => 'integer',
+            'filters.date_from'  => 'integer',
+            'filters.date_to'    => 'integer',
             'filters.favourites' => 'boolean',
             'filters.published'  => 'boolean',
             'per_page'           => 'integer|min:1',

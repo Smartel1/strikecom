@@ -44,16 +44,16 @@ class ConflictIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'brief'                         => 'nullable|boolean',
-            'filters'                       => 'nullable|array',
-            'filters.date_from'             => 'nullable|integer',
-            'filters.date_to'               => 'nullable|integer',
+            'brief'                         => 'boolean',
+            'filters'                       => 'array',
+            'filters.date_from'             => 'integer',
+            'filters.date_to'               => 'integer',
             'filters.conflict_result_ids'   => 'array',
             'filters.conflict_result_ids.*' => 'integer',
             'filters.conflict_reason_ids'   => 'array',
             'filters.conflict_reason_ids.*' => 'integer',
-            'filters.ancestors_of'          => 'nullable|integer|exists:App\Entities\Conflict,id',
-            'filters.children_of'           => 'nullable|integer|exists:App\Entities\Conflict,id',
+            'filters.ancestors_of'          => 'integer|exists:App\Entities\Conflict,id',
+            'filters.children_of'           => 'integer|exists:App\Entities\Conflict,id',
             'filters.near'                  => 'array',
             'filters.near.lat'              => 'numeric|required_with:filters.near',
             'filters.near.lng'              => 'numeric|required_with:filters.near',
