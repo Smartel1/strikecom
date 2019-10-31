@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'{locale}'],function (){
+Route::group(['middleware'=>['tokenAuth','locale'], 'prefix'=>'v1/{locale}'],function (){
 
     Route::get('reference', 'RefController@index');
     Route::get('reference-checksum', 'RefController@checkSum');
