@@ -34,7 +34,7 @@ class CommentStoreRequest extends FormRequest
         return [
             'content'      => 'required|string|min:1',
             'photo_urls'   => 'array',
-            'photo_urls.*' => 'required|string|max:500',
+            'photo_urls.*' => 'string|max:500',
         ];
     }
 }

@@ -29,7 +29,7 @@ class RegionController extends Controller
     }
 
     /**
-     * Вернуть список стран, попадающих под поисковую фразу
+     * Вернуть список регионов, попадающих под поисковую фразу
      * @param RegionSearchRequest $request
      * @return mixed
      */

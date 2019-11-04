@@ -151,8 +151,8 @@ class CommentService
 
         $comment->setContent(Arr::get($data, 'content'));
 
-        foreach ($comment->getPhotos() as $claim) {
-            $this->em->remove($claim);
+        foreach ($comment->getPhotos() as $photo) {
+            $this->em->remove($photo);
         };
 
         foreach (Arr::get($data, 'photo_urls', []) as $photoUrl) {
