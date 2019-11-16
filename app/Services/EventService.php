@@ -577,14 +577,19 @@ class EventService
      */
     private function formatEventItemByLocale(array $eventItem, string $locale)
     {
-        if ($locale === 'all') return $eventItem;
+        if ($locale === 'all') return [
+            'id'    => $eventItem['id'],
+            'date'  => $eventItem['date']->getTimestamp(),
+            'title_ru' => $eventItem['title_ru'],
+            'title_en' => $eventItem['title_en'],
+            'title_es' => $eventItem['title_es']
+        ];
 
         //отображаем заголовок на нужной локали (если не переведено, то отображаем на русском),
         //считая, что на русский переведено всегда
         $title = (!in_array($eventItem['title_' . $locale], [null, '']))
             ? $eventItem['title_' . $locale]
             : $eventItem['title_ru'];
-
 
         return [
             'id'    => $eventItem['id'],
